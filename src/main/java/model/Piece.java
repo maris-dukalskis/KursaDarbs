@@ -13,7 +13,11 @@ public class Piece {
 	    setType(inputType);
 	    setTile(tile);
 	    setIsInPlay(isInPlay);
+	    
 	}	
+	public Piece () {
+		
+	}
 	//getteri	
 	public Color getColor() {
 		return color;
