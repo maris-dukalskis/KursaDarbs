@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-base:win:21.0.1" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.openjfx" artifactId="javafx-base" version="21.0.1" classifier="win" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1-win.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
