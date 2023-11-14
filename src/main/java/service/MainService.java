@@ -1,5 +1,7 @@
 package service;
 
+import model.Board;
+
 public class MainService {
 
 //	 	TODO
@@ -9,7 +11,8 @@ public class MainService {
 //		
 
 	public static void main(String[] args) {
-		//test
+		Board board= new Board();
+		board.printBoard();
 	}
 
 }

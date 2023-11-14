@@ -41,16 +41,10 @@ public class Tile {
 		if (inputPiece != null) {
 			piece = inputPiece;
 		} else {
-			piece = new Piece();
-		}
+			piece = null;   //izmainas
+ 		}
 	}
-
 	// konstruktori
-	public Tile() {
-		setRow(5);
-		setColumn(7);
-		setPiece(new Piece());
-	}
 
 	public Tile(int inputrow, int inputColumn, Piece inputPiece) {
 		setRow(inputrow);
@@ -58,11 +52,5 @@ public class Tile {
 		setPiece(inputPiece);
 	}
 
-	// toString
-	// gan neesmu pārliecināta vai šī funkcija ir nepieciešama
-	public String toString() {
-		String result = piece + " novietots " + row + " rindā un " + column + " kolonnā ";
-		return result;
-	}
-
+	//tileIsOccupied
 }
