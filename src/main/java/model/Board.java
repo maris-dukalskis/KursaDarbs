@@ -8,7 +8,7 @@ public class Board {
 
 	public Board() {
 		initializeTiles();
-		placeInitialPieces(); 
+		placeInitialPieces();
 
 	}
 
@@ -62,9 +62,9 @@ public class Board {
 		board[3][0].setPiece(blackQueen);
 		//Kings
 		Piece whiteKing = new Piece(Color.WHITE, PieceType.KING ,board[4][7] , true );
-		board[4][7].setPiece(whiteQueen);
+		board[4][7].setPiece(whiteKing);
 		Piece blackKing = new Piece(Color.BLACK, PieceType.KING ,board[4][0] , true );
-		board[4][0].setPiece(blackQueen);
+		board[4][0].setPiece(blackKing);
 	}
 
 	public void printBoard() {
