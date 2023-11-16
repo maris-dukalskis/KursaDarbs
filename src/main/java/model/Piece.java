@@ -4,11 +4,10 @@ public class Piece {
 	// variables
 	private Color color;
 	private PieceType type;
-	private Tile tile;
 	private boolean isInPlay;
 
 	// Konstruktors
-	public Piece(Color inputColor, PieceType inputType, Tile inputTile, boolean inputIsInPlay) {
+	public Piece(Color inputColor, PieceType inputType, boolean inputIsInPlay) {
 		setColor(inputColor);
 		setType(inputType);
 		setTile(tile);
@@ -29,10 +28,6 @@ public class Piece {
 		return type;
 	}
 
-	public Tile getTile() {
-		return tile;
-	}
-
 	public boolean getIsInPlay() {
 		return isInPlay;
 	}
@@ -51,14 +46,6 @@ public class Piece {
 			type = inputType;
 		} else {
 			type = PieceType.PAWN;
-		}
-	}
-
-	public void setTile(Tile inputTile) {
-		if (inputTile != null) {
-			tile = inputTile;
-		} else {
-			tile = null;
 		}
 	}
 
