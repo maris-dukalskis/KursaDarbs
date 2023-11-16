@@ -18,7 +18,7 @@ public class Board {
 				} else {
 					color = Color.BLACK;
 				}
-				board[i][j] = new Tile(i, j, null, color);
+				board[i][j] = new Tile((byte) i, (byte) j, null, color);
 			}
 		}
 	}

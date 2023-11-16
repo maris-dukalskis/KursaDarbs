@@ -3,14 +3,14 @@ package model;
 public class Tile {
 
 	// mainigie
-	private int row;
-	private int column;
+	private byte row;
+	private byte column;
 	private Piece piece;
 	private Color color;
 
 	// konstruktori
 
-	public Tile(int inputrow, int inputColumn, Piece inputPiece, Color inputColor) {
+	public Tile(byte inputrow, byte inputColumn, Piece inputPiece, Color inputColor) {
 		setRow(inputrow);
 		setColumn(inputColumn);
 		setPiece(inputPiece);
@@ -18,11 +18,11 @@ public class Tile {
 	}
 
 	// get
-	public int getRow() {
+	public byte getRow() {
 		return row;
 	}
 
-	public int getColumn() {
+	public byte getColumn() {
 		return column;
 	}
 
@@ -35,11 +35,11 @@ public class Tile {
 	}
 
 	// set
-	public void setRow(int inputrow) {
+	public void setRow(byte inputrow) {
 		row = inputrow;
 	}
 
-	public void setColumn(int inputColumn) {
+	public void setColumn(byte inputColumn) {
 		column = inputColumn;
 	}
 
