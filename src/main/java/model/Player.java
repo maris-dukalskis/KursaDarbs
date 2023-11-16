@@ -11,6 +11,8 @@ public class Player {
 		setName(name);
 		setPassword(password);
 		setGameState(gameState);
+		
+		//testing something else
 	}
 
 	public String getName() {
