@@ -6,6 +6,16 @@ public class Tile {
 	private int row;
 	private int column;
 	private Piece piece;
+	private Color color;
+
+	// konstruktori
+
+	public Tile(int inputrow, int inputColumn, Piece inputPiece, Color inputColor) {
+		setRow(inputrow);
+		setColumn(inputColumn);
+		setPiece(inputPiece);
+		setColor(color);
+	}
 
 	// get
 	public int getRow() {
@@ -16,24 +26,28 @@ public class Tile {
 		return column;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
 	public Piece getPiece() {
 		return piece;
 	}
 
 	// set
 	public void setRow(int inputrow) {
-		if (inputrow <= 8 && inputrow > 0) {
-			row = inputrow;
-		} else {
-			row = 8;
-		}
+		row = inputrow;
 	}
 
 	public void setColumn(int inputColumn) {
-		if (inputColumn <= 8 && inputColumn > 0) {
-			column = inputColumn;
+		column = inputColumn;
+	}
+
+	public void setColor(Color inputColor) {
+		if (inputColor != null) {
+			color = inputColor;
 		} else {
-			column = 8;
+			color = Color.BLACK;
 		}
 	}
 
@@ -41,16 +55,8 @@ public class Tile {
 		if (inputPiece != null) {
 			piece = inputPiece;
 		} else {
-			piece = null;   //izmainas
- 		}
-	}
-	// konstruktori
-
-	public Tile(int inputrow, int inputColumn, Piece inputPiece) {
-		setRow(inputrow);
-		setColumn(inputColumn);
-		setPiece(inputPiece);
+			piece = null; // izmainas
+		}
 	}
 
-	//tileIsOccupied
 }

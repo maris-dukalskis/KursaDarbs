@@ -3,14 +3,14 @@ package model;
 public class Player {
 
 	private String name;
-	private String password;
 	private int moveCount = 0;
 	private GameState gameState;
+	private Color color;
 
-	public Player(String name, String password, GameState gameState) {
+	public Player(String name, GameState gameState, Color color) {
 		setName(name);
-		setPassword(password);
 		setGameState(gameState);
+		setColor(color);
 	}
 
 	public String getName() {
@@ -22,19 +22,6 @@ public class Player {
 			this.name = name;
 		} else {
 			this.name = "Invalid name";
-		}
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) { // move check to login page
-		if (password != null && password.matches("^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$")) { // 8 characters,atleast 1
-																							// letter, one number
-			this.password = password;
-		} else {
-			this.password = null;
 		}
 	}
 
@@ -56,6 +43,14 @@ public class Player {
 		} else {
 			this.gameState = GameState.NORMAL;
 		}
+	}
+
+	public Color getColor() {
+		return this.color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 }
