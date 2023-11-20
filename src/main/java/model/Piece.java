@@ -78,8 +78,8 @@ public class Piece {
 
 			break;
 		case BISHOP:
-
-			break;
+			boolean bishoptMove = bishopCheckMove(differenceRow, differenceColumn);
+			return bishoptMove;
 		case KNIGHT:
 			boolean knightMove = knightCheckMove(differenceRow, differenceColumn);
 			return knightMove;
@@ -98,6 +98,13 @@ public class Piece {
 		return false;
 	}
 
+	public boolean bishopCheckMove(byte differenceRow, byte differenceColumn) {
+		if (differenceRow == differenceColumn){
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean knightCheckMove(byte differenceRow, byte differenceColumn) {
 		if ((differenceRow == 2 && differenceColumn == 1) || (differenceRow == 1 && differenceColumn == 2)) {
 			return true;
