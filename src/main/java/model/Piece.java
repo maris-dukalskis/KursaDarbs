@@ -126,4 +126,13 @@ public class Piece {
 		}
 		return false;
 	}
+
+	public boolean queenCheckMove (byte differenceRow, byte differenceColumn){
+		if((0 < differenceRow + differenceColumn && differenceRow + differenceColumn <= 2) && (differenceRow != 2) &&
+				(differenceColumn !=2) && (differenceColumn % 2 == differenceRow % 2) ){
+
+			return true;
+		}
+		return false;
+	}
 }
