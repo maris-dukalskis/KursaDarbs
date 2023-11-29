@@ -6,12 +6,14 @@ public class Piece {
 	private Color color;
 	private PieceType type;
 	private boolean isInPlay;
+	private boolean isFirstMove;
 
 	// Konstruktors
-	public Piece(Color inputColor, PieceType inputType, boolean inputIsInPlay) {
+	public Piece(Color inputColor, PieceType inputType, boolean inputIsInPlay, boolean isFirstMove) {
 		setColor(inputColor);
 		setType(inputType);
 		setIsInPlay(isInPlay);
+		setIsFirstMove(isFirstMove);
 	}
 
 	// getteri
@@ -25,6 +27,10 @@ public class Piece {
 
 	public boolean getIsInPlay() {
 		return isInPlay;
+	}
+	
+	public boolean getFirstMove() {
+		return isFirstMove;
 	}
 
 	// setteri
@@ -46,6 +52,10 @@ public class Piece {
 
 	public void setIsInPlay(boolean inputIsInPlay) {
 		isInPlay = inputIsInPlay;
+	}
+	
+	public void setIsFirstMove (boolean inputFistMove) {
+		isFirstMove = inputFistMove;
 	}
 
 	/*
@@ -75,8 +85,8 @@ public class Piece {
 		}
 		switch (this.getPieceType()) {
 		case PAWN:
-
-			break;
+			boolean pawnMove = pawnCheckMove(differenceRow, differenceColumn, isFirstMove);
+			return pawnMove;
 		case BISHOP:
 			boolean bishoptMove = bishopCheckMove(differenceRow, differenceColumn);
 			return bishoptMove;
@@ -97,6 +107,20 @@ public class Piece {
 		}
 		return false;
 	}
+	
+	public boolean pawnCheckMove (byte differenceRow, byte differenceColumn, boolean isFirstMove) {
+		if (isFirstMove) {//pirmais gajiens
+			
+		  if(differenceRow == 1 || differenceRow == 2) {
+			return true;	
+		}
+		
+		}//nakamie gajieni                                        //var notvert, virzoties 1 kvadrātu pa diognāli uz priekšu
+		return (differenceRow == 1 && differenceColumn == 0) || (differenceRow == 1 && differenceColumn == 1);
+		
+	}
+	
+	
 
 	public boolean bishopCheckMove(byte differenceRow, byte differenceColumn) {
 		if (differenceRow == differenceColumn){
