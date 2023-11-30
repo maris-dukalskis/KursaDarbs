@@ -1,7 +1,7 @@
 package model;
 
 public class Board {
-	private Tile[][] board = new Tile[8][8];
+	private static Tile[][] board = new Tile[8][8];
 
 	public Board() {
 		initializeTiles();
@@ -27,9 +27,9 @@ public class Board {
 		// Pawns
 		for (int i = 0; i <= 7; i++) {
 			Piece whitePawn = new Piece(Color.WHITE, PieceType.PAWN, true);
-			board[i][6].setPiece(whitePawn);
+			board[6][i].setPiece(whitePawn);
 			Piece blackPawn = new Piece(Color.BLACK, PieceType.PAWN, true);
-			board[i][1].setPiece(blackPawn);
+			board[1][i].setPiece(blackPawn);
 		}
 		// Rooks
 		Piece whiteRook1 = new Piece(Color.WHITE, PieceType.ROOK, true);
@@ -42,43 +42,44 @@ public class Board {
 		board[0][7].setPiece(blackRook2);
 		// Knights
 		Piece whiteKnight1 = new Piece(Color.WHITE, PieceType.KNIGHT, true);
-		board[1][0].setPiece(whiteKnight1);
+		board[7][1].setPiece(whiteKnight1);
 		Piece whiteKnight2 = new Piece(Color.WHITE, PieceType.KNIGHT, true);
-		board[6][0].setPiece(whiteKnight2);
+		board[7][6].setPiece(whiteKnight2);
 		Piece blackKnight1 = new Piece(Color.BLACK, PieceType.KNIGHT, true);
-		board[1][7].setPiece(blackKnight1);
+		board[0][1].setPiece(blackKnight1);
 		Piece blackKnight2 = new Piece(Color.BLACK, PieceType.KNIGHT, true);
-		board[6][7].setPiece(blackKnight2);
+		board[0][6].setPiece(blackKnight2);
 		// Bishops
 		Piece whiteBishop1 = new Piece(Color.WHITE, PieceType.BISHOP, true);
-		board[2][7].setPiece(whiteBishop1);
+		board[7][2].setPiece(whiteBishop1);
 		Piece whiteBishop2 = new Piece(Color.WHITE, PieceType.BISHOP, true);
-		board[5][7].setPiece(whiteBishop2);
+		board[7][5].setPiece(whiteBishop2);
 		Piece blackBishop1 = new Piece(Color.BLACK, PieceType.BISHOP, true);
-		board[2][0].setPiece(blackBishop1);
+		board[0][2].setPiece(blackBishop1);
 		Piece blackBishop2 = new Piece(Color.BLACK, PieceType.BISHOP, true);
-		board[5][0].setPiece(blackBishop2);
+		board[0][5].setPiece(blackBishop2);
 		// Queens
 		Piece whiteQueen = new Piece(Color.WHITE, PieceType.QUEEN, true);
-		board[3][7].setPiece(whiteQueen);
+		board[7][3].setPiece(whiteQueen);
 		Piece blackQueen = new Piece(Color.BLACK, PieceType.QUEEN, true);
-		board[3][0].setPiece(blackQueen);
+		board[0][3].setPiece(blackQueen);
 		// Kings
 		Piece whiteKing = new Piece(Color.WHITE, PieceType.KING, true);
-		board[4][7].setPiece(whiteKing);
+		board[7][4].setPiece(whiteKing);
 		Piece blackKing = new Piece(Color.BLACK, PieceType.KING, true);
-		board[4][0].setPiece(blackKing);
+		board[0][4].setPiece(blackKing);
 	}
 
-	public void printBoard() {
+	public void printBoard() { // j- verticali(column), i-horizontali(row)
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
-				Tile tile = board[j][i];
+				Tile tile = board[i][j];
 				Piece piece = tile.getPiece();
 				if (piece == null) {
 					System.out.print(" ");
 				} else {
-					System.out.print(piece.getPieceType().name().charAt(0));
+					System.out.print(piece.getColor().name().charAt(0) + "" + piece.getPieceType().name().charAt(0)
+							+ "(" + i + j + ")");
 				}
 				System.out.print(" ");
 			}
@@ -86,14 +87,8 @@ public class Board {
 		}
 	}
 
-	// removePiece
-
-	// addPiece
-
-	// emptyBoard
-
-	// pajautat koordinatas un izvadit tas
-
-	// pajautat koordinatas lai novietotu kaulinu
+	public static Tile getTile(byte column, byte row) {
+		return board[column][row];
+	}
 
 }
