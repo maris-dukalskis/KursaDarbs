@@ -3,8 +3,8 @@ package model;
 public class Tile {
 
 	// mainigie
-	private byte row;
-	private byte column;
+	private byte row; // horizontal
+	private byte column; // vertical
 	private Piece piece;
 	private Color color;
 
