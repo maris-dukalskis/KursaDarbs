@@ -27,7 +27,7 @@ public class MainService extends Application {
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setResizable(false);
-
+		primaryStage.setTitle("{Player1} vs {Player2}");
 	}
 
 }
