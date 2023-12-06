@@ -22,12 +22,12 @@ public class MainService extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Scene myScene = FXMLLoader.load(getClass().getResource("/GameScene.fxml"));
+		Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
 
 		primaryStage.setScene(myScene);
 		primaryStage.show();
-		primaryStage.setResizable(false);
-		primaryStage.setTitle("{Player1} vs {Player2}");
+		//primaryStage.setResizable(false);
+    	primaryStage.setTitle("Player selection ");
 	}
 
 }
