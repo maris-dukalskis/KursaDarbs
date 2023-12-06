@@ -14,8 +14,8 @@ public class MainService extends Application {
 //		
 
 	public static void main(String[] args) {
-//		Board board = new Board();
-//		board.printBoard();
+		//Board board = new Board();
+		//board.printBoard();
 
 		launch(args);
 	}
@@ -26,8 +26,8 @@ public class MainService extends Application {
 
 		primaryStage.setScene(myScene);
 		primaryStage.show();
-		//primaryStage.setResizable(false);
-    	primaryStage.setTitle("Player selection ");
+		primaryStage.setResizable(false);
+    	primaryStage.setTitle("Player selection");
 	}
 
 }
