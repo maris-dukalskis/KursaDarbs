@@ -26,7 +26,9 @@ public class MainService extends Application{
 	public void start(Stage stage) throws Exception{
 		Parent root = FXMLLoader.load(getClass().getResource("/StartGame.fxml"));
 		Scene scene = new Scene(root);
-		
+//		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		String css = this.getClass().getResource("/style.css").toExternalForm();
+		scene.getStylesheets().add(css);
 		stage.setTitle("Start Game");
 		stage.setScene(scene);
 		stage.show();
