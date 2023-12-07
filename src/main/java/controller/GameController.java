@@ -57,13 +57,14 @@ public class GameController {
 					tileColor = "Black.jpg";
 				}
 				imageString += tileColor;
-
+				
 				Image image = new Image("/images/" + imageString);
 				ImageView imageView = new ImageView(image);
 				imageView.setFitHeight(93.75);
 				imageView.setFitWidth(93.75);
 				imageView.setPreserveRatio(true);
-
+				
+				
 				// viņš sākumā ņem column pēctam row
 				mainGrid.add(imageView, j, i);
 			}
@@ -80,5 +81,5 @@ public class GameController {
 		whitePiecesOut.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
 		blackPiecesOut.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
 	}
-	
+
 }
