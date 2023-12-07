@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Board;
 
 public class MainService extends Application {
 
@@ -14,8 +15,8 @@ public class MainService extends Application {
 //		
 
 	public static void main(String[] args) {
-//		Board board = new Board();
-//		board.printBoard();
+		Board board = new Board();
+		board.printBoard();
 
 		launch(args);
 	}
