@@ -13,7 +13,7 @@ public class Board {
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
 				Color color = Color.BLACK;
-				if (i + j % 2 == 0) {
+				if (((i + j) % 2) == 0) {
 					color = Color.WHITE;
 				} else {
 					color = Color.BLACK;
@@ -87,8 +87,8 @@ public class Board {
 		}
 	}
 
-	public static Tile getTile(byte column, byte row) {
-		return board[column][row];
+	public static Tile getTile(byte row, byte column) {
+		return board[row][column];
 	}
 
 }
