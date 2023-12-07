@@ -14,7 +14,7 @@ public class Tile {
 		setRow(inputrow);
 		setColumn(inputColumn);
 		setPiece(inputPiece);
-		setColor(color);
+		setColor(inputColor);
 	}
 
 	// get
