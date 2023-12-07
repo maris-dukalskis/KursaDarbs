@@ -1,38 +1,34 @@
 package service;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import model.Board;
 
-public class MainService extends Application{
-	
-	Button button, button2;
-	
+public class MainService extends Application {
 
 //	 	TODO
 //		coinflip to choose colors
 //	 	generate getters and setters
+//	 	create algorithms for each piece
 //		
 
 	public static void main(String[] args) {
-		launch(args);
 		Board board = new Board();
 		board.printBoard();
+
+		launch(args);
 	}
+
 	@Override
-	public void start(Stage stage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("/StartGame.fxml"));
-		Scene scene = new Scene(root);
-//		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-		String css = this.getClass().getResource("/style.css").toExternalForm();
-		scene.getStylesheets().add(css);
-		stage.setTitle("Start Game");
-		stage.setScene(scene);
-		stage.show();
-		
-		
-}
+	public void start(Stage primaryStage) throws Exception {
+		Scene myScene = FXMLLoader.load(getClass().getResource("/GameScene.fxml"));
+
+		primaryStage.setScene(myScene);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("{Player1} vs {Player2}");
+	}
+
 }

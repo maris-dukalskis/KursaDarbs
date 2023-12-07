@@ -80,5 +80,5 @@ public class GameController {
 		whitePiecesOut.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
 		blackPiecesOut.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
 	}
-
+	
 }
