@@ -11,7 +11,7 @@ public class Piece {
 	public Piece(Color inputColor, PieceType inputType, boolean inputIsInPlay) {
 		setColor(inputColor);
 		setType(inputType);
-		setIsInPlay(isInPlay);
+		setIsInPlay(inputIsInPlay);
 	}
 
 	// getteri
@@ -81,8 +81,8 @@ public class Piece {
 			boolean pawnMove = pawnCheckMove(fromColumn, fromRow, toColumn, toRow, pieceColor);
 			return pawnMove;
 		case BISHOP:
-			boolean bishoptMove = bishopCheckMove(differenceRow, differenceColumn);
-			return bishoptMove;
+			boolean bishopMove = bishopCheckMove(differenceRow, differenceColumn);
+			return bishopMove;
 		case KNIGHT:
 			boolean knightMove = knightCheckMove(differenceRow, differenceColumn);
 			return knightMove;
@@ -109,30 +109,30 @@ public class Piece {
 		byte differenceColumn = (byte) (fromColumn - toColumn);
 
 		if (pieceColor == Color.BLACK) {
-			byte startColumn = 1; // prieks column check
-			byte one = 1; // visur kur vajag 1 un pretejam -1
-			byte minusOne = -1; // visur kur vajag -1 un pretejam 1
-			byte two = 2; // visur kur vajag 2 un pretejam -2
-			byte minusTwo = -2; // visur kur vajag -2 un pretejam 2
-			byte lastColumn = 7; // pedeja rinda(pawn promotion)
+			byte x0 = 1; // prieks column check
+			byte x1 = 1; // visur kur vajag 1 un pretejam -1
+			byte x2 = -1; // visur kur vajag -1 un pretejam 1
+			byte x3 = 2; // visur kur vajag 2 un pretejam -2
+			byte x4 = -2; // visur kur vajag -2 un pretejam 2
+			byte x5 = 7; // pedeja rinda(pawn promotion)
 			Tile diagonalLeftTile = Board.getTile((byte) (fromColumn + 1), (byte) (fromRow - 1));
 			Tile diagonalRightTile = Board.getTile((byte) (fromColumn + 1), (byte) (fromRow + 1));
-			if (pawnCheckMovePerColor(fromColumn, fromRow, toColumn, toRow, differenceColumn, startColumn, one,
-					minusOne, two, minusTwo, lastColumn, diagonalLeftTile, diagonalRightTile)) {
+			if (pawnCheckMovePerColor(fromColumn, fromRow, toColumn, toRow, differenceColumn, x0, x1, x2, x3, x4, x5,
+					diagonalLeftTile, diagonalRightTile)) {
 				return true;
 			}
 		}
 		if (pieceColor == Color.WHITE) {
-			byte startColumn = 6;
-			byte minusOne = -1;
-			byte one = 1;
-			byte minusTwo = -2;
-			byte two = 2;
-			byte lastColumn = 0;
+			byte x0 = 6;
+			byte x1 = -1;
+			byte x2 = 1;
+			byte x3 = -2;
+			byte x4 = 2;
+			byte x5 = 0;
 			Tile diagonalLeftTile = Board.getTile((byte) (fromColumn - 1), (byte) (fromRow - 1));
 			Tile diagonalRightTile = Board.getTile((byte) (fromColumn - 1), (byte) (fromRow + 1));
-			if (pawnCheckMovePerColor(fromColumn, fromRow, toColumn, toRow, differenceColumn, startColumn, minusOne,
-					one, minusTwo, two, lastColumn, diagonalLeftTile, diagonalRightTile)) {
+			if (pawnCheckMovePerColor(fromColumn, fromRow, toColumn, toRow, differenceColumn, x0, x1, x2, x3, x4, x5,
+					diagonalLeftTile, diagonalRightTile)) {
 				return true;
 			}
 		}
