@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Board;
+import model.Gajieni;
 import model.Tile;
 
 public class GameController {
@@ -38,9 +39,29 @@ public class GameController {
 
 	@FXML
 	public void initialize() {
+		generateGraphicalGrid();
 
+		Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null));
+
+		vboxWhite.setBorder(border);
+		vboxBlack.setBorder(border);
+
+		/*
+		 * pagaidām laiks ir tikai skatam, pēctam būs jāpievieno īsts timeris
+		 */
+		timerWhite.setText("60:00");
+		timerWhite.setEditable(false);
+		timerBlack.setText("60:00");
+		timerBlack.setEditable(false);
+
+		whitePiecesOut.setBorder(border);
+		blackPiecesOut.setBorder(border);
+	}
+
+	public void generateGraphicalGrid() {
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
+
 				String imageString = "";
 
 				Tile tile = Board.getTile((byte) i, (byte) j);
@@ -57,29 +78,25 @@ public class GameController {
 					tileColor = "Black.jpg";
 				}
 				imageString += tileColor;
-				
+
 				Image image = new Image("/images/" + imageString);
 				ImageView imageView = new ImageView(image);
-				imageView.setFitHeight(93.75);
+				imageView.setFitHeight(93.75); // gridpane platums un garums dalīts ar 8
 				imageView.setFitWidth(93.75);
 				imageView.setPreserveRatio(true);
-				
-				
+
+				/*
+				 * Šis ir gandrīz tas pats kas parasta metode tikai uzrakstīts nedaudz citādi
+				 * event ir kā metodei padotais mainīgais viss kas ir {} , ir tas ko metode
+				 * izpilda katru reizi kad uzspiež uz konkrētās bildes tiek palaista šī metodei
+				 */
+				imageView.setOnMouseClicked(event -> {
+					Gajieni.checkClickedTile(tile, mainGrid);
+				});
+
 				// viņš sākumā ņem column pēctam row
 				mainGrid.add(imageView, j, i);
 			}
 		}
-
-		vboxWhite.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
-		vboxBlack.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
-
-		timerWhite.setText("60:00");
-		timerWhite.setEditable(false);
-		timerBlack.setText("60:00");
-		timerBlack.setEditable(false);
-
-		whitePiecesOut.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
-		blackPiecesOut.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
 	}
-
 }

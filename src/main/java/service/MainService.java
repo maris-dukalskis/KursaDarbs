@@ -5,19 +5,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Board;
+import model.Game;
 
 public class MainService extends Application {
 
 //	 	TODO
 //		coinflip to choose colors
-//	 	generate getters and setters
-//	 	create algorithms for each piece
-//		
+//		add checks for mate and checkmate
+// 		add checks for piece moves
+//		add green tile colors for possible moves
+	
+	private static Game instance;
+	
+	public static Game getGame() {
+		return instance;
+	}
 
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.printBoard();
-
+		
+		// vajadzēs pārlikt(game objektu izveido tikai kad sāk spēli)
+		Game newGame = new Game();
+		instance = newGame;
 		launch(args);
 	}
 
