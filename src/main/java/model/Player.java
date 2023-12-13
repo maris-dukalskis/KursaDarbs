@@ -1,7 +1,7 @@
 package model;
 
-public class Player {
 
+public class Player {
 	private String name;
 	private int moveCount = 0;
 	private GameState gameState;
