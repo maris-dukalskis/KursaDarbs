@@ -24,7 +24,7 @@ public class MainService extends Application {
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.printBoard();
-		
+
 		// vajadzēs pārlikt(game objektu izveido tikai kad sāk spēli)
 		Game newGame = new Game();
 		instance = newGame;
