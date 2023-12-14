@@ -2,9 +2,15 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class PlayerController {
     @FXML
@@ -16,21 +22,24 @@ public class PlayerController {
     @FXML
     private Button game_start_button;
     private String text1, text2;
-
+    private Stage primaryStage;
 
     @FXML
-    private void startGame(ActionEvent event){
-
-            text1 = player1_input_text.getText();
-            text2 = player2_input_text.getText();
-
-            if(text1 != null){
-                text1 = "Player1";
-            }
-            if(text2 != null){
-                text2 = "Player2";
-            }
-
+    private void startGame(ActionEvent event)throws IOException {
+        text1 = player1_input_text.getText();
+        text2 = player2_input_text.getText();
+        if(text1 != null){
+            text1 = "Player1";
+        }
+        if(text2 != null){
+            text2 = "Player2";
+        }
+        Scene myScene = FXMLLoader.load(getClass().getResource("/GameScene.fxml"));
+        primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        primaryStage.setScene(myScene);
+        primaryStage.show();
+        primaryStage.setResizable(false);
+        primaryStage.setTitle(text1+" vs "+text2);
     }
 
 }
