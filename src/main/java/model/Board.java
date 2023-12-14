@@ -76,7 +76,7 @@ public class Board {
 				Tile tile = board[i][j];
 				Piece piece = tile.getPiece();
 				if (piece == null) {
-					System.out.print(" ");
+					System.out.print("      ");
 				} else {
 					System.out.print(piece.getColor().name().charAt(0) + "" + piece.getPieceType().name().charAt(0)
 							+ "(" + i + j + ")");

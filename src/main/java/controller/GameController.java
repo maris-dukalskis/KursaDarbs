@@ -66,9 +66,9 @@ public class GameController {
 
 				Tile tile = Board.getTile((byte) i, (byte) j);
 				if (tile.getPiece() != null) {
-					String pieceColor = Board.getTile((byte) i, (byte) j).getPiece().getColor().name().toLowerCase();
+					String pieceColor = tile.getPiece().getColor().name().toLowerCase();
 					imageString += pieceColor + "_";
-					String pieceType = Board.getTile((byte) i, (byte) j).getPiece().getPieceType().name().toLowerCase();
+					String pieceType = tile.getPiece().getPieceType().name().toLowerCase();
 					imageString += pieceType + "_on";
 				}
 				String tileColor = "";
@@ -94,7 +94,7 @@ public class GameController {
 					Gajieni.checkClickedTile(tile, mainGrid);
 				});
 
-				// viņš sākumā ņem column pēctam row
+				// viņš sākumā ņem column pēctam row(mums board ir row un tad column)
 				mainGrid.add(imageView, j, i);
 			}
 		}
