@@ -37,7 +37,7 @@ public class Gajieni {
 
 		switch (fromTile.getPiece().getPieceType()) {
 		case PAWN:
-			boolean pawnMove = pawnCheckMove(fromColumn, fromRow, toColumn, toRow, differenceRow, fromPieceColor);
+			boolean pawnMove = pawnCheckMove(fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
 			return pawnMove;
 		case BISHOP:
 			boolean bishopMove = bishopCheckMove(differenceRow, differenceColumn);
@@ -59,14 +59,14 @@ public class Gajieni {
 		}
 	}
 
-	public static boolean pawnCheckMove(byte fromColumn, byte fromRow, byte toColumn, byte toRow, byte differenceRow,
+	public static boolean pawnCheckMove(byte fromColumn, byte fromRow, byte toColumn, byte toRow, byte differenceColumn,
 			Color pieceColor) {
 
 		// black - 2. rinda(1. index) from-To = negativs
 		// white - 7. rinda(6. index) from-To = pozitivs
 
 		// nav modulis, vajag zināt uz kuru pusi tieši iet
-		byte differenceColumn = (byte) (fromColumn - toColumn);
+		byte differenceRow = (byte) (fromRow - toRow);
 
 		if (pieceColor == Color.BLACK) {
 			byte x0 = 1; // prieks row check
@@ -182,6 +182,7 @@ public class Gajieni {
 		if (game.getFromTile() == null) {
 			if (lastClicked.getPiece() != null) {
 				game.setFromTile(lastClicked);
+				displayValidMoves(lastClicked, mainGrid);
 			}
 			return;
 		}
@@ -218,6 +219,7 @@ public class Gajieni {
 		game.setFromTile(null);
 		MainService.getBoard().printBoard();
 		System.out.println("");
+		resetValidMoves(mainGrid);
 
 //		System.out.println(tile.getRow() + " " + tile.getColumn());
 //		Game game = MainService.getGame();
@@ -243,6 +245,74 @@ public class Gajieni {
 //			mainGrid.add(from, game.getFromTile().getColumn(), game.getFromTile().getRow());
 //			mainGrid.add(to, game.getToTile().getColumn(), game.getToTile().getRow());
 //		}
+	}
+
+	public static void displayValidMoves(Tile clickedTile, GridPane mainGrid) {
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				Tile tile = Board.getTile((byte) i, (byte) j);
+				if (!isMoveValid(clickedTile, tile)) {
+					continue;
+				}
+				String imageString = "";
+				Piece piece = tile.getPiece();
+				if (piece == null) {
+					imageString = "Green.jpg";
+				} else {
+					if (piece.getColor() == clickedTile.getPiece().getColor()) {
+						continue;
+					}
+					imageString += piece.getColor().name().toLowerCase() + "_";
+					imageString += piece.getPieceType().name().toLowerCase() + "_onRed.jpg";
+				}
+				Image image = new Image("/images/" + imageString);
+				ImageView imageView = new ImageView(image);
+				imageView.setFitHeight(93.75); // gridpane platums un garums dalīts ar 8
+				imageView.setFitWidth(93.75);
+				imageView.setPreserveRatio(true);
+
+				imageView.setOnMouseClicked(event -> {
+					Gajieni.checkClickedTile(tile, mainGrid);
+				});
+
+				mainGrid.add(imageView, j, i);
+			}
+		}
+	}
+
+	public static void resetValidMoves(GridPane mainGrid) {
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				Tile tile = Board.getTile((byte) i, (byte) j);
+
+				String imageString = "";
+				if (tile.getPiece() != null) {
+					String pieceColor = tile.getPiece().getColor().name().toLowerCase();
+					imageString += pieceColor + "_";
+					String pieceType = tile.getPiece().getPieceType().name().toLowerCase();
+					imageString += pieceType + "_on";
+				}
+				String tileColor = "";
+				if (((i + j) % 2) == 0) {
+					tileColor = "White.jpg";
+				} else {
+					tileColor = "Black.jpg";
+				}
+				imageString += tileColor;
+
+				Image image = new Image("/images/" + imageString);
+				ImageView imageView = new ImageView(image);
+				imageView.setFitHeight(93.75); // gridpane platums un garums dalīts ar 8
+				imageView.setFitWidth(93.75);
+				imageView.setPreserveRatio(true);
+
+				imageView.setOnMouseClicked(event -> {
+					Gajieni.checkClickedTile(tile, mainGrid);
+				});
+
+				mainGrid.add(imageView, j, i);
+			}
+		}
 	}
 
 	public static void setGraphicTile(Tile tile, byte i, byte j, GridPane mainGrid) {
