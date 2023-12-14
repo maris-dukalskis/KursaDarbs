@@ -3,6 +3,7 @@ package service;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 import model.Board;
 import model.Game;
@@ -30,14 +31,27 @@ public class MainService extends Application {
 		launch(args);
 	}
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
+	public void start(Stage stage) throws Exception {
 
-		primaryStage.setScene(myScene);
-		primaryStage.show();
-		primaryStage.setResizable(false);
-    	primaryStage.setTitle("Player selection");
+		Parent root = FXMLLoader.load(getClass().getResource("/StartGame.fxml"));
+		Scene scene = new Scene(root);
+//        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		String css = this.getClass().getResource("/style.css").toExternalForm();
+		scene.getStylesheets().add(css);
+		stage.setTitle("Start Game");
+		stage.setScene(scene);
+		stage.show();
+
+
 	}
+//	@Override
+//	public void start(Stage primaryStage) throws Exception {
+//		Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
+//
+//		primaryStage.setScene(myScene);
+//		primaryStage.show();
+//		primaryStage.setResizable(false);
+//    	primaryStage.setTitle("Player selection");
+//	}
 
 }
