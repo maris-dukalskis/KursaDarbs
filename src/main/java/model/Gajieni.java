@@ -209,6 +209,7 @@ public class Gajieni {
 		if (!isMoveValid(fromTile, lastClicked)) {
 			game.setFromTile(null);
 			System.out.println("Nav valid move");
+			resetValidMoves(mainGrid);
 			return;
 		}
 		lastClicked.setPiece(fromPiece);
