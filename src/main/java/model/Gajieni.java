@@ -150,7 +150,17 @@ public class Gajieni {
 		return false;
 	}
 
-	public static boolean rookCheckMove(byte fromRow, byte fromColumn, byte toRow, byte toColumn) {
+	public static boolean rookCheckMove(byte fromRow, byte fromColumn, byte toRow, byte toColumn, byte x0, byte x1,
+			byte x5, byte differenceColumn, byte differenceRow) {
+		Tile tileInFront = Board.getTile(fromRow, fromColumn); // vai rook gadījumā ir jātaisa vairāki tileInFront
+		if (fromRow == x0) {
+			
+			Tile secondTileInFront = Board.getTile(fromRow, fromColumn);
+			if (differenceRow >= x1 && differenceRow <= x5 && differenceColumn == 0 && tileInFront.getPiece() == null
+					&& secondTileInFront.getPiece() == null) {
+				
+			}
+		}
 		if ((fromRow == toRow && fromColumn != toColumn) || (fromRow != toRow && fromColumn == toColumn)) {
 			return true;
 		}
