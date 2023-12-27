@@ -40,7 +40,7 @@ public class Gajieni {
 			boolean pawnMove = pawnCheckMove(fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
 			return pawnMove;
 		case BISHOP:
-            boolean bishopMove = bishopCheckMove(fromTile, toTile, differenceRow, differenceColumn);
+            boolean bishopMove = bishopCheckMove(fromTile, toTile, differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn);
             return bishopMove;
 		case KNIGHT:
 			boolean knightMove = knightCheckMove(differenceRow, differenceColumn);
@@ -136,31 +136,16 @@ public class Gajieni {
 		return isAllowedToMove;
 	}
 
-	public static boolean bishopCheckMove(Tile fromTile, Tile toTile, byte differenceRow, byte differenceColumn) {
-
-	    byte fromRow = fromTile.getRow();
-	    byte fromColumn = fromTile.getColumn();
-	    byte toRow = toTile.getRow();
-	    byte toColumn = toTile.getColumn();
+	public static boolean bishopCheckMove(Tile fromTile, Tile toTile, byte differenceRow, byte differenceColumn, byte fromRow,
+			byte fromColumn, byte toRow, byte toColumn) {
 
 	    if (differenceRow != differenceColumn) {
 			return false; // Nav diagonāla kustība
 	    }
 		
-	    // Nosaka pārvietošanās virzienu 1 vai -1 (pa kreisi, pa labi, uz augshu, uz leju)
-	    int columnDirection;
-	    if (toColumn > fromColumn) {
-	        columnDirection = 1;
-	    } else {
-	        columnDirection = -1;
-	    }
-
-	    int rowDirection;
-	    if (toRow > fromRow) {
-	        rowDirection = 1;
-	    } else {
-	        rowDirection = -1;
-	    }
+	    // Nosaka pārvietošanās virzienu 
+	    int columnDirection = getDirection(fromColumn, toColumn);
+	    int rowDirection = getDirection(fromRow, toRow);
 
 	    // Pārbauda vai ceļa nav figūru
 	    for (byte i = 1; i < differenceRow; i++) {
@@ -377,5 +362,14 @@ public class Gajieni {
 
 		mainGrid.add(imageView, j, i);
 	}
-
+	//virziena noteikšanas f-ja 1 vai -1 (pa kreisi, pa labi, uz augshu, uz leju)
+	private static int getDirection(byte from, byte to) {
+	    int direction;
+	    if (to > from) {
+	        direction = 1;
+	    } else {
+	        direction = -1;
+	    }
+	    return direction;
+	}
 }
