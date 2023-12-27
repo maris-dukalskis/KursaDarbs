@@ -15,19 +15,26 @@ public class MainService extends Application {
 //		add checks for mate and checkmate
 // 		add checks for piece moves
 //		add green tile colors for possible moves
-	
-	private static Game instance;
-	
+
+	private static Game game;
+
 	public static Game getGame() {
-		return instance;
+		return game;
+	}
+
+	private static Board boardInstance;
+
+	public static Board getBoard() {
+		return boardInstance;
 	}
 
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.printBoard();
+		boardInstance = board;
 		// vajadzēs pārlikt(game objektu izveido tikai kad sāk spēli)
 		Game newGame = new Game();
-		instance = newGame;
+		game = newGame;
 		launch(args);
 	}
 
@@ -41,7 +48,6 @@ public class MainService extends Application {
 		stage.setTitle("Start Game");
 		stage.setScene(scene);
 		stage.show();
-
 
 	}
 
