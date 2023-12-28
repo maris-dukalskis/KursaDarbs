@@ -40,7 +40,8 @@ public class Gajieni {
 			boolean pawnMove = pawnCheckMove(fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
 			return pawnMove;
 		case BISHOP:
-            boolean bishopMove = bishopCheckMove(fromTile, toTile, differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn);
+            boolean bishopMove = bishopCheckMove(fromTile, toTile, differenceRow, differenceColumn, fromRow, fromColumn,
+            		toRow, toColumn);
             return bishopMove;
 		case KNIGHT:
 			boolean knightMove = knightCheckMove(differenceRow, differenceColumn);
@@ -142,7 +143,6 @@ public class Gajieni {
 	    if (differenceRow != differenceColumn) {
 			return false; // Nav diagonāla kustība
 	    }
-		
 	    // Nosaka pārvietošanās virzienu 
 	    int columnDirection = getDirection(fromColumn, toColumn);
 	    int rowDirection = getDirection(fromRow, toRow);
@@ -364,12 +364,10 @@ public class Gajieni {
 	}
 	//virziena noteikšanas f-ja 1 vai -1 (pa kreisi, pa labi, uz augshu, uz leju)
 	private static int getDirection(byte from, byte to) {
-	    int direction;
 	    if (to > from) {
-	        direction = 1;
-	    } else {
-	        direction = -1;
-	    }
-	    return direction;
+	        return 1;
+	    } 
+	        return -1;
+
 	}
 }
