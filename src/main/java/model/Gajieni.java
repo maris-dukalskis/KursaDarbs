@@ -366,8 +366,9 @@ public class Gajieni {
 	private static int getDirection(byte from, byte to) {
 	    if (to > from) {
 	        return 1;
-	    } 
+	    } else if (to < from)
 	        return -1;
+		return 0;
 
 	}
 }
