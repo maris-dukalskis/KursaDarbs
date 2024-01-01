@@ -46,7 +46,8 @@ public class Gajieni {
 			boolean knightMove = knightCheckMove(differenceRow, differenceColumn);
 			return knightMove;
 		case ROOK:
-			boolean rookMove = rookCheckMove(fromRow, fromColumn, toRow, toColumn);
+			boolean rookMove = rookCheckMove(fromRow, fromColumn, toRow, toColumn, differenceColumn,
+					differenceRow, fromTile, toTile);
 			return rookMove;
 		case QUEEN:
 			boolean queenMove = queenCheckMove(differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn);
@@ -150,19 +151,26 @@ public class Gajieni {
 		return false;
 	}
 
-	public static boolean rookCheckMove(byte fromRow, byte fromColumn, byte toRow, byte toColumn, byte x0, byte x1,
-			byte x5, byte differenceColumn, byte differenceRow) {
-		Tile tileInFront = Board.getTile(fromRow, fromColumn); // vai rook gadījumā ir jātaisa vairāki tileInFront
-		if (fromRow == x0) {
+	public static boolean rookCheckMove(byte fromRow, byte fromColumn, byte toRow, 
+			byte toColumn, byte differenceColumn, byte differenceRow, Tile fromTile, Tile toTile) {
+		
+		if ((fromRow == toRow && fromColumn != toColumn) || (fromRow != toRow && fromColumn == toColumn)) {
 			
-			Tile secondTileInFront = Board.getTile(fromRow, fromColumn);
-			if (differenceRow >= x1 && differenceRow <= x5 && differenceColumn == 0 && tileInFront.getPiece() == null
-					&& secondTileInFront.getPiece() == null) {
+			int columnDirection = getDirection(fromColumn, toColumn);
+			int rowDirection = getDirection(fromRow, toRow);
+			
+			if (differenceRow != 0) {//parbauda rindai
+				for (byte i = 1; i < differenceRow; i++) {
+					byte checkRow = (byte)(fromRow + i * rowDirection);
+					
+					//ja priekšā ir figūra
+					if(Board.getTile(checkRow, differenceColumn).getPiece() !=null) {
+						return false;
+					}
 				
 			}
-		}
-		if ((fromRow == toRow && fromColumn != toColumn) || (fromRow != toRow && fromColumn == toColumn)) {
-			return true;
+			}
+			
 		}
 		return false;
 	}
@@ -354,6 +362,15 @@ public class Gajieni {
 		});
 
 		mainGrid.add(imageView, j, i);
+	}
+	
+	private static int getDirection(byte from, byte to) {
+	    if (to > from) {
+	        return 1; //pa labi
+	    } else if (to < from)
+	        return -1; //pa kreisi
+		return 0; //uz augsu vai leju
+
 	}
 
 }
