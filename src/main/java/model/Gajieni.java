@@ -164,14 +164,14 @@ public class Gajieni {
 					byte checkRow = (byte)(fromRow + i * rowDirection);
 					
 					//ja priekšā ir figūra
-					if(Board.getTile(checkRow, differenceColumn).getPiece() !=null) {
+					if(Board.getTile(checkRow, fromColumn).getPiece() !=null) {
 						return false;
 					}
 			}
 			}else {//parbauda kolonai
 				for (byte i = 1; i < differenceRow; i++) {
 					byte checkColumn = (byte)(fromColumn + i * columnDirection);
-					
+					                                             //vai lauciņš priekšā nav tukšs
 					if(Board.getTile(fromRow, checkColumn).getPiece() !=null) {
 						return false;
 					}
