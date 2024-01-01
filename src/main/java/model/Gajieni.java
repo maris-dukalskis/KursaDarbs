@@ -40,8 +40,8 @@ public class Gajieni {
 			boolean pawnMove = pawnCheckMove(fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
 			return pawnMove;
 		case BISHOP:
-			boolean bishopMove = bishopCheckMove(differenceRow, differenceColumn);
-			return bishopMove;
+            boolean bishopMove = bishopCheckMove(fromTile, toTile, differenceRow, differenceColumn);
+            return bishopMove;
 		case KNIGHT:
 			boolean knightMove = knightCheckMove(differenceRow, differenceColumn);
 			return knightMove;
@@ -137,11 +137,43 @@ public class Gajieni {
 		return isAllowedToMove;
 	}
 
-	public static boolean bishopCheckMove(byte differenceRow, byte differenceColumn) {
-		if (differenceRow == differenceColumn) {
-			return true;
-		}
-		return false;
+	public static boolean bishopCheckMove(Tile fromTile, Tile toTile, byte differenceRow, byte differenceColumn) {
+
+	    byte fromRow = fromTile.getRow();
+	    byte fromColumn = fromTile.getColumn();
+	    byte toRow = toTile.getRow();
+	    byte toColumn = toTile.getColumn();
+
+	    if (differenceRow != differenceColumn) {
+			return false; // Nav diagonāla kustība
+	    }
+		
+	    // Nosaka pārvietošanās virzienu 1 vai -1 (pa kreisi, pa labi, uz augshu, uz leju)
+	    int columnDirection;
+	    if (toColumn > fromColumn) {
+	        columnDirection = 1;
+	    } else {
+	        columnDirection = -1;
+	    }
+
+	    int rowDirection;
+	    if (toRow > fromRow) {
+	        rowDirection = 1;
+	    } else {
+	        rowDirection = -1;
+	    }
+
+	    // Pārbauda vai ceļa nav figūru
+	    for (byte i = 1; i < differenceRow; i++) {
+	        byte checkColumn = (byte) (fromColumn + i * columnDirection);
+	        byte checkRow = (byte) (fromRow + i * rowDirection);
+
+	        // Ja ceļā ir figūra, tad:
+	        if (Board.getTile(checkRow, checkColumn).getPiece() != null) {
+	            return false;
+	        }
+	    }
+	    return true;
 	}
 
 	public static boolean knightCheckMove(byte differenceRow, byte differenceColumn) {
