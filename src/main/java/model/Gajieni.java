@@ -167,8 +167,15 @@ public class Gajieni {
 					if(Board.getTile(checkRow, differenceColumn).getPiece() !=null) {
 						return false;
 					}
-				
 			}
+			}else {//parbauda kolonai
+				for (byte i = 1; i < differenceRow; i++) {
+					byte checkColumn = (byte)(fromColumn + i * columnDirection);
+					
+					if(Board.getTile(fromRow, checkColumn).getPiece() !=null) {
+						return false;
+					}
+				}
 			}
 			
 		}
