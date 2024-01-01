@@ -201,7 +201,7 @@ public class Gajieni {
 					}
 			}
 			}else {//parbauda kolonai
-				for (byte i = 1; i < differenceRow; i++) {
+				for (byte i = 1; i < differenceColumn; i++) {
 					byte checkColumn = (byte)(fromColumn + i * columnDirection);
 					                                             //vai lauciņš priekšā nav tukšs
 					if(Board.getTile(fromRow, checkColumn).getPiece() !=null) {
@@ -209,6 +209,7 @@ public class Gajieni {
 					}
 				}
 			}
+			return true;
 			
 		}
 		return false;
