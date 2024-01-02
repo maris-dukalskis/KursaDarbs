@@ -1,16 +1,13 @@
 package model;
 
-
 public class Player {
+	
 	private String name;
-	private int moveCount = 0;
-	private GameState gameState;
 	private Color color;
 
-	public Player(String name, GameState gameState, Color color) {
-		setName(name);
-		setGameState(gameState);
-		setColor(color);
+	public Player(String inputName, Color inputColor) {
+		setName(inputName);
+		setColor(inputColor);
 	}
 
 	public String getName() {
@@ -22,26 +19,6 @@ public class Player {
 			this.name = name;
 		} else {
 			this.name = "Invalid name";
-		}
-	}
-
-	public int getMoveCount() {
-		return moveCount;
-	}
-
-	public void increaseMoveCount() {
-		this.moveCount++;
-	}
-
-	public GameState getGameState() {
-		return gameState;
-	}
-
-	public void setGameState(GameState gameState) {
-		if (gameState != null) {
-			this.gameState = gameState;
-		} else {
-			this.gameState = GameState.NORMAL;
 		}
 	}
 

@@ -6,7 +6,7 @@ public class Game {
 	private Player player2;
 	private Board board;
 	private Tile fromTile;
-	private Color move; // which players move it is - 1 or 2
+	private Color move; // which players move it is - White or Black
 
 	public Tile getFromTile() {
 		return fromTile;

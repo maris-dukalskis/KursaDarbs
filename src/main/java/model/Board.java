@@ -1,79 +1,72 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
-	private static Tile[][] board = new Tile[8][8];
+	private Tile[][] board = new Tile[8][8];
 
 	public Board() {
 		initializeTiles();
-		placeInitialPieces();
-
 	}
 
 	private void initializeTiles() {
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
-				Color color = Color.BLACK;
-				if (((i + j) % 2) == 0) {
-					color = Color.WHITE;
-				} else {
-					color = Color.BLACK;
-				}
-				board[i][j] = new Tile((byte) i, (byte) j, null, color);
+				board[i][j] = new Tile((byte) i, (byte) j, null);
 			}
 		}
 	}
 
 	public void placeInitialPieces() {
-		// Pawns
 		for (int i = 0; i <= 7; i++) {
-			Piece whitePawn = new Piece(Color.WHITE, PieceType.PAWN, true);
+			Piece whitePawn = new Piece(Color.WHITE, PieceType.PAWN);
 			board[6][i].setPiece(whitePawn);
-			Piece blackPawn = new Piece(Color.BLACK, PieceType.PAWN, true);
+			Piece blackPawn = new Piece(Color.BLACK, PieceType.PAWN);
 			board[1][i].setPiece(blackPawn);
 		}
-		// Rooks
-		Piece whiteRook1 = new Piece(Color.WHITE, PieceType.ROOK, true);
+		Piece whiteRook1 = new Piece(Color.WHITE, PieceType.ROOK);
 		board[7][0].setPiece(whiteRook1);
-		Piece whiteRook2 = new Piece(Color.WHITE, PieceType.ROOK, true);
+		Piece whiteRook2 = new Piece(Color.WHITE, PieceType.ROOK);
 		board[7][7].setPiece(whiteRook2);
-		Piece blackRook1 = new Piece(Color.BLACK, PieceType.ROOK, true);
+		Piece blackRook1 = new Piece(Color.BLACK, PieceType.ROOK);
 		board[0][0].setPiece(blackRook1);
-		Piece blackRook2 = new Piece(Color.BLACK, PieceType.ROOK, true);
+		Piece blackRook2 = new Piece(Color.BLACK, PieceType.ROOK);
 		board[0][7].setPiece(blackRook2);
-		// Knights
-		Piece whiteKnight1 = new Piece(Color.WHITE, PieceType.KNIGHT, true);
+
+		Piece whiteKnight1 = new Piece(Color.WHITE, PieceType.KNIGHT);
 		board[7][1].setPiece(whiteKnight1);
-		Piece whiteKnight2 = new Piece(Color.WHITE, PieceType.KNIGHT, true);
+		Piece whiteKnight2 = new Piece(Color.WHITE, PieceType.KNIGHT);
 		board[7][6].setPiece(whiteKnight2);
-		Piece blackKnight1 = new Piece(Color.BLACK, PieceType.KNIGHT, true);
+		Piece blackKnight1 = new Piece(Color.BLACK, PieceType.KNIGHT);
 		board[0][1].setPiece(blackKnight1);
-		Piece blackKnight2 = new Piece(Color.BLACK, PieceType.KNIGHT, true);
+		Piece blackKnight2 = new Piece(Color.BLACK, PieceType.KNIGHT);
 		board[0][6].setPiece(blackKnight2);
-		// Bishops
-		Piece whiteBishop1 = new Piece(Color.WHITE, PieceType.BISHOP, true);
+
+		Piece whiteBishop1 = new Piece(Color.WHITE, PieceType.BISHOP);
 		board[7][2].setPiece(whiteBishop1);
-		Piece whiteBishop2 = new Piece(Color.WHITE, PieceType.BISHOP, true);
+		Piece whiteBishop2 = new Piece(Color.WHITE, PieceType.BISHOP);
 		board[7][5].setPiece(whiteBishop2);
-		Piece blackBishop1 = new Piece(Color.BLACK, PieceType.BISHOP, true);
+		Piece blackBishop1 = new Piece(Color.BLACK, PieceType.BISHOP);
 		board[0][2].setPiece(blackBishop1);
-		Piece blackBishop2 = new Piece(Color.BLACK, PieceType.BISHOP, true);
+		Piece blackBishop2 = new Piece(Color.BLACK, PieceType.BISHOP);
 		board[0][5].setPiece(blackBishop2);
-		// Queens
-		Piece whiteQueen = new Piece(Color.WHITE, PieceType.QUEEN, true);
+
+		Piece whiteQueen = new Piece(Color.WHITE, PieceType.QUEEN);
 		board[7][3].setPiece(whiteQueen);
-		Piece blackQueen = new Piece(Color.BLACK, PieceType.QUEEN, true);
+		Piece blackQueen = new Piece(Color.BLACK, PieceType.QUEEN);
 		board[0][3].setPiece(blackQueen);
-		// Kings
-		Piece whiteKing = new Piece(Color.WHITE, PieceType.KING, true);
+
+		Piece whiteKing = new Piece(Color.WHITE, PieceType.KING);
 		board[7][4].setPiece(whiteKing);
-		Piece blackKing = new Piece(Color.BLACK, PieceType.KING, true);
+		Piece blackKing = new Piece(Color.BLACK, PieceType.KING);
 		board[0][4].setPiece(blackKing);
 	}
 
-	public void printBoard() { // j- verticali(column), i-horizontali(row)
+	public static void printBoard(Board board) { // j- verticali(column), i-horizontali(row)
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
-				Tile tile = board[i][j];
+				Tile tile = board.getBoard()[i][j];
 				Piece piece = tile.getPiece();
 				if (piece == null) {
 					System.out.print("      ");
@@ -87,8 +80,53 @@ public class Board {
 		}
 	}
 
-	public static Tile getTile(byte row, byte column) {
-		return board[row][column];
+	public Tile getTile(byte row, byte column) {
+		try {
+			return board[row][column];
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public Tile getTileByTypeAndColor(PieceType type, Color color) {
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				Tile tile = board[i][j];
+				Piece piece = tile.getPiece();
+				if (piece != null && piece.getPieceType() == type && piece.getColor() == color) {
+					return tile;
+				}
+			}
+		}
+		return null;
+	}
+
+	public List<Tile> getAllTilesByColor(Color color) {
+		List<Tile> oneColorTiles = new ArrayList<>();
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				Tile tile = board[i][j];
+				Piece piece = tile.getPiece();
+				if (piece != null && piece.getColor() == color) {
+					oneColorTiles.add(tile);
+				}
+			}
+		}
+		return oneColorTiles;
+	}
+
+	public Tile[][] getBoard() {
+		return this.board;
+	}
+
+	public Board clone() {
+		Board board = new Board();
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				board.getBoard()[i][j] = this.board[i][j].clone();
+			}
+		}
+		return board;
 	}
 
 }
