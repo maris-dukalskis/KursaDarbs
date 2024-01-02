@@ -2,22 +2,16 @@ package model;
 
 public class Tile {
 
-	// mainigie
 	private byte row; // horizontal
 	private byte column; // vertical
 	private Piece piece;
-	private Color color;
 
-	// konstruktori
-
-	public Tile(byte inputrow, byte inputColumn, Piece inputPiece, Color inputColor) {
-		setRow(inputrow);
+	public Tile(byte inputRow, byte inputColumn, Piece inputPiece) {
+		setRow(inputRow);
 		setColumn(inputColumn);
 		setPiece(inputPiece);
-		setColor(inputColor);
 	}
 
-	// get
 	public byte getRow() {
 		return row;
 	}
@@ -26,37 +20,37 @@ public class Tile {
 		return column;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
 	public Piece getPiece() {
 		return piece;
 	}
 
-	// set
-	public void setRow(byte inputrow) {
-		row = inputrow;
+	public void setRow(byte inputRow) {
+		row = inputRow;
 	}
 
 	public void setColumn(byte inputColumn) {
 		column = inputColumn;
 	}
 
-	public void setColor(Color inputColor) {
-		if (inputColor != null) {
-			color = inputColor;
-		} else {
-			color = Color.BLACK;
-		}
-	}
-
 	public void setPiece(Piece inputPiece) {
 		if (inputPiece != null) {
 			piece = inputPiece;
 		} else {
-			piece = null; // izmainas
+			piece = null;
 		}
+	}
+
+	public Tile getCopy() {
+		return new Tile(this.row, this.column, this.piece);
+	}
+
+	@Override
+	public String toString() {
+		return "Tile [row=" + row + ", column=" + column + ", piece=" + piece + "]";
+	}
+
+	public Tile clone() {
+		return new Tile(this.row, this.column, this.piece);
 	}
 
 }
