@@ -10,11 +10,13 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import model.Game;
 import model.Moves;
+import model.Player;
 import model.Tile;
 import service.MainService;
 
-public class GameController extends PlayerController {
+public class GameController {
 
 	@FXML
 	private GridPane mainGrid;
@@ -45,6 +47,10 @@ public class GameController extends PlayerController {
 
 	@FXML
 	public void initialize() {
+		Game game = MainService.getGame();
+		Player player1 = game.getPlayer1();
+		Player player2 = game.getPlayer2();
+
 		generateGraphicalGrid(mainGrid);
 
 		Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null));
@@ -52,8 +58,8 @@ public class GameController extends PlayerController {
 		vboxWhite.setBorder(border);
 		vboxBlack.setBorder(border);
 
-		whitePlayerLabel.setText("Player1 ");
-		blackPlayerLabel.setText("Player2 ");
+		whitePlayerLabel.setText(player1.getName());
+		blackPlayerLabel.setText(player2.getName());
 
 		/*
 		 * pagaidām laiks ir tikai skatam, pēctam būs jāpievieno īsts timeris
