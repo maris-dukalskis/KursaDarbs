@@ -62,32 +62,32 @@
           </MenuBar>
           <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                  <ImageView fitHeight="385.0" fitWidth="640.0" layoutY="-1.0" pickOnBounds="true">
+                  <ImageView fitHeight="750.0" fitWidth="1050.0" layoutY="-1.0" pickOnBounds="true">
                      <image>
                         <Image url="@images/background.jpg" />
                      </image>
                   </ImageView>
-                  <Button fx:id="game_start_button" layoutX="232.0" layoutY="197.0" mnemonicParsing="false" onAction="#startGame" opacity="0.75" prefHeight="52.0" prefWidth="142.0" text="Start" textAlignment="CENTER">
+                  <Button fx:id="game_start_button" layoutX="414.0" layoutY="456.0" mnemonicParsing="false" onAction="#startGame" opacity="0.75" prefHeight="52.0" prefWidth="142.0" text="Start" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font>
                   </Button>
                   <TextField fx:id="player1_input_text" layoutX="97.0" layoutY="127.0" opacity="0.75" prefHeight="25.0" prefWidth="112.0" />
-                  <TextField fx:id="player2_input_text" layoutX="515.0" layoutY="125.0" opacity="0.75" prefHeight="25.0" prefWidth="112.0" />
+                  <TextField fx:id="player2_input_text" layoutX="899.0" layoutY="134.0" opacity="0.75" prefHeight="25.0" prefWidth="112.0" />
                   <ToggleButton fx:id="player1_no_option" layoutX="153.0" layoutY="163.0" mnemonicParsing="false" opacity="0.75" text="No">
                      <toggleGroup>
                         <ToggleGroup fx:id="start_order_option" />
                      </toggleGroup>
                   </ToggleButton>
                   <ToggleButton fx:id="player1_yes_option" layoutX="97.0" layoutY="163.0" mnemonicParsing="false" opacity="0.75" prefHeight="25.0" prefWidth="42.0" text="Yes" toggleGroup="$start_order_option" />
-                  <ToggleButton fx:id="player2_yes_option" layoutX="529.0" layoutY="162.0" mnemonicParsing="false" opacity="0.75" prefHeight="25.0" prefWidth="42.0" text="Yes" toggleGroup="$start_order_option" />
-                  <ToggleButton fx:id="player2_no_option" layoutX="578.0" layoutY="162.0" mnemonicParsing="false" opacity="0.75" text="No" toggleGroup="$start_order_option" />
+                  <ToggleButton fx:id="player2_yes_option" layoutX="913.0" layoutY="171.0" mnemonicParsing="false" opacity="0.75" prefHeight="25.0" prefWidth="42.0" text="Yes" toggleGroup="$start_order_option" />
+                  <ToggleButton fx:id="player2_no_option" layoutX="962.0" layoutY="171.0" mnemonicParsing="false" opacity="0.75" text="No" toggleGroup="$start_order_option" />
                   <Label cache="true" layoutX="26.0" layoutY="129.0" prefHeight="17.0" prefWidth="58.0" text="Player 1:" textFill="#f5f5f5">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label cache="true" layoutX="447.0" layoutY="129.0" prefHeight="17.0" prefWidth="58.0" text="Player 2:" textFill="#000301">
+                  <Label cache="true" layoutX="831.0" layoutY="138.0" prefHeight="17.0" prefWidth="58.0" text="Player 2:" textFill="#000301">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -97,7 +97,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label cache="true" layoutX="447.0" layoutY="166.0" prefHeight="20.0" prefWidth="76.0" text="Starts 1st:" textFill="#050000">
+                  <Label cache="true" layoutX="831.0" layoutY="175.0" prefHeight="20.0" prefWidth="76.0" text="Starts 1st:" textFill="#050000">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

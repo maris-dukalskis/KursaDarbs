@@ -14,7 +14,7 @@ import model.Moves;
 import model.Tile;
 import service.MainService;
 
-public class GameController {
+public class GameController extends PlayerController {
 
 	@FXML
 	private GridPane mainGrid;

@@ -9,10 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
+import model.Game;
+import model.Player;
 
 import java.io.IOException;
 
-public class PlayerController {
+public class PlayerController extends Game {
 	@FXML
 	private TextField player1_input_text;
 	@FXML
@@ -21,9 +23,8 @@ public class PlayerController {
 	private ToggleButton player1_yes_option, player1_no_option, player2_yes_option, player2_no_option;
 	@FXML
 	private Button game_start_button;
-	private String text1, text2;
+	public String text1, text2;
 	private Stage primaryStage;
-
 	@FXML
 	private void startGame(ActionEvent event) throws IOException {
 		text1 = player1_input_text.getText();
@@ -34,6 +35,8 @@ public class PlayerController {
 		if (text2.equals("")) {
 			text2 = "Player2";
 		}
+
+
 		Scene myScene = FXMLLoader.load(getClass().getResource("/GameScene.fxml"));
 		primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(myScene);

@@ -43,6 +43,7 @@
                <HBox prefHeight="225.0" prefWidth="200.0">
                   <children>
                      <Label fx:id="whitePlayerLabel" text="Label" />
+                     <HBox prefHeight="225.0" prefWidth="144.0" />
                      <Label fx:id="timerWhiteLabel" text="Label" />
                   </children>
                </HBox>
@@ -68,7 +69,8 @@
                <HBox prefHeight="225.0" prefWidth="300.0">
                   <children>
                      <Label fx:id="blackPlayerLabel" text="Label" />
-                     <Label fx:id="timerBlackLabel" text="Label" />
+                     <HBox prefHeight="225.0" prefWidth="144.0" />
+                     <Label fx:id="timerBlackLabel" alignment="TOP_LEFT" text="Label" />
                   </children>
                </HBox>
                <GridPane fx:id="blackPiecesOut" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0">
