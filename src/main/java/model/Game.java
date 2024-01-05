@@ -1,12 +1,30 @@
 package model;
 
+import javafx.scene.layout.GridPane;
+
 public class Game {
 
 	private Player player1;
 	private Player player2;
+	private GridPane mainGrid;
+	private GridPane whitePiecesOutGrid;
+	private GridPane blackPiecesOutGrid;
 	private Board board;
+	private Board whitePiecesOutBoard;
+	private Board blackPiecesOutBoard;
 	private Tile fromTile;
 	private Color move; // which players move it is - White or Black
+
+	public Game(GridPane mainGrid, GridPane whitePiecesOutGrid, GridPane blackPiecesOutGrid, Board board,
+			Board whitePiecesOutBoard, Board blackPiecesOutBoard, Color move) {
+		this.mainGrid = mainGrid;
+		this.whitePiecesOutGrid = whitePiecesOutGrid;
+		this.blackPiecesOutGrid = blackPiecesOutGrid;
+		this.board = board;
+		this.whitePiecesOutBoard = whitePiecesOutBoard;
+		this.blackPiecesOutBoard = blackPiecesOutBoard;
+		this.move = move;
+	}
 
 	public Tile getFromTile() {
 		return fromTile;
@@ -46,6 +64,46 @@ public class Game {
 
 	public void setMove(Color move) {
 		this.move = move;
+	}
+
+	public GridPane getMainGrid() {
+		return mainGrid;
+	}
+
+	public void setMainGrid(GridPane mainGrid) {
+		this.mainGrid = mainGrid;
+	}
+
+	public GridPane getWhitePiecesOutGrid() {
+		return whitePiecesOutGrid;
+	}
+
+	public void setWhitePiecesOutGrid(GridPane whitePiecesOutGrid) {
+		this.whitePiecesOutGrid = whitePiecesOutGrid;
+	}
+
+	public GridPane getBlackPiecesOutGrid() {
+		return blackPiecesOutGrid;
+	}
+
+	public void setBlackPiecesOutGrid(GridPane blackPiecesOutGrid) {
+		this.blackPiecesOutGrid = blackPiecesOutGrid;
+	}
+
+	public Board getWhitePiecesOutBoard() {
+		return whitePiecesOutBoard;
+	}
+
+	public void setWhitePiecesOutBoard(Board whitePiecesOutBoard) {
+		this.whitePiecesOutBoard = whitePiecesOutBoard;
+	}
+
+	public Board getBlackPiecesOutBoard() {
+		return blackPiecesOutBoard;
+	}
+
+	public void setBlackPiecesOutBoard(Board blackPiecesOutBoard) {
+		this.blackPiecesOutBoard = blackPiecesOutBoard;
 	}
 
 }
