@@ -71,13 +71,13 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label cache="true" layoutX="726.0" layoutY="96.0" prefHeight="20.0" prefWidth="76.0" text="Starts 1st:" textFill="WHITE">
+                  <Label cache="true" layoutX="726.0" layoutY="96.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                   <ChoiceBox fx:id="player2StartColor" layoutX="835.0" layoutY="94.0" prefWidth="150.0" />
-                  <Label cache="true" layoutX="68.0" layoutY="96.0" prefHeight="20.0" prefWidth="76.0" text="Starts 1st:" textFill="#f5f5f5">
+                  <Label cache="true" layoutX="68.0" layoutY="96.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="#f5f5f5">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
