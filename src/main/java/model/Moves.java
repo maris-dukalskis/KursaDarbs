@@ -1,11 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import controller.GameController;
-import javafx.scene.layout.GridPane;
-import service.MainService;
 
 public class Moves {
 
@@ -70,7 +70,7 @@ public class Moves {
 			return false;
 		}
 
-		Board boardCopy = (Board) MainService.getBoard().clone();
+		Board boardCopy = (Board) GameController.getBoard().clone(8, 8);
 
 		Tile fromTileCopy = boardCopy.getTile(fromTile.getRow(), fromTile.getColumn());
 		Tile toTileCopy = boardCopy.getTile(toTile.getRow(), toTile.getColumn());
@@ -260,16 +260,16 @@ public class Moves {
 		return false;
 	}
 
-	public static void processClickedTile(Tile lastClicked, GridPane mainGrid) {
-		Game game = MainService.getGame();
-		Board board = MainService.getBoard();
+	public static void processClickedTile(Tile lastClicked) {
+		Game game = GameController.getGame();
+		Board board = GameController.getBoard();
 		/*
 		 * vai tas ir pirmais uzspiestais tile(no kura kustās)
 		 */
 		if (game.getFromTile() == null) {
 			if (lastClicked.getPiece() != null && lastClicked.getPiece().getColor() == game.getMove()) {
 				game.setFromTile(lastClicked);
-				displayValidMoves(lastClicked, mainGrid);
+				displayValidMoves(lastClicked);
 			}
 			return;
 		}
@@ -280,9 +280,26 @@ public class Moves {
 		// ja uzspiež uz tile kur nevar pakustēties tad vienkārši atliek visu kā bija
 		if (!isMoveValid(board, fromTile, lastClicked, true)) {
 			game.setFromTile(null);
-			GameController.generateGraphicalGrid(mainGrid);
+			GameController.generateGraphicalGrid();
 			return;
 		}
+
+		if (lastClicked.getPiece() != null) {
+			switch (lastClicked.getPiece().getColor()) {
+			case WHITE:
+				GameController.addKnockedOutPiece(lastClicked.getPiece(),
+						GameController.getGame().getWhitePiecesOutGrid(),
+						GameController.getGame().getWhitePiecesOutBoard());
+				break;
+			case BLACK:
+				GameController.addKnockedOutPiece(lastClicked.getPiece(),
+						GameController.getGame().getBlackPiecesOutGrid(),
+						GameController.getGame().getBlackPiecesOutBoard());
+				break;
+			default:
+			}
+		}
+
 		lastClicked.setPiece(fromPiece);
 		fromTile.setPiece(null);
 
@@ -298,38 +315,66 @@ public class Moves {
 		case CHECK:
 			System.out.println("CHECK");
 			break;
+		case NORMAL:
+			System.out.println("Normal");
 		default:
 		}
 		GameController.generateAndSetImage(lastClicked, (byte) lastClicked.getRow(), (byte) lastClicked.getColumn(),
-				mainGrid);
-		GameController.generateAndSetImage(fromTile, (byte) fromTile.getRow(), (byte) fromTile.getColumn(), mainGrid);
+				GameController.getGame().getMainGrid(), true, 93.75, 93.75);
+		GameController.generateAndSetImage(fromTile, (byte) fromTile.getRow(), (byte) fromTile.getColumn(),
+				GameController.getGame().getMainGrid(), true, 93.75, 93.75);
 
 		game.setFromTile(null);
 		game.setMove(fromPiece.getColor().opposite());
 
 		// noņem visas liekās krāsas
-		GameController.generateGraphicalGrid(mainGrid);
+		GameController.generateGraphicalGrid();
 	}
 
+//	public static void setImageForOutPiece(Piece piece, Color color, GridPane outGridPane) {
+//		Image image = new Image("/images/" );
+//		ImageView imageView = new ImageView(image);
+//		imageView.setFitHeight(50); 
+//		imageView.setFitWidth(60);
+//		imageView.setPreserveRatio(true);
+//
+//		outGridPane.add(imageView);
+//	}
+
 	public static GameState getGameState(Board board, Tile opponentKing, Color selfColor) {
-		List<Tile> opponentKingValidMoves = getAllValidMovesForTile(board, opponentKing);
-		// ja king visur apkārt ir citi kauliņi
-		if (opponentKingValidMoves.isEmpty()) {
-			return GameState.NORMAL;
-		}
-		int opponentKingMoveCount = opponentKingValidMoves.size();
 		List<Tile> selfColorTiles = board.getAllTilesByColor(selfColor);
-		// iet cauri visiem saviem kauliņiem un skatās vai moves pārklājas ar pretinieku king moves
-		for (Tile selfColorTile : selfColorTiles) {
-			for (Tile selfColorTileMove : getAllValidMovesForTile(board, selfColorTile)) {
-				if (opponentKingValidMoves.contains(selfColorTileMove)) {
-					opponentKingValidMoves.remove(selfColorTileMove);
-				}
-			}
+		List<Tile> opponentColorTiles = board.getAllTilesByColor(selfColor.opposite());
+
+		List<Tile> opponentKingValidMoves = getAllValidMovesForTile(board, opponentKing, true);
+		Set<Tile> selfColorTileValidMoves = new HashSet<>();
+		Set<Tile> opponentColorTileValidMoves = new HashSet<>();
+
+		for (Tile tile : selfColorTiles) {
+			selfColorTileValidMoves.addAll(getAllValidMovesForTile(board, tile, false));
 		}
-		if (opponentKingValidMoves.isEmpty()) {
+		for (Tile tile : opponentColorTiles) {
+			opponentColorTileValidMoves.addAll(getAllValidMovesForTile(board, tile, true));
+		}
+		boolean isCheck = false;
+		int saveFromCheckCount = 0;
+		for (Tile selfColorTileMove : selfColorTileValidMoves) {
+			if (selfColorTileMove.getRow() == opponentKing.getRow()
+					&& selfColorTileMove.getColumn() == opponentKing.getColumn()) {
+				isCheck = true;
+				continue;
+			}
+			if (!opponentKingValidMoves.contains(selfColorTileMove)) {
+				continue;
+			}
+			if (opponentColorTileValidMoves.contains(selfColorTileMove)) {
+				saveFromCheckCount += 1;
+			}
+			opponentKingValidMoves.remove(selfColorTileMove);
+		}
+
+		if (isCheck && opponentKingValidMoves.isEmpty() && saveFromCheckCount == 0) {
 			return GameState.CHECK_MATE;
-		} else if (opponentKingValidMoves.size() < opponentKingMoveCount) { // ja samazinājās skaits tad kāds kauliņš ieliek check
+		} else if (isCheck && (!opponentKingValidMoves.isEmpty() || saveFromCheckCount > 0)) {
 			return GameState.CHECK;
 		}
 		return GameState.NORMAL;
@@ -338,7 +383,7 @@ public class Moves {
 	public static GameState getSelfCheckState(Board board, Tile selfKing, Color opponentColor) {
 		List<Tile> opponentColorTiles = board.getAllTilesByColor(opponentColor);
 		for (Tile opponentColorTile : opponentColorTiles) {
-			for (Tile opponentColorTileMove : getAllValidMovesForTile(board, opponentColorTile)) {
+			for (Tile opponentColorTileMove : getAllValidMovesForTile(board, opponentColorTile, false)) {
 				// ja kāds pretinieka move uziet uz sava king lauciņa tad sanāks self check
 				if (selfKing.getRow() == opponentColorTileMove.getRow()
 						&& selfKing.getColumn() == opponentColorTileMove.getColumn()) {
@@ -349,12 +394,12 @@ public class Moves {
 		return GameState.NORMAL;
 	}
 
-	public static List<Tile> getAllValidMovesForTile(Board board, Tile tile) {
+	public static List<Tile> getAllValidMovesForTile(Board board, Tile tile, boolean selfCheckCheck) {
 		List<Tile> validMoveList = new ArrayList<>();
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
 				Tile toTile = board.getTile((byte) i, (byte) j);
-				if (!isMoveValid(board, tile, toTile, false)) {
+				if (!isMoveValid(board, tile, toTile, selfCheckCheck)) {
 					continue;
 				}
 				validMoveList.add(toTile);
@@ -363,8 +408,8 @@ public class Moves {
 		return validMoveList;
 	}
 
-	public static void displayValidMoves(Tile clickedTile, GridPane mainGrid) {
-		Board board = MainService.getBoard();
+	public static void displayValidMoves(Tile clickedTile) {
+		Board board = GameController.getBoard();
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
 				Tile tile = board.getTile((byte) i, (byte) j);
@@ -387,7 +432,8 @@ public class Moves {
 					imageString += piece.getColor().name().toLowerCase() + "_";
 					imageString += piece.getPieceType().name().toLowerCase() + "_onRed.jpg";
 				}
-				GameController.setImage(tile, imageString, i, j, mainGrid);
+				GameController.setImage(tile, imageString, i, j, GameController.getGame().getMainGrid(), true, 93.75,
+						93.75);
 			}
 		}
 	}
