@@ -33,7 +33,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="buttonPlayAgain" layoutX="302.0" layoutY="323.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" text="Play again">
+      <Button fx:id="buttonPlayAgain" onAction="#playAgainClick" layoutX="302.0" layoutY="323.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" text="Play again">
          <font>
             <Font size="14.0" />
          </font>

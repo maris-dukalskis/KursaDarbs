@@ -61,14 +61,19 @@ public class SceneController{
     
     
     
-    @FXML
-    public void playAgainClick(ActionEvent event) throws IOException {
-    	Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
+   @FXML
+   public void playAgainClick(ActionEvent event) throws IOException {
+	   Object source = event.getSource();
+	   if (source instanceof Button && ((Button) source).getId().equals("buttonPlayAgain")) {
+		   
+		 Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
     	primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	primaryStage.setScene(myScene);
     	primaryStage.show();
     	primaryStage.setResizable(false);
-    	primaryStage.setTitle("Player selection");
+    	primaryStage.setTitle("Player selection");  
+	   }
+    	
     	
     }
     
