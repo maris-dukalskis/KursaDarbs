@@ -48,8 +48,8 @@ public class MainService extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("/resultScene.fxml"));
 		Scene scene = new Scene(root);
 //        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-		//String css = this.getClass().getResource("/style.css").toExternalForm();
-		//scene.getStylesheets().add(css);
+		String css = this.getClass().getResource("/style.css").toExternalForm();
+		scene.getStylesheets().add(css);
 		stage.setTitle("Main menu");
 		stage.setScene(scene);
 		stage.show();
