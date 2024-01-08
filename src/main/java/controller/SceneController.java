@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 public class SceneController{
 	
 	private Stage primaryStage;
@@ -76,6 +79,16 @@ public class SceneController{
     	
     	
     }
+   
+   public void exitButtonClick(ActionEvent event) throws IOException {
+	   JFrame frame = new JFrame("Exit");
+	   if(JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Exit", 
+			   JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)
+	   {
+		   System.exit(0);
+	   }
+	   
+   }
     
     
     
