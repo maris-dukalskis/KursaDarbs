@@ -81,9 +81,10 @@ public class SceneController{
     }
    
    public void exitButtonClick(ActionEvent event) throws IOException {
-	   JFrame frame = new JFrame("Exit");
+	   JFrame frame = new JFrame("Exit"); //izveido jaunu logu ar nosaukumu "Exit"(Java Swing komponents)
 	   if(JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Exit", 
-			   JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)
+			   JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)//showConfirmDialog jābūt vienādām ar YES_NO_OPTION
+		   //YES_NO_OPTION vienmēr ir vienāds ar sevi
 	   {
 		   System.exit(0);
 	   }
