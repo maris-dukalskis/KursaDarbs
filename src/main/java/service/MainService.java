@@ -8,8 +8,10 @@ import javafx.stage.Stage;
 import model.Board;
 import model.Color;
 import model.Game;
+import java.io.IOException;
 
 public class MainService extends Application {
+	private Stage primaryStage;
 
 	// TODO
 	// coinflip to choose colors
@@ -52,6 +54,25 @@ public class MainService extends Application {
 		stage.setScene(scene);
 		stage.show();
 
+	}
+	
+	//@FXML
+	//public void initialize()throws IOException{
+	//	showResultScene();
+	//}
+	
+	private void showResultScene() throws IOException{
+		try {
+			System.out.println("Trying");
+		Scene myScene = FXMLLoader.load(getClass().getResource("/resultScene.fxml"));
+		primaryStage.setScene(myScene);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("Result");
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
