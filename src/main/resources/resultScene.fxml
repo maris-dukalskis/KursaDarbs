@@ -23,12 +23,12 @@
       </Label>
       <Label fx:id="labelWinner" layoutX="307.0" layoutY="157.0" text="Winner" textFill="#45f71d">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
       <Label fx:id="labelLoser" layoutX="474.0" layoutY="157.0" text="Loser" textFill="#ff1c1c">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
       <Button fx:id="buttonPlayAgain" layoutX="291.0" layoutY="323.0" mnemonicParsing="false" onAction="#playAgainClick" prefHeight="35.0" prefWidth="108.0" text="Play again">
@@ -41,32 +41,32 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="labelWinnerName" contentDisplay="CENTER" layoutX="297.0" layoutY="201.0" prefHeight="27.0" prefWidth="125.0" text="Label" textFill="WHITE">
+      <Label fx:id="labelWinnerName" contentDisplay="CENTER" layoutX="316.0" layoutY="201.0" prefHeight="27.0" prefWidth="57.0" text="Label" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="labelLoserName" contentDisplay="CENTER" layoutX="439.0" layoutY="201.0" prefHeight="27.0" prefWidth="125.0" text="Label" textFill="WHITE">
+      <Label fx:id="labelLoserName" contentDisplay="CENTER" layoutX="474.0" layoutY="201.0" prefHeight="27.0" prefWidth="54.0" text="Label" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="ltextPoints" layoutX="297.0" layoutY="235.0" text="Points:" textFill="#c9c9c9">
+      <Label fx:id="ltextPoints" layoutX="302.0" layoutY="235.0" text="Points:" textFill="#c9c9c9">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="ltextPoints2" layoutX="434.0" layoutY="235.0" text="Points:" textFill="#c9c9c9">
+      <Label fx:id="ltextPoints2" layoutX="456.0" layoutY="235.0" text="Points:" textFill="#c9c9c9">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="winnerPoints" layoutX="354.0" layoutY="235.0" text="123" textFill="#c9c9c9">
+      <Label fx:id="winnerPoints" layoutX="359.0" layoutY="235.0" text="123" textFill="#c9c9c9">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="loserPoints" layoutX="494.0" layoutY="235.0" text="123" textFill="#c9c9c9">
+      <Label fx:id="loserPoints" layoutX="516.0" layoutY="235.0" text="123" textFill="#c9c9c9">
          <font>
             <Font size="18.0" />
          </font>
