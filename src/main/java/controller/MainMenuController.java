@@ -17,7 +17,7 @@ public class MainMenuController {
 	@FXML
 	public void startGameClicked(ActionEvent event) throws IOException {
 		BackgroundMusicPlayer.stopBackgroundMusic();
-		BackgroundMusicPlayer.playBackgroundMusic("/skanja1.wav");
+		BackgroundMusicPlayer.playBackgroundMusic("/audio/player_selection_scene.wav");
 		Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
 		primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		primaryStage.setScene(myScene);

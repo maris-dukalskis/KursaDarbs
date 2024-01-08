@@ -38,7 +38,7 @@ public class MainService extends Application {
 	}
 
 	public void start(Stage stage) throws Exception {
-		BackgroundMusicPlayer.playBackgroundMusic("/skanja.wav");
+		BackgroundMusicPlayer.playBackgroundMusic("/audio/start_scene.wav");
 		Parent root = FXMLLoader.load(getClass().getResource("/MainMenu.fxml"));
 		Scene scene = new Scene(root);
 //        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
