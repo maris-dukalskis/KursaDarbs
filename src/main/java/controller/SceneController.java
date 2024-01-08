@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import java.io.IOException;
 public class SceneController{
 	
+	private Stage primaryStage;
+	
 	@FXML
     private ImageView background;
 
@@ -56,6 +58,19 @@ public class SceneController{
 
     @FXML
     private Label textTime1;
+    
+    
+    
+    @FXML
+    public void playAgainClick(ActionEvent event) throws IOException {
+    	Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
+    	primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	primaryStage.setScene(myScene);
+    	primaryStage.show();
+    	primaryStage.setResizable(false);
+    	primaryStage.setTitle("Player selection");
+    	
+    }
     
     
     
