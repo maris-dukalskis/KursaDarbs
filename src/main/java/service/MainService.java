@@ -1,5 +1,6 @@
 package service;
 
+import controller.BackgroundMusicPlayer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,14 +10,9 @@ import model.Board;
 import model.Color;
 import model.Game;
 
+
 public class MainService extends Application {
 
-	// TODO
-	// coinflip to choose colors
-	// Rokāde
-	// enemy check(parāda ekrāna vidū)
-	// enemy check mate(beidzas spēle)
-	// pawn promotion
 
 	private static Game game;
 
@@ -42,7 +38,7 @@ public class MainService extends Application {
 	}
 
 	public void start(Stage stage) throws Exception {
-
+		BackgroundMusicPlayer.playBackgroundMusic("/skanja.wav");
 		Parent root = FXMLLoader.load(getClass().getResource("/MainMenu.fxml"));
 		Scene scene = new Scene(root);
 //        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());

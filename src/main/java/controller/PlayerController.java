@@ -38,6 +38,8 @@ public class PlayerController implements Initializable {
 	}
 	@FXML
 	private void startGame(ActionEvent event) throws IOException {
+		BackgroundMusicPlayer.stopBackgroundMusic();
+		BackgroundMusicPlayer.playBackgroundMusic("/skanja2.wav");
 		String player1Name = player1_input_text.getText();
 		if(player1Name.isEmpty()){
 			player1Name = "Player1";
