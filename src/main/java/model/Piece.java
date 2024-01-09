@@ -4,17 +4,19 @@ public class Piece {
 
 	private Color color;
 	private PieceType type;
+	private boolean hasMoved;
 
 	public Piece(Color inputColor, PieceType inputType) {
 		setColor(inputColor);
 		setType(inputType);
+		setHasMoved(false);
 	}
 
 	public Color getColor() {
 		return color;
 	}
 
-	public PieceType getPieceType() {
+	public PieceType getType() {
 		return type;
 	}
 
@@ -32,6 +34,14 @@ public class Piece {
 		} else {
 			type = PieceType.PAWN;
 		}
+	}
+
+	public boolean hasMoved() {
+		return hasMoved;
+	}
+
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
 	}
 
 	@Override

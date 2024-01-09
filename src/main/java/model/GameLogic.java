@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.GameController;
-import javafx.scene.layout.GridPane;
+import controller.PlayerController;
 import service.MainService;
 
-public class Moves {
+public class GameLogic {
 
-	/*
-	 * Pārbauda vai kauliņš var kustēties no esošā Tile uz jauno Tile pēc kauliņa
-	 * veida
-	 */
-	public static boolean isMoveValid(Board board, Tile fromTile, Tile toTile, boolean processSelfCheck) {
-
+	public static Move getValidMove(Tile fromTile, Tile toTile) {
+		if (fromTile.equals(toTile)) {
+			return null;
+		}
+		boolean move = false;
 		// pie from pārbaude vai ir null būs kad nospiež uz Tile grafiskajā vidē, lai
 		// nav liekas pārbaudes
 		Color fromPieceColor = fromTile.getPiece().getColor();
@@ -22,10 +21,6 @@ public class Moves {
 
 		if (toTile.getPiece() != null) {
 			toPieceColor = toTile.getPiece().getColor();
-		}
-
-		if (toPieceColor != null && fromPieceColor.equals(toPieceColor)) {
-			return false;
 		}
 
 		byte fromRow = fromTile.getRow();
@@ -37,67 +32,52 @@ public class Moves {
 		byte differenceRow = (byte) Math.abs(toRow - fromRow);
 		byte differenceColumn = (byte) Math.abs(toColumn - fromColumn);
 
-		boolean move = false;
+		if (toPieceColor != null && fromPieceColor.equals(toPieceColor)) {
+			if (PlayerController.getGame().getGameState() != GameState.CHECK
+					&& fromTile.getPiece().getType() == PieceType.KING && toTile.getPiece().getType() == PieceType.ROOK
+					&& !fromTile.getPiece().hasMoved() && !toTile.getPiece().hasMoved()) {
+				move = isCastlingMoveValid(toTile, fromTile, differenceColumn);
+				if (!move) {
+					return null;
+				}
+				return new Move(fromTile, toTile, true);
+			}
+			return null;
+		}
 
-		switch (fromTile.getPiece().getPieceType()) {
+		switch (fromTile.getPiece().getType()) {
 		case PAWN:
-			move = isPawnMoveValid(board, fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
+			move = isPawnMoveValid(fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
 			break;
 		case BISHOP:
-			move = isBishopMoveValid(board, differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn,
-					fromTile, toTile);
+			move = isBishopMoveValid(differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn, fromTile,
+					toTile);
 			break;
 		case KNIGHT:
 			move = isKnightMoveValid(differenceRow, differenceColumn);
 			break;
 		case ROOK:
-			move = isRookMoveValid(board, fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow,
-					fromTile, toTile);
+			move = isRookMoveValid(fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile,
+					toTile);
 			break;
 		case QUEEN:
-			move = isQueenMoveValid(board, fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow,
-					fromTile, toTile);
+			move = isQueenMoveValid(fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile,
+					toTile);
 			break;
 		case KING:
 			move = isKingMoveValid(differenceRow, differenceColumn);
 			break;
 		default:
 		}
-		if (!processSelfCheck) {
-			return move;
-		}
 		if (!move) {
-			return false;
+			return null;
 		}
-
-		Board boardCopy = (Board) MainService.getBoard().clone();
-
-		Tile fromTileCopy = boardCopy.getTile(fromTile.getRow(), fromTile.getColumn());
-		Tile toTileCopy = boardCopy.getTile(toTile.getRow(), toTile.getColumn());
-
-		fromTileCopy.setPiece(null);
-		toTileCopy.setPiece(fromTile.getPiece());
-
-		Tile selfKing = boardCopy.getTileByTypeAndColor(PieceType.KING, fromTile.getPiece().getColor());
-		Color opponentColor = fromTile.getPiece().getColor().opposite();
-
-		GameState gameState = getSelfCheckState(boardCopy, selfKing, opponentColor);
-
-		switch (gameState) {
-		case CHECK:
-			move = false;
-			break;
-		case CHECK_MATE:
-			move = false;
-			break;
-		default:
-		}
-		return move;
+		return new Move(fromTile, toTile, false);
 	}
 
-	public static boolean isPawnMoveValid(Board board, byte fromColumn, byte fromRow, byte toColumn, byte toRow,
+	public static boolean isPawnMoveValid(byte fromColumn, byte fromRow, byte toColumn, byte toRow,
 			byte differenceColumn, Color pieceColor) {
-
+		Board board = PlayerController.getGame().getBoard();
 		// black - 2. rinda(1. index) from-To = negativs
 		// white - 7. rinda(6. index) from-To = pozitivs
 
@@ -173,9 +153,9 @@ public class Moves {
 		return isAllowedToMove;
 	}
 
-	public static boolean isBishopMoveValid(Board board, byte differenceRow, byte differenceColumn, byte fromRow,
-			byte fromColumn, byte toRow, byte toColumn, Tile fromTile, Tile toTile) {
-
+	public static boolean isBishopMoveValid(byte differenceRow, byte differenceColumn, byte fromRow, byte fromColumn,
+			byte toRow, byte toColumn, Tile fromTile, Tile toTile) {
+		Board board = PlayerController.getGame().getBoard();
 		if (differenceRow != differenceColumn) {
 			return false; // Nav diagonāla kustība
 		}
@@ -203,8 +183,9 @@ public class Moves {
 		return false;
 	}
 
-	public static boolean isRookMoveValid(Board board, byte fromRow, byte fromColumn, byte toRow, byte toColumn,
+	public static boolean isRookMoveValid(byte fromRow, byte fromColumn, byte toRow, byte toColumn,
 			byte differenceColumn, byte differenceRow, Tile fromTile, Tile toTile) {
+		Board board = PlayerController.getGame().getBoard();
 		if ((fromRow == toRow && fromColumn != toColumn) || (fromRow != toRow && fromColumn == toColumn)) {
 
 			int columnDirection = getDirection(fromColumn, toColumn);
@@ -241,12 +222,11 @@ public class Moves {
 		return 0; // nekustās
 	}
 
-	public static boolean isQueenMoveValid(Board board, byte fromRow, byte fromColumn, byte toRow, byte toColumn,
+	public static boolean isQueenMoveValid(byte fromRow, byte fromColumn, byte toRow, byte toColumn,
 			byte differenceColumn, byte differenceRow, Tile fromTile, Tile toTile) {
-		if (isRookMoveValid(board, fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile,
-				toTile)
-				|| isBishopMoveValid(board, differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn,
-						fromTile, toTile)) {
+		if (isRookMoveValid(fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile, toTile)
+				|| isBishopMoveValid(differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn, fromTile,
+						toTile)) {
 			return true;
 		}
 		return false;
@@ -260,37 +240,67 @@ public class Moves {
 		return false;
 	}
 
-	public static void processClickedTile(Tile lastClicked, GridPane mainGrid) {
-		Game game = MainService.getGame();
-		Board board = MainService.getBoard();
+	public static boolean isCastlingMoveValid(Tile kingTile, Tile rookTile, byte differenceColumn) {
+		Board board = PlayerController.getGame().getBoard();
+		int direction = getDirection(kingTile.getColumn(), rookTile.getColumn());
+		for (int i = 1; i < differenceColumn; i++) {
+			byte checkColumn = (byte) (kingTile.getColumn() + i * direction);
+			if (board.getTile(kingTile.getRow(), checkColumn).getPiece() != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void processClickedTile(Tile lastClicked) {
+		Game game = PlayerController.getGame();
 		/*
 		 * vai tas ir pirmais uzspiestais tile(no kura kustās)
 		 */
 		if (game.getFromTile() == null) {
 			if (lastClicked.getPiece() != null && lastClicked.getPiece().getColor() == game.getMove()) {
 				game.setFromTile(lastClicked);
-				displayValidMoves(lastClicked, mainGrid);
+				GameController.displayValidMoves(lastClicked);
+				String imageString = lastClicked.getPiece().getColor().name().toLowerCase() + "_"
+						+ lastClicked.getPiece().getType().name().toLowerCase() + "_onYellow.jpg";
+				GameController.setImage(lastClicked, imageString, lastClicked.getRow(), lastClicked.getColumn(),
+						PlayerController.getGame().getBoard().getGrid(), true, MainService.mainImageSize,
+						MainService.mainImageSize);
 			}
 			return;
 		}
-
 		Tile fromTile = game.getFromTile();
+		List<Move> moveList = generateAllMovesForColor(fromTile.getPiece().getColor(), true);
 		Piece fromPiece = fromTile.getPiece();
+		Piece toPiece = lastClicked.getPiece();
+		boolean canMove = false;
+		boolean isCastle = false;
+		for (Move move : moveList) {
+			if (!move.getFromTile().equals(fromTile)) {
+				continue;
+			}
+			if (move.getToTile().equals(lastClicked)) {
+				canMove = true;
+				isCastle = move.isCastle();
+				move.perform();
+				break;
+			}
+		}
 
-		// ja uzspiež uz tile kur nevar pakustēties tad vienkārši atliek visu kā bija
-		if (!isMoveValid(board, fromTile, lastClicked, true)) {
+		if (!canMove) {
 			game.setFromTile(null);
-			GameController.generateGraphicalGrid(mainGrid);
+			GameController.generateGraphicalGrid();
 			return;
 		}
-		lastClicked.setPiece(fromPiece);
-		fromTile.setPiece(null);
+		if (toPiece != null && !isCastle) {
+			addToKnockedOutGrid(toPiece);
+		}
+		fromPiece.setHasMoved(true);
+		game.setMove(fromPiece.getColor().opposite());
+		game.setFromTile(null);
+		GameController.generateGraphicalGrid();
 
-		Color enemyColor = lastClicked.getPiece().getColor().opposite();
-		Tile enemyKing = board.getTileByTypeAndColor(PieceType.KING, enemyColor);
-
-		GameState state = getGameState(board, enemyKing, lastClicked.getPiece().getColor());
-
+		GameState state = getGameState(game.getMove());
 		switch (state) {
 		case CHECK_MATE:
 			System.out.println("Beigas");
@@ -298,98 +308,83 @@ public class Moves {
 		case CHECK:
 			System.out.println("CHECK");
 			break;
+		case NORMAL:
+			System.out.println("Normal");
 		default:
 		}
-		GameController.generateAndSetImage(lastClicked, (byte) lastClicked.getRow(), (byte) lastClicked.getColumn(),
-				mainGrid);
-		GameController.generateAndSetImage(fromTile, (byte) fromTile.getRow(), (byte) fromTile.getColumn(), mainGrid);
-
-		game.setFromTile(null);
-		game.setMove(fromPiece.getColor().opposite());
-
-		// noņem visas liekās krāsas
-		GameController.generateGraphicalGrid(mainGrid);
+		game.setGameState(state);
 	}
 
-	public static GameState getGameState(Board board, Tile opponentKing, Color selfColor) {
-		List<Tile> opponentKingValidMoves = getAllValidMovesForTile(board, opponentKing);
-		// ja king visur apkārt ir citi kauliņi
-		if (opponentKingValidMoves.isEmpty()) {
-			return GameState.NORMAL;
-		}
-		int opponentKingMoveCount = opponentKingValidMoves.size();
-		List<Tile> selfColorTiles = board.getAllTilesByColor(selfColor);
-		// iet cauri visiem saviem kauliņiem un skatās vai moves pārklājas ar pretinieku king moves
-		for (Tile selfColorTile : selfColorTiles) {
-			for (Tile selfColorTileMove : getAllValidMovesForTile(board, selfColorTile)) {
-				if (opponentKingValidMoves.contains(selfColorTileMove)) {
-					opponentKingValidMoves.remove(selfColorTileMove);
-				}
-			}
-		}
-		if (opponentKingValidMoves.isEmpty()) {
+	public static GameState getGameState(Color color) {
+		boolean isKingInCheck = isKingInCheck(color);
+		List<Move> moveList = generateAllMovesForColor(color, true);
+		if (isKingInCheck && moveList.isEmpty()) {
 			return GameState.CHECK_MATE;
-		} else if (opponentKingValidMoves.size() < opponentKingMoveCount) { // ja samazinājās skaits tad kāds kauliņš ieliek check
+		}
+		if (isKingInCheck) {
 			return GameState.CHECK;
 		}
 		return GameState.NORMAL;
 	}
 
-	public static GameState getSelfCheckState(Board board, Tile selfKing, Color opponentColor) {
-		List<Tile> opponentColorTiles = board.getAllTilesByColor(opponentColor);
-		for (Tile opponentColorTile : opponentColorTiles) {
-			for (Tile opponentColorTileMove : getAllValidMovesForTile(board, opponentColorTile)) {
-				// ja kāds pretinieka move uziet uz sava king lauciņa tad sanāks self check
-				if (selfKing.getRow() == opponentColorTileMove.getRow()
-						&& selfKing.getColumn() == opponentColorTileMove.getColumn()) {
-					return GameState.CHECK;
-				}
+	public static boolean isKingInCheck(Color color) {
+		Tile kingTile = PlayerController.getGame().getBoard().getTileByTypeAndColor(PieceType.KING, color);
+		List<Move> moveList = generateAllMovesForColor(kingTile.getPiece().getColor().opposite(), false);
+		for (Move move : moveList) {
+			if (move.getToTile().getRow() == kingTile.getRow()
+					&& move.getToTile().getColumn() == kingTile.getColumn()) {
+				return true;
 			}
 		}
-		return GameState.NORMAL;
+		return false;
 	}
 
-	public static List<Tile> getAllValidMovesForTile(Board board, Tile tile) {
-		List<Tile> validMoveList = new ArrayList<>();
-		for (int i = 0; i <= 7; i++) {
-			for (int j = 0; j <= 7; j++) {
-				Tile toTile = board.getTile((byte) i, (byte) j);
-				if (!isMoveValid(board, tile, toTile, false)) {
-					continue;
-				}
-				validMoveList.add(toTile);
-			}
-		}
-		return validMoveList;
-	}
-
-	public static void displayValidMoves(Tile clickedTile, GridPane mainGrid) {
-		Board board = MainService.getBoard();
-		for (int i = 0; i <= 7; i++) {
-			for (int j = 0; j <= 7; j++) {
-				Tile tile = board.getTile((byte) i, (byte) j);
-				if (!isMoveValid(board, clickedTile, tile, true)) {
-					continue;
-				}
-				String imageString = "";
-				Piece piece = tile.getPiece();
-				if (piece == null) {
-
-					if (((i + j) % 2) == 0) {
-						imageString = "Green.jpg";
-					} else {
-						imageString = "Dark_Green.jpg";
-					}
-				} else {
-					if (piece.getColor() == clickedTile.getPiece().getColor()) {
+	public static List<Move> generateAllMovesForColor(Color color, boolean selfCheck) {
+		List<Move> moveList = new ArrayList<>();
+		List<Tile> pieceList = new ArrayList<>();
+		pieceList.addAll(PlayerController.getGame().getBoard().getAllPieceTilesByColor(color));
+		for (Tile pieceTile : pieceList) {
+			for (byte i = 0; i <= 7; i++) {
+				for (byte j = 0; j <= 7; j++) {
+					Tile toTile = PlayerController.getGame().getBoard().getTile(i, j);
+					Move move = getValidMove(pieceTile, toTile);
+					if (move == null) {
 						continue;
 					}
-					imageString += piece.getColor().name().toLowerCase() + "_";
-					imageString += piece.getPieceType().name().toLowerCase() + "_onRed.jpg";
+					moveList.add(move);
 				}
-				GameController.setImage(tile, imageString, i, j, mainGrid);
 			}
 		}
+		if (!selfCheck) {
+			return moveList;
+		}
+		List<Move> inCheckMoves = new ArrayList<>();
+		for (Move move : moveList) {
+			Move clone = move.clone();
+			move.perform();
+			if (isKingInCheck(color)) {
+				inCheckMoves.add(move);
+			}
+			move.undo(clone);
+		}
+		for (Move move : inCheckMoves) {
+			moveList.remove(move);
+		}
+		return moveList;
 	}
 
+	public static void addToKnockedOutGrid(Piece piece) {
+		switch (piece.getColor()) {
+		case WHITE:
+			GameController.addKnockedOutPiece(piece, PlayerController.getGame().getWhitePiecesOutBoard().getGrid(),
+					PlayerController.getGame().getWhitePiecesOutBoard());
+			break;
+		case BLACK:
+			GameController.addKnockedOutPiece(piece, PlayerController.getGame().getBlackPiecesOutBoard().getGrid(),
+					PlayerController.getGame().getBlackPiecesOutBoard());
+			break;
+		default:
+		}
+
+	}
 }

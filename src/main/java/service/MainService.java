@@ -3,37 +3,22 @@ package service;
 import controller.BackgroundMusicPlayer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Board;
-import model.Color;
-import model.Game;
-
 
 public class MainService extends Application {
 
+	// TODO
+	// coinflip to choose colors
+	// Rokāde
+	// enemy check(parāda ekrāna vidū)
+	// enemy check mate(beidzas spēle)
+	// pawn promotion
 
-	private static Game game;
-
-	public static Game getGame() {
-		return game;
-	}
-
-	private static Board boardInstance;
-
-	public static Board getBoard() {
-		return boardInstance;
-	}
+	public static double mainImageSize = 93.75;
 
 	public static void main(String[] args) {
-		Board board = new Board();
-		board.placeInitialPieces();
-		boardInstance = board;
-		// vajadzēs pārlikt(game objektu izveido tikai kad sāk spēli)
-		Game newGame = new Game();
-		newGame.setMove(Color.WHITE);
-		game = newGame;
 		launch(args);
 	}
 

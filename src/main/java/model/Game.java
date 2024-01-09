@@ -5,8 +5,18 @@ public class Game {
 	private Player player1;
 	private Player player2;
 	private Board board;
+	private Board whitePiecesOutBoard;
+	private Board blackPiecesOutBoard;
 	private Tile fromTile;
 	private Color move; // which players move it is - White or Black
+	private GameState gameState;
+
+	public Game(Board board, Board whitePiecesOutBoard, Board blackPiecesOutBoard, Color move) {
+		this.board = board;
+		this.whitePiecesOutBoard = whitePiecesOutBoard;
+		this.blackPiecesOutBoard = blackPiecesOutBoard;
+		this.move = move;
+	}
 
 	public Tile getFromTile() {
 		return fromTile;
@@ -46,6 +56,30 @@ public class Game {
 
 	public void setMove(Color move) {
 		this.move = move;
+	}
+
+	public Board getWhitePiecesOutBoard() {
+		return whitePiecesOutBoard;
+	}
+
+	public void setWhitePiecesOutBoard(Board whitePiecesOutBoard) {
+		this.whitePiecesOutBoard = whitePiecesOutBoard;
+	}
+
+	public Board getBlackPiecesOutBoard() {
+		return blackPiecesOutBoard;
+	}
+
+	public void setBlackPiecesOutBoard(Board blackPiecesOutBoard) {
+		this.blackPiecesOutBoard = blackPiecesOutBoard;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
 
 }
