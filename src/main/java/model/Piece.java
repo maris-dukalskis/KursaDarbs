@@ -2,32 +2,24 @@ package model;
 
 public class Piece {
 
-	// variables
 	private Color color;
 	private PieceType type;
-	private boolean isInPlay;
+	private boolean hasMoved;
 
-	// Konstruktors
-	public Piece(Color inputColor, PieceType inputType, boolean inputIsInPlay) {
+	public Piece(Color inputColor, PieceType inputType) {
 		setColor(inputColor);
 		setType(inputType);
-		setIsInPlay(inputIsInPlay);
+		setHasMoved(false);
 	}
 
-	// getteri
 	public Color getColor() {
 		return color;
 	}
 
-	public PieceType getPieceType() {
+	public PieceType getType() {
 		return type;
 	}
 
-	public boolean getIsInPlay() {
-		return isInPlay;
-	}
-
-	// setteri
 	public void setColor(Color inputColor) {
 		if (inputColor != null) {
 			color = inputColor;
@@ -44,8 +36,17 @@ public class Piece {
 		}
 	}
 
-	public void setIsInPlay(boolean inputIsInPlay) {
-		isInPlay = inputIsInPlay;
+	public boolean hasMoved() {
+		return hasMoved;
+	}
+
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
+	}
+
+	@Override
+	public String toString() {
+		return "Piece [color=" + color + ", type=" + type + "]";
 	}
 
 }
