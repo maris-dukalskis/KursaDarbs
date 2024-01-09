@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -12,9 +14,11 @@ import javafx.scene.layout.VBox;
 import model.Board;
 import model.Color;
 import model.Game;
-import model.Moves;
+import model.Move;
+import model.GameLogic;
 import model.Piece;
 import model.Tile;
+import service.MainService;
 
 public class GameController {
 
@@ -22,12 +26,6 @@ public class GameController {
 
 	public static Game getGame() {
 		return gameInstance;
-	}
-
-	private static Board boardInstance;
-
-	public static Board getBoard() {
-		return boardInstance;
 	}
 
 	@FXML
@@ -60,13 +58,11 @@ public class GameController {
 	@FXML
 	public void initialize() {
 
-		Board mainBoard = new Board(8, 8);
+		Board mainBoard = new Board(8, 8, mainGrid);
 		mainBoard.placeInitialPieces();
-		boardInstance = mainBoard;
-		Board whitePiecesOutBoard = new Board(3, 5);
-		Board blackPiecesOutBoard = new Board(3, 5);
-		Game newGame = new Game(mainGrid, whitePiecesOut, blackPiecesOut, mainBoard, whitePiecesOutBoard,
-				blackPiecesOutBoard, Color.WHITE);
+		Board whitePiecesOutBoard = new Board(3, 5, whitePiecesOut);
+		Board blackPiecesOutBoard = new Board(3, 5, blackPiecesOut);
+		Game newGame = new Game(mainBoard, whitePiecesOutBoard, blackPiecesOutBoard, Color.WHITE);
 		gameInstance = newGame;
 
 		generateGraphicalGrid();
@@ -93,8 +89,9 @@ public class GameController {
 	public static void generateGraphicalGrid() {
 		for (byte i = 0; i <= 7; i++) {
 			for (byte j = 0; j <= 7; j++) {
-				Tile tile = getBoard().getTile((byte) i, (byte) j);
-				generateAndSetImage(tile, i, j, getGame().getMainGrid(), true, 93.75, 93.75);
+				Tile tile = getGame().getBoard().getTile((byte) i, (byte) j);
+				generateAndSetImage(tile, i, j, getGame().getBoard().getGrid(), true, MainService.mainImageSize,
+						MainService.mainImageSize);
 			}
 		}
 	}
@@ -118,10 +115,8 @@ public class GameController {
 		String imageString = "";
 
 		if (tile.getPiece() != null) {
-			String pieceColor = tile.getPiece().getColor().name().toLowerCase();
-			imageString += pieceColor + "_";
-			String pieceType = tile.getPiece().getPieceType().name().toLowerCase();
-			imageString += pieceType + "_on";
+			imageString += tile.getPiece().getColor().name().toLowerCase() + "_"
+					+ tile.getPiece().getType().name().toLowerCase() + "_on";
 		}
 		String tileColor = "";
 		if (((i + j) % 2) == 0) {
@@ -148,11 +143,42 @@ public class GameController {
 		 */
 		if (setClickEvent) {
 			imageView.setOnMouseClicked(event -> {
-				Moves.processClickedTile(tile);
+				GameLogic.processClickedTile(tile);
 			});
 		}
 
 		// viņš sākumā ņem column pēctam row(mums board ir row un tad column)
 		grid.add(imageView, j, i);
+	}
+
+	public static void displayValidMoves(Tile clickedTile) {
+		List<Move> moveList = GameLogic.generateAllMovesForColor(clickedTile.getPiece().getColor(), true);
+		for (Move move : moveList) {
+			Tile fromTile = move.getFromTile();
+			if (!fromTile.equals(clickedTile)) {
+				continue;
+			}
+			Tile toTile = move.getToTile();
+			int i = toTile.getRow();
+			int j = toTile.getColumn();
+			String imageString = "";
+			Piece piece = toTile.getPiece();
+			if (piece == null) {
+				if (((i + j) % 2) == 0) {
+					imageString = "Green.jpg";
+				} else {
+					imageString = "Dark_Green.jpg";
+				}
+			} else {
+				imageString += piece.getColor().name().toLowerCase() + "_" + piece.getType().name().toLowerCase();
+				if (piece.getColor() == clickedTile.getPiece().getColor()) {
+					imageString += "_onGreen.jpg";
+				} else {
+					imageString += "_onRed.jpg";
+				}
+			}
+			GameController.setImage(toTile, imageString, i, j, GameController.getGame().getBoard().getGrid(), true,
+					MainService.mainImageSize, MainService.mainImageSize);
+		}
 	}
 }

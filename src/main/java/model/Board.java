@@ -3,12 +3,25 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
-	private Tile[][] board = null;
+import javafx.scene.layout.GridPane;
 
-	public Board(int row, int column) {
+public class Board {
+
+	private Tile[][] board = null;
+	private GridPane grid;
+
+	public Board(int row, int column, GridPane inputGrid) {
 		board = new Tile[row][column];
+		this.grid = inputGrid;
 		initializeTiles(row, column);
+	}
+
+	public GridPane getGrid() {
+		return grid;
+	}
+
+	public void setGrid(GridPane grid) {
+		this.grid = grid;
 	}
 
 	private void initializeTiles(int row, int column) {
@@ -72,8 +85,8 @@ public class Board {
 				if (piece == null) {
 					System.out.print("      ");
 				} else {
-					System.out.print(piece.getColor().name().charAt(0) + "" + piece.getPieceType().name().charAt(0)
-							+ "(" + i + j + ")");
+					System.out.print(piece.getColor().name().charAt(0) + "" + piece.getType().name().charAt(0) + "(" + i
+							+ j + ")");
 				}
 				System.out.print(" ");
 			}
@@ -94,7 +107,7 @@ public class Board {
 			for (int j = 0; j <= 7; j++) {
 				Tile tile = board[i][j];
 				Piece piece = tile.getPiece();
-				if (piece != null && piece.getPieceType() == type && piece.getColor() == color) {
+				if (piece != null && piece.getType() == type && piece.getColor() == color) {
 					return tile;
 				}
 			}
@@ -102,7 +115,7 @@ public class Board {
 		return null;
 	}
 
-	public List<Tile> getAllTilesByColor(Color color) {
+	public List<Tile> getAllPieceTilesByColor(Color color) {
 		List<Tile> oneColorTiles = new ArrayList<>();
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
@@ -120,8 +133,8 @@ public class Board {
 		return this.board;
 	}
 
-	public Board clone(int row, int column) {
-		Board board = new Board(row, column);
+	public Board clone(int row, int column, GridPane grid) {
+		Board board = new Board(row, column, grid);
 		for (int i = 0; i <= row - 1; i++) {
 			for (int j = 0; j <= column - 1; j++) {
 				board.getBoard()[i][j] = this.board[i][j].clone();

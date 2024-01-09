@@ -14,6 +14,8 @@ public class MainService extends Application {
 	// enemy check(parāda ekrāna vidū)
 	// enemy check mate(beidzas spēle)
 	// pawn promotion
+	
+	public static double mainImageSize = 93.75;
 
 	public static void main(String[] args) {
 		launch(args);
