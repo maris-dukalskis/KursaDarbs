@@ -8,7 +8,7 @@ import service.MainService;
 
 public class GameLogic {
 
-	public static Move getValidMove(Board board, Tile fromTile, Tile toTile) {
+	public static Move getValidMove(Tile fromTile, Tile toTile) {
 		if (fromTile.equals(toTile)) {
 			return null;
 		}
@@ -35,7 +35,7 @@ public class GameLogic {
 			if (GameController.getGame().getGameState() != GameState.CHECK
 					&& fromTile.getPiece().getType() == PieceType.KING && toTile.getPiece().getType() == PieceType.ROOK
 					&& !fromTile.getPiece().hasMoved() && !toTile.getPiece().hasMoved()) {
-				move = isCastlingMoveValid(toTile, fromTile, differenceColumn, board);
+				move = isCastlingMoveValid(toTile, fromTile, differenceColumn);
 				if (!move) {
 					return null;
 				}
@@ -46,22 +46,22 @@ public class GameLogic {
 
 		switch (fromTile.getPiece().getType()) {
 		case PAWN:
-			move = isPawnMoveValid(board, fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
+			move = isPawnMoveValid(fromColumn, fromRow, toColumn, toRow, differenceColumn, fromPieceColor);
 			break;
 		case BISHOP:
-			move = isBishopMoveValid(board, differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn,
-					fromTile, toTile);
+			move = isBishopMoveValid(differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn, fromTile,
+					toTile);
 			break;
 		case KNIGHT:
 			move = isKnightMoveValid(differenceRow, differenceColumn);
 			break;
 		case ROOK:
-			move = isRookMoveValid(board, fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow,
-					fromTile, toTile);
+			move = isRookMoveValid(fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile,
+					toTile);
 			break;
 		case QUEEN:
-			move = isQueenMoveValid(board, fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow,
-					fromTile, toTile);
+			move = isQueenMoveValid(fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile,
+					toTile);
 			break;
 		case KING:
 			move = isKingMoveValid(differenceRow, differenceColumn);
@@ -74,9 +74,9 @@ public class GameLogic {
 		return new Move(fromTile, toTile, false);
 	}
 
-	public static boolean isPawnMoveValid(Board board, byte fromColumn, byte fromRow, byte toColumn, byte toRow,
+	public static boolean isPawnMoveValid(byte fromColumn, byte fromRow, byte toColumn, byte toRow,
 			byte differenceColumn, Color pieceColor) {
-
+		Board board = GameController.getGame().getBoard();
 		// black - 2. rinda(1. index) from-To = negativs
 		// white - 7. rinda(6. index) from-To = pozitivs
 
@@ -152,9 +152,9 @@ public class GameLogic {
 		return isAllowedToMove;
 	}
 
-	public static boolean isBishopMoveValid(Board board, byte differenceRow, byte differenceColumn, byte fromRow,
-			byte fromColumn, byte toRow, byte toColumn, Tile fromTile, Tile toTile) {
-
+	public static boolean isBishopMoveValid(byte differenceRow, byte differenceColumn, byte fromRow, byte fromColumn,
+			byte toRow, byte toColumn, Tile fromTile, Tile toTile) {
+		Board board = GameController.getGame().getBoard();
 		if (differenceRow != differenceColumn) {
 			return false; // Nav diagonāla kustība
 		}
@@ -182,8 +182,9 @@ public class GameLogic {
 		return false;
 	}
 
-	public static boolean isRookMoveValid(Board board, byte fromRow, byte fromColumn, byte toRow, byte toColumn,
+	public static boolean isRookMoveValid(byte fromRow, byte fromColumn, byte toRow, byte toColumn,
 			byte differenceColumn, byte differenceRow, Tile fromTile, Tile toTile) {
+		Board board = GameController.getGame().getBoard();
 		if ((fromRow == toRow && fromColumn != toColumn) || (fromRow != toRow && fromColumn == toColumn)) {
 
 			int columnDirection = getDirection(fromColumn, toColumn);
@@ -220,12 +221,11 @@ public class GameLogic {
 		return 0; // nekustās
 	}
 
-	public static boolean isQueenMoveValid(Board board, byte fromRow, byte fromColumn, byte toRow, byte toColumn,
+	public static boolean isQueenMoveValid(byte fromRow, byte fromColumn, byte toRow, byte toColumn,
 			byte differenceColumn, byte differenceRow, Tile fromTile, Tile toTile) {
-		if (isRookMoveValid(board, fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile,
-				toTile)
-				|| isBishopMoveValid(board, differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn,
-						fromTile, toTile)) {
+		if (isRookMoveValid(fromRow, fromColumn, toRow, toColumn, differenceColumn, differenceRow, fromTile, toTile)
+				|| isBishopMoveValid(differenceRow, differenceColumn, fromRow, fromColumn, toRow, toColumn, fromTile,
+						toTile)) {
 			return true;
 		}
 		return false;
@@ -239,7 +239,8 @@ public class GameLogic {
 		return false;
 	}
 
-	public static boolean isCastlingMoveValid(Tile kingTile, Tile rookTile, byte differenceColumn, Board board) {
+	public static boolean isCastlingMoveValid(Tile kingTile, Tile rookTile, byte differenceColumn) {
+		Board board = GameController.getGame().getBoard();
 		int direction = getDirection(kingTile.getColumn(), rookTile.getColumn());
 		for (int i = 1; i < differenceColumn; i++) {
 			byte checkColumn = (byte) (kingTile.getColumn() + i * direction);
@@ -345,7 +346,7 @@ public class GameLogic {
 			for (byte i = 0; i <= 7; i++) {
 				for (byte j = 0; j <= 7; j++) {
 					Tile toTile = GameController.getGame().getBoard().getTile(i, j);
-					Move move = getValidMove(GameController.getGame().getBoard(), pieceTile, toTile);
+					Move move = getValidMove(pieceTile, toTile);
 					if (move == null) {
 						continue;
 					}
