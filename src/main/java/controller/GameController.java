@@ -12,21 +12,15 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import model.Board;
-import model.Color;
 import model.Game;
-import model.Move;
 import model.GameLogic;
+import model.Move;
 import model.Piece;
+import model.Player;
 import model.Tile;
 import service.MainService;
 
 public class GameController {
-
-	private static Game gameInstance;
-
-	public static Game getGame() {
-		return gameInstance;
-	}
 
 	@FXML
 	private GridPane mainGrid;
@@ -58,12 +52,13 @@ public class GameController {
 	@FXML
 	public void initialize() {
 
-		Board mainBoard = new Board(8, 8, mainGrid);
-		mainBoard.placeInitialPieces();
-		Board whitePiecesOutBoard = new Board(3, 5, whitePiecesOut);
-		Board blackPiecesOutBoard = new Board(3, 5, blackPiecesOut);
-		Game newGame = new Game(mainBoard, whitePiecesOutBoard, blackPiecesOutBoard, Color.WHITE);
-		gameInstance = newGame;
+		Game game = PlayerController.getGame();
+
+		game.getBoard().setGrid(mainGrid);
+		game.getWhitePiecesOutBoard().setGrid(whitePiecesOut);
+		game.getBlackPiecesOutBoard().setGrid(blackPiecesOut);
+		Player player1 = game.getPlayer1();
+		Player player2 = game.getPlayer2();
 
 		generateGraphicalGrid();
 
@@ -73,8 +68,8 @@ public class GameController {
 		vboxWhite.setBorder(border);
 		vboxBlack.setBorder(border);
 
-		whitePlayerLabel.setText("Player1 ");
-		blackPlayerLabel.setText("Player2 ");
+		whitePlayerLabel.setText(player1.getName());
+		blackPlayerLabel.setText(player2.getName());
 
 		/*
 		 * pagaidām laiks ir tikai skatam, pēctam būs jāpievieno īsts timeris
@@ -89,9 +84,9 @@ public class GameController {
 	public static void generateGraphicalGrid() {
 		for (byte i = 0; i <= 7; i++) {
 			for (byte j = 0; j <= 7; j++) {
-				Tile tile = getGame().getBoard().getTile((byte) i, (byte) j);
-				generateAndSetImage(tile, i, j, getGame().getBoard().getGrid(), true, MainService.mainImageSize,
-						MainService.mainImageSize);
+				Tile tile = PlayerController.getGame().getBoard().getTile((byte) i, (byte) j);
+				generateAndSetImage(tile, i, j, PlayerController.getGame().getBoard().getGrid(), true,
+						MainService.mainImageSize, MainService.mainImageSize);
 			}
 		}
 	}
@@ -177,7 +172,7 @@ public class GameController {
 					imageString += "_onRed.jpg";
 				}
 			}
-			GameController.setImage(toTile, imageString, i, j, GameController.getGame().getBoard().getGrid(), true,
+			GameController.setImage(toTile, imageString, i, j, PlayerController.getGame().getBoard().getGrid(), true,
 					MainService.mainImageSize, MainService.mainImageSize);
 		}
 	}

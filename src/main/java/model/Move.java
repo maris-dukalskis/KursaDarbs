@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameController;
+import controller.PlayerController;
 
 public class Move {
 
@@ -49,8 +49,8 @@ public class Move {
 		int toRookColumn = (toTile.getColumn() == 7) ? 5 : 3;
 		int toKingColumn = (toRookColumn == 5) ? 6 : 2;
 
-		Tile toRookTile = GameController.getGame().getBoard().getTile(fromTile.getRow(), (byte) toRookColumn);
-		Tile toKingTile = GameController.getGame().getBoard().getTile(fromTile.getRow(), (byte) toKingColumn);
+		Tile toRookTile = PlayerController.getGame().getBoard().getTile(fromTile.getRow(), (byte) toRookColumn);
+		Tile toKingTile = PlayerController.getGame().getBoard().getTile(fromTile.getRow(), (byte) toKingColumn);
 
 		toRookTile.setPiece(toTile.getPiece());
 		toKingTile.setPiece(fromTile.getPiece());
@@ -64,9 +64,9 @@ public class Move {
 			int currentRookColumn = (clone.getToTile().getColumn() == 7) ? 5 : 3;
 			int currentKingColumn = (currentRookColumn == 5) ? 6 : 2;
 
-			Tile currentRookTile = GameController.getGame().getBoard().getTile(clone.getFromTile().getRow(),
+			Tile currentRookTile = PlayerController.getGame().getBoard().getTile(clone.getFromTile().getRow(),
 					(byte) currentRookColumn);
-			Tile currentKingTile = GameController.getGame().getBoard().getTile(clone.getFromTile().getRow(),
+			Tile currentKingTile = PlayerController.getGame().getBoard().getTile(clone.getFromTile().getRow(),
 					(byte) currentKingColumn);
 			currentRookTile.setPiece(null);
 			currentKingTile.setPiece(null);

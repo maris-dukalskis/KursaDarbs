@@ -44,6 +44,8 @@
                <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="250.0">
                   <children>
                      <Label fx:id="whitePlayerLabel" text="Label" />
+                     <Label text="Label" visible="false" />
+                     <Label />
                      <Label fx:id="timerWhiteLabel" text="Label" />
                   </children>
                </HBox>
@@ -69,6 +71,8 @@
                <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="250.0">
                   <children>
                      <Label fx:id="blackPlayerLabel" text="Label" />
+                     <Label text="Label" visible="false" />
+                     <Label />
                      <Label fx:id="timerBlackLabel" text="Label" />
                   </children>
                </HBox>

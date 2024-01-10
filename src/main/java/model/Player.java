@@ -15,10 +15,10 @@ public class Player {
 	}
 
 	public void setName(String name) {
-		if (name != null && name.matches("[A-Z]{1}[a-z]+")) {
+		if (name != null) {
 			this.name = name;
 		} else {
-			this.name = "Invalid name";
+			this.name = "Player";
 		}
 	}
 

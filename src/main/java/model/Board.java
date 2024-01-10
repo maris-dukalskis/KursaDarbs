@@ -10,9 +10,8 @@ public class Board {
 	private Tile[][] board = null;
 	private GridPane grid;
 
-	public Board(int row, int column, GridPane inputGrid) {
+	public Board(int row, int column) {
 		board = new Tile[row][column];
-		this.grid = inputGrid;
 		initializeTiles(row, column);
 	}
 
@@ -133,8 +132,8 @@ public class Board {
 		return this.board;
 	}
 
-	public Board clone(int row, int column, GridPane grid) {
-		Board board = new Board(row, column, grid);
+	public Board clone(int row, int column) {
+		Board board = new Board(row, column);
 		for (int i = 0; i <= row - 1; i++) {
 			for (int j = 0; j <= column - 1; j++) {
 				board.getBoard()[i][j] = this.board[i][j].clone();

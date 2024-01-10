@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.GameController;
+import controller.PlayerController;
 import service.MainService;
 
 public class GameLogic {
@@ -32,7 +33,7 @@ public class GameLogic {
 		byte differenceColumn = (byte) Math.abs(toColumn - fromColumn);
 
 		if (toPieceColor != null && fromPieceColor.equals(toPieceColor)) {
-			if (GameController.getGame().getGameState() != GameState.CHECK
+			if (PlayerController.getGame().getGameState() != GameState.CHECK
 					&& fromTile.getPiece().getType() == PieceType.KING && toTile.getPiece().getType() == PieceType.ROOK
 					&& !fromTile.getPiece().hasMoved() && !toTile.getPiece().hasMoved()) {
 				move = isCastlingMoveValid(toTile, fromTile, differenceColumn);
@@ -76,7 +77,7 @@ public class GameLogic {
 
 	public static boolean isPawnMoveValid(byte fromColumn, byte fromRow, byte toColumn, byte toRow,
 			byte differenceColumn, Color pieceColor) {
-		Board board = GameController.getGame().getBoard();
+		Board board = PlayerController.getGame().getBoard();
 		// black - 2. rinda(1. index) from-To = negativs
 		// white - 7. rinda(6. index) from-To = pozitivs
 
@@ -154,7 +155,7 @@ public class GameLogic {
 
 	public static boolean isBishopMoveValid(byte differenceRow, byte differenceColumn, byte fromRow, byte fromColumn,
 			byte toRow, byte toColumn, Tile fromTile, Tile toTile) {
-		Board board = GameController.getGame().getBoard();
+		Board board = PlayerController.getGame().getBoard();
 		if (differenceRow != differenceColumn) {
 			return false; // Nav diagonāla kustība
 		}
@@ -184,7 +185,7 @@ public class GameLogic {
 
 	public static boolean isRookMoveValid(byte fromRow, byte fromColumn, byte toRow, byte toColumn,
 			byte differenceColumn, byte differenceRow, Tile fromTile, Tile toTile) {
-		Board board = GameController.getGame().getBoard();
+		Board board = PlayerController.getGame().getBoard();
 		if ((fromRow == toRow && fromColumn != toColumn) || (fromRow != toRow && fromColumn == toColumn)) {
 
 			int columnDirection = getDirection(fromColumn, toColumn);
@@ -240,7 +241,7 @@ public class GameLogic {
 	}
 
 	public static boolean isCastlingMoveValid(Tile kingTile, Tile rookTile, byte differenceColumn) {
-		Board board = GameController.getGame().getBoard();
+		Board board = PlayerController.getGame().getBoard();
 		int direction = getDirection(kingTile.getColumn(), rookTile.getColumn());
 		for (int i = 1; i < differenceColumn; i++) {
 			byte checkColumn = (byte) (kingTile.getColumn() + i * direction);
@@ -252,7 +253,7 @@ public class GameLogic {
 	}
 
 	public static void processClickedTile(Tile lastClicked) {
-		Game game = GameController.getGame();
+		Game game = PlayerController.getGame();
 		/*
 		 * vai tas ir pirmais uzspiestais tile(no kura kustās)
 		 */
@@ -263,7 +264,7 @@ public class GameLogic {
 				String imageString = lastClicked.getPiece().getColor().name().toLowerCase() + "_"
 						+ lastClicked.getPiece().getType().name().toLowerCase() + "_onYellow.jpg";
 				GameController.setImage(lastClicked, imageString, lastClicked.getRow(), lastClicked.getColumn(),
-						GameController.getGame().getBoard().getGrid(), true, MainService.mainImageSize,
+						PlayerController.getGame().getBoard().getGrid(), true, MainService.mainImageSize,
 						MainService.mainImageSize);
 			}
 			return;
@@ -327,7 +328,7 @@ public class GameLogic {
 	}
 
 	public static boolean isKingInCheck(Color color) {
-		Tile kingTile = GameController.getGame().getBoard().getTileByTypeAndColor(PieceType.KING, color);
+		Tile kingTile = PlayerController.getGame().getBoard().getTileByTypeAndColor(PieceType.KING, color);
 		List<Move> moveList = generateAllMovesForColor(kingTile.getPiece().getColor().opposite(), false);
 		for (Move move : moveList) {
 			if (move.getToTile().getRow() == kingTile.getRow()
@@ -341,11 +342,11 @@ public class GameLogic {
 	public static List<Move> generateAllMovesForColor(Color color, boolean selfCheck) {
 		List<Move> moveList = new ArrayList<>();
 		List<Tile> pieceList = new ArrayList<>();
-		pieceList.addAll(GameController.getGame().getBoard().getAllPieceTilesByColor(color));
+		pieceList.addAll(PlayerController.getGame().getBoard().getAllPieceTilesByColor(color));
 		for (Tile pieceTile : pieceList) {
 			for (byte i = 0; i <= 7; i++) {
 				for (byte j = 0; j <= 7; j++) {
-					Tile toTile = GameController.getGame().getBoard().getTile(i, j);
+					Tile toTile = PlayerController.getGame().getBoard().getTile(i, j);
 					Move move = getValidMove(pieceTile, toTile);
 					if (move == null) {
 						continue;
@@ -375,12 +376,12 @@ public class GameLogic {
 	public static void addToKnockedOutGrid(Piece piece) {
 		switch (piece.getColor()) {
 		case WHITE:
-			GameController.addKnockedOutPiece(piece, GameController.getGame().getWhitePiecesOutBoard().getGrid(),
-					GameController.getGame().getWhitePiecesOutBoard());
+			GameController.addKnockedOutPiece(piece, PlayerController.getGame().getWhitePiecesOutBoard().getGrid(),
+					PlayerController.getGame().getWhitePiecesOutBoard());
 			break;
 		case BLACK:
-			GameController.addKnockedOutPiece(piece, GameController.getGame().getBlackPiecesOutBoard().getGrid(),
-					GameController.getGame().getBlackPiecesOutBoard());
+			GameController.addKnockedOutPiece(piece, PlayerController.getGame().getBlackPiecesOutBoard().getGrid(),
+					PlayerController.getGame().getBlackPiecesOutBoard());
 			break;
 		default:
 		}
