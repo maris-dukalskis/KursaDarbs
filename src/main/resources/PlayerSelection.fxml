@@ -54,43 +54,35 @@
                         <Image url="@/images/background.jpg" />
                      </image>
                   </ImageView>
-                  <Button fx:id="game_start_button" layoutX="435.0" layoutY="375.0" mnemonicParsing="false" onAction="#startGame" opacity="0.75" prefHeight="94.0" prefWidth="215.0" text="Start" textAlignment="CENTER">
+                  <Button fx:id="game_start_button" layoutX="418.0" layoutY="512.0" mnemonicParsing="false" onAction="#startGame" opacity="0.75" prefHeight="94.0" prefWidth="215.0" text="Start" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font>
                   </Button>
-                  <TextField fx:id="player1_input_text" layoutX="159.0" layoutY="52.0" opacity="0.75" prefHeight="25.0" prefWidth="150.0" />
-                  <TextField fx:id="player2_input_text" layoutX="835.0" layoutY="52.0" opacity="0.75" prefHeight="25.0" prefWidth="150.0" />
-                  <Label cache="true" layoutX="68.0" layoutY="54.0" prefHeight="17.0" prefWidth="58.0" text="Player 1:" textFill="#f5f5f5">
+                  <TextField fx:id="player1_input_text" layoutX="156.0" layoutY="119.0" opacity="0.75" prefHeight="25.0" prefWidth="150.0" />
+                  <TextField fx:id="player2_input_text" layoutX="835.0" layoutY="119.0" opacity="0.75" prefHeight="25.0" prefWidth="150.0" />
+                  <Label cache="true" layoutX="65.0" layoutY="121.0" prefHeight="17.0" prefWidth="58.0" text="Player 1:" textFill="#f5f5f5">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label cache="true" layoutX="725.0" layoutY="54.0" prefHeight="17.0" prefWidth="58.0" text="Player 2:" textFill="WHITE">
+                  <Label cache="true" layoutX="726.0" layoutY="121.0" prefHeight="17.0" prefWidth="58.0" text="Player 2:" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label cache="true" layoutX="726.0" layoutY="96.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="WHITE">
+                  <Label cache="true" layoutX="726.0" layoutY="163.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="player2StartColor" layoutX="835.0" layoutY="94.0" prefWidth="150.0" />
-                  <Label cache="true" layoutX="68.0" layoutY="96.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="#f5f5f5">
+                  <ChoiceBox fx:id="player2StartColor" layoutX="835.0" layoutY="161.0" prefWidth="150.0" />
+                  <Label cache="true" layoutX="65.0" layoutY="163.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="#f5f5f5">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="player1StartColor" layoutX="159.0" layoutY="94.0" prefWidth="150.0" />
-                  <Label fx:id="label1" layoutX="26.0" layoutY="131.0" prefHeight="44.0" prefWidth="368.0" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-                  <Label fx:id="label2" layoutX="666.0" layoutY="131.0" prefHeight="44.0" prefWidth="370.0" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
+                  <ChoiceBox fx:id="player1StartColor" layoutX="156.0" layoutY="161.0" prefWidth="150.0" />
             </children>
           </AnchorPane>
         </children>
