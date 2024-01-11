@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -45,6 +46,9 @@ public class GameController {
 
 	@FXML
 	private GridPane blackPiecesOut;
+	
+	@FXML
+    private Slider volumeSlider;
 
 	@FXML
 	public void initialize() {
@@ -79,6 +83,11 @@ public class GameController {
 
 		whitePiecesOut.setBorder(border);
 		blackPiecesOut.setBorder(border);
+		//skaņas regulēšana
+		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {         
+            double volume = newValue.doubleValue();
+            BackgroundMusicPlayer.setVolume(volume);
+        });
 	}
 	public static void popUps(GameState gameState){
 		// izvedo popup ziņas programmā
