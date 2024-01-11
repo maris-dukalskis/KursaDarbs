@@ -107,21 +107,21 @@ public class GameController {
 	public static void popUps(GameState gameState) {
 		// izvedo popup ziņas programmā
 		if (gameState.equals(GameState.CHECK)) {
-			Alert checkAlert = new Alert(Alert.AlertType.WARNING);
+			Alert checkAlert = new Alert(Alert.AlertType.INFORMATION);
 			checkAlert.setTitle("Check");
-			checkAlert.setContentText("CHECK");
+			checkAlert.setHeaderText("CHECK");
 			checkAlert.showAndWait();
 		}
 		if (gameState.equals(GameState.CHECK_MATE)) {
-			Alert checkMateAlert = new Alert(Alert.AlertType.ERROR);
+			Alert checkMateAlert = new Alert(Alert.AlertType.INFORMATION);
 			checkMateAlert.setTitle("Check mate");
-			checkMateAlert.setContentText("CHECK MATE");
+			checkMateAlert.setHeaderText("CHECK MATE");
 			checkMateAlert.showAndWait();
 		}
 		if (gameState.equals(GameState.DRAW)) {
 			Alert drawAlert = new Alert(Alert.AlertType.NONE);
 			drawAlert.setTitle("Draw");
-			drawAlert.setContentText("DRAW");
+			drawAlert.setHeaderText("DRAW");
 			// drawAlert.setGraphic(new
 			// ImageView(this.getClass().getResource("Draw.png").toString()));
 			drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
