@@ -3,6 +3,8 @@ package controller;
 import java.util.List;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,14 +13,9 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import model.Board;
-import model.Game;
-import model.GameLogic;
-import model.Move;
-import model.Piece;
-import model.Player;
-import model.Tile;
+import model.*;
 import service.MainService;
+import model.Game;
 
 public class GameController {
 
@@ -72,15 +69,50 @@ public class GameController {
 		blackPlayerLabel.setText(player2.getName());
 
 		/*
-		 * pagaidām laiks ir tikai skatam, pēctam būs jāpievieno īsts timeris
+		 * TODO
 		 */
-		timerWhiteLabel.setText("60:00");
-		timerBlackLabel.setText("60:00");
+		int counterForPlayer1  = 3600000;
+		int counterForPlayer2 = 3600000;
+		// parveidot uz pulkstena laiku
+		timerWhiteLabel.setText(String.valueOf(counterForPlayer1/600));
+		timerBlackLabel.setText(String.valueOf(counterForPlayer2/600));
 
 		whitePiecesOut.setBorder(border);
 		blackPiecesOut.setBorder(border);
 	}
+	public static void popUps(GameState gameState){
+		// izvedo popup ziņas programmā
+			if(gameState.equals(GameState.CHECK)){
+				Alert checkAlert = new Alert(Alert.AlertType.WARNING);
+				checkAlert.setTitle("Check");
+				checkAlert.setContentText("CHECK");
+				checkAlert.showAndWait();
+			}
+			if(gameState.equals(GameState.CHECK_MATE)){
+				Alert checkMateAlert = new Alert(Alert.AlertType.ERROR);
+				checkMateAlert.setTitle("Check mate");
+				checkMateAlert.setContentText("CHECK MATE");
+				checkMateAlert.showAndWait();
+			}
+			if(gameState.equals(GameState.DRAW)){
+				Alert drawAlert = new Alert(Alert.AlertType.NONE);
+				drawAlert.setTitle("Draw");
+				drawAlert.setContentText("DRAW");
+				//drawAlert.setGraphic(new ImageView(this.getClass().getResource("Draw.png").toString()));
+				drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+				drawAlert.showAndWait();
 
+			}
+
+
+	}
+	
+	public static void timerForPlayer1(){
+		//TODO
+	}
+	public static void timerForPlayer2(){
+		//TODO
+	}
 	public static void generateGraphicalGrid() {
 		for (byte i = 0; i <= 7; i++) {
 			for (byte j = 0; j <= 7; j++) {
@@ -90,7 +122,6 @@ public class GameController {
 			}
 		}
 	}
-
 	public static void addKnockedOutPiece(Piece piece, GridPane grid, Board board) {
 		outer: for (byte i = 0; i <= 2; i++) {
 			for (byte j = 0; j <= 4; j++) {

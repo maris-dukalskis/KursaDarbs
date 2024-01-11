@@ -303,7 +303,7 @@ public class GameLogic {
 		GameState state = getGameState(game.getMove());
 		switch (state) {
 		case CHECK_MATE:
-			System.out.println("Beigas");
+			System.out.println("CHECK MATE");
 			break;
 		case CHECK:
 			System.out.println("CHECK");
@@ -313,6 +313,11 @@ public class GameLogic {
 		default:
 		}
 		game.setGameState(state);
+
+		GameController.popUps(state);
+		//TODO
+//		GameController.timerForPlayer1();
+//		GameController.timerForPlayer2();
 	}
 
 	public static GameState getGameState(Color color) {
