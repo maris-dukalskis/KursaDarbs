@@ -13,8 +13,12 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 public class SceneController{
 	
+	private Stage primaryStage;
 	@FXML
     private ImageView background;
 
@@ -58,13 +62,37 @@ public class SceneController{
     private Label textTime1;
     
     
+    @FXML
+    public void playAgainClick(ActionEvent event) throws IOException {
+ 	   Object source = event.getSource();
+ 	   if (source instanceof Button && ((Button) source).getId().equals("buttonPlayAgain")) {
+ 		   
+ 		 Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
+     	primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+     	primaryStage.setScene(myScene);
+     	primaryStage.show();
+     	primaryStage.setResizable(false);
+     	primaryStage.setTitle("Player selection");  
+ 	   }
+     	
+     	
+     }
     
+    public void exitButtonClick(ActionEvent event) throws IOException {
+ 	   JFrame frame = new JFrame("Exit"); //izveido jaunu logu ar nosaukumu "Exit"(Java Swing komponents)
+ 	   if(JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Exit", 
+ 			   JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)//showConfirmDialog jābūt vienādām ar YES_NO_OPTION
+ 		   //YES_NO_OPTION vienmēr ir vienāds ar sevi
+ 	   {
+ 		   System.exit(0);
+ 	   }
     
     	
    
 	
 	
 	}
+}
 
 
 	
