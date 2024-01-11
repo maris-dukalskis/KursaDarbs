@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.layout.AnchorPane;
+
 public class Game {
 
 	private Player player1;
@@ -7,6 +9,7 @@ public class Game {
 	private Board board;
 	private Board whitePiecesOutBoard;
 	private Board blackPiecesOutBoard;
+	private AnchorPane anchorPane;
 	private Tile fromTile;
 	private Color move; // which players move it is - White or Black
 	private GameState gameState;
@@ -80,6 +83,14 @@ public class Game {
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+
+	public AnchorPane getAnchorPane() {
+		return anchorPane;
+	}
+
+	public void setAnchorPane(AnchorPane anchorPane) {
+		this.anchorPane = anchorPane;
 	}
 
 }

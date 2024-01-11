@@ -289,7 +289,7 @@ public class GameLogic {
 
 		if (!canMove) {
 			game.setFromTile(null);
-			GameController.generateGraphicalGrid();
+			GameController.generateGraphicalGrid(true);
 			return;
 		}
 		if (toPiece != null && !isCastle) {
@@ -298,8 +298,18 @@ public class GameLogic {
 		fromPiece.setHasMoved(true);
 		game.setMove(fromPiece.getColor().opposite());
 		game.setFromTile(null);
-		GameController.generateGraphicalGrid();
+		GameController.generateGraphicalGrid(false);
 
+		if ((lastClicked.getRow() == 0 || lastClicked.getRow() == 7)
+				&& lastClicked.getPiece().getType() == PieceType.PAWN) {
+			GameController.displayPawnPromotion(fromPiece, lastClicked, game);
+			return;
+		}
+		processPostMove(game);
+	}
+
+	public static void processPostMove(Game game) {
+		GameController.generateGraphicalGrid(true);
 		GameState state = getGameState(game.getMove());
 		switch (state) {
 		case CHECK_MATE:
@@ -313,9 +323,8 @@ public class GameLogic {
 		default:
 		}
 		game.setGameState(state);
-
 		GameController.popUps(state);
-		//TODO
+		// TODO
 //		GameController.timerForPlayer1();
 //		GameController.timerForPlayer2();
 	}

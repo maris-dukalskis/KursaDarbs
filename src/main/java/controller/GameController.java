@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -9,16 +10,28 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import model.*;
-import service.MainService;
+import model.Board;
+import model.Color;
 import model.Game;
+import model.GameLogic;
+import model.GameState;
+import model.Move;
+import model.Piece;
+import model.PieceType;
+import model.Player;
+import model.Tile;
+import service.MainService;
 
 public class GameController {
+
+	@FXML
+	private AnchorPane anchorPane;
 
 	@FXML
 	private GridPane mainGrid;
@@ -46,9 +59,9 @@ public class GameController {
 
 	@FXML
 	private GridPane blackPiecesOut;
-	
+
 	@FXML
-    private Slider volumeSlider;
+	private Slider volumeSlider;
 
 	@FXML
 	public void initialize() {
@@ -58,10 +71,11 @@ public class GameController {
 		game.getBoard().setGrid(mainGrid);
 		game.getWhitePiecesOutBoard().setGrid(whitePiecesOut);
 		game.getBlackPiecesOutBoard().setGrid(blackPiecesOut);
+		game.setAnchorPane(anchorPane);
 		Player player1 = game.getPlayer1();
 		Player player2 = game.getPlayer2();
 
-		generateGraphicalGrid();
+		generateGraphicalGrid(true);
 
 		Border border = new Border(
 				new BorderStroke(javafx.scene.paint.Color.BLACK, BorderStrokeStyle.SOLID, null, null));
@@ -75,62 +89,66 @@ public class GameController {
 		/*
 		 * TODO
 		 */
-		int counterForPlayer1  = 3600000;
+		int counterForPlayer1 = 3600000;
 		int counterForPlayer2 = 3600000;
 		// parveidot uz pulkstena laiku
-		timerWhiteLabel.setText(String.valueOf(counterForPlayer1/600));
-		timerBlackLabel.setText(String.valueOf(counterForPlayer2/600));
+		timerWhiteLabel.setText(String.valueOf(counterForPlayer1 / 600));
+		timerBlackLabel.setText(String.valueOf(counterForPlayer2 / 600));
 
 		whitePiecesOut.setBorder(border);
 		blackPiecesOut.setBorder(border);
-		//skaņas regulēšana
-		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {         
-            double volume = newValue.doubleValue();
-            BackgroundMusicPlayer.setVolume(volume);
-        });
+		// skaņas regulēšana
+		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			double volume = newValue.doubleValue();
+			BackgroundMusicPlayer.setVolume(volume);
+		});
 	}
-	public static void popUps(GameState gameState){
+
+	public static void popUps(GameState gameState) {
 		// izvedo popup ziņas programmā
-			if(gameState.equals(GameState.CHECK)){
-				Alert checkAlert = new Alert(Alert.AlertType.WARNING);
-				checkAlert.setTitle("Check");
-				checkAlert.setContentText("CHECK");
-				checkAlert.showAndWait();
-			}
-			if(gameState.equals(GameState.CHECK_MATE)){
-				Alert checkMateAlert = new Alert(Alert.AlertType.ERROR);
-				checkMateAlert.setTitle("Check mate");
-				checkMateAlert.setContentText("CHECK MATE");
-				checkMateAlert.showAndWait();
-			}
-			if(gameState.equals(GameState.DRAW)){
-				Alert drawAlert = new Alert(Alert.AlertType.NONE);
-				drawAlert.setTitle("Draw");
-				drawAlert.setContentText("DRAW");
-				//drawAlert.setGraphic(new ImageView(this.getClass().getResource("Draw.png").toString()));
-				drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-				drawAlert.showAndWait();
+		if (gameState.equals(GameState.CHECK)) {
+			Alert checkAlert = new Alert(Alert.AlertType.WARNING);
+			checkAlert.setTitle("Check");
+			checkAlert.setContentText("CHECK");
+			checkAlert.showAndWait();
+		}
+		if (gameState.equals(GameState.CHECK_MATE)) {
+			Alert checkMateAlert = new Alert(Alert.AlertType.ERROR);
+			checkMateAlert.setTitle("Check mate");
+			checkMateAlert.setContentText("CHECK MATE");
+			checkMateAlert.showAndWait();
+		}
+		if (gameState.equals(GameState.DRAW)) {
+			Alert drawAlert = new Alert(Alert.AlertType.NONE);
+			drawAlert.setTitle("Draw");
+			drawAlert.setContentText("DRAW");
+			// drawAlert.setGraphic(new
+			// ImageView(this.getClass().getResource("Draw.png").toString()));
+			drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+			drawAlert.showAndWait();
 
-			}
-
+		}
 
 	}
-	
-	public static void timerForPlayer1(){
-		//TODO
+
+	public static void timerForPlayer1() {
+		// TODO
 	}
-	public static void timerForPlayer2(){
-		//TODO
+
+	public static void timerForPlayer2() {
+		// TODO
 	}
-	public static void generateGraphicalGrid() {
+
+	public static void generateGraphicalGrid(boolean setClickEvent) {
 		for (byte i = 0; i <= 7; i++) {
 			for (byte j = 0; j <= 7; j++) {
 				Tile tile = PlayerController.getGame().getBoard().getTile((byte) i, (byte) j);
-				generateAndSetImage(tile, i, j, PlayerController.getGame().getBoard().getGrid(), true,
+				generateAndSetImage(tile, i, j, PlayerController.getGame().getBoard().getGrid(), setClickEvent,
 						MainService.mainImageSize, MainService.mainImageSize);
 			}
 		}
 	}
+
 	public static void addKnockedOutPiece(Piece piece, GridPane grid, Board board) {
 		outer: for (byte i = 0; i <= 2; i++) {
 			for (byte j = 0; j <= 4; j++) {
@@ -214,6 +232,42 @@ public class GameController {
 			}
 			GameController.setImage(toTile, imageString, i, j, PlayerController.getGame().getBoard().getGrid(), true,
 					MainService.mainImageSize, MainService.mainImageSize);
+		}
+	}
+
+	public static void displayPawnPromotion(Piece piece, Tile tile, Game game) {
+		Color pieceColor = piece.getColor();
+
+		double tileLength = (PlayerController.getGame().getBoard().getGrid().getWidth() / 8);
+		// ja rinda indeks ir lielāks par 4 tad iedod 4, citādi izvēlni parāda ārpus
+		// scene
+		double rowPosition = tileLength * (tile.getRow() >= 4 ? 4 : tile.getRow());
+		double columnPosition = tileLength * tile.getColumn();
+		List<PieceType> pieceTypes = new ArrayList<>();
+		pieceTypes.add(PieceType.BISHOP);
+		pieceTypes.add(PieceType.QUEEN);
+		pieceTypes.add(PieceType.KNIGHT);
+		pieceTypes.add(PieceType.ROOK);
+		GridPane grid = new GridPane();
+		game.getAnchorPane().getChildren().add(grid);
+		grid.setLayoutX(columnPosition);
+		grid.setLayoutY(rowPosition);
+		for (int i = 0; i < 4; i++) {
+			PieceType type = pieceTypes.get(i);
+			String imageString = pieceColor.name().toLowerCase() + "_" + type.name().toLowerCase() + "_onYellow.jpg";
+			Image image = new Image("/images/" + imageString);
+			ImageView imageView = new ImageView(image);
+			imageView.setFitHeight(MainService.mainImageSize);
+			imageView.setFitWidth(MainService.mainImageSize);
+			imageView.setPreserveRatio(true);
+
+			imageView.setOnMouseClicked(event -> {
+				tile.setPiece(new Piece(pieceColor, type));
+				GameLogic.processPostMove(game);
+				game.getAnchorPane().getChildren().remove(grid);
+			});
+
+			grid.add(imageView, 0, i);
 		}
 	}
 }

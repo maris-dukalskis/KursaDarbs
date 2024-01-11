@@ -32,6 +32,7 @@ public class MainService extends Application {
 		stage.setTitle("Main menu");
 		stage.setScene(scene);
 		stage.show();
+		
 
 	}
 
