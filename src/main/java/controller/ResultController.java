@@ -2,6 +2,7 @@ package controller;
 
 import javafx.event.ActionEvent;
 
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,12 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import model.Player;
 import javafx.scene.Node;
+
+import model.Game;
 
 import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+//import javax.swing.JFrame;
+//import javax.swing.JOptionPane;
 public class ResultController {
 	
 	private Stage primaryStage;
@@ -72,10 +76,22 @@ public class ResultController {
      	primaryStage.show();
      	primaryStage.setResizable(false);
      	primaryStage.setTitle("Player selection");  
- 	   }
-     	
-     	
+ 	   }	
      }
+    
+    @FXML
+	public void initialize() {
+    	
+    	Game game = PlayerController.getGame();
+    	
+    	Player player1 = game.getPlayer1();
+		Player player2 = game.getPlayer2();
+		
+    	labelWinnerName.setText(player1.getName());
+    	labelLoserName.setText(player2.getName());
+    }
+    
+    /* TODO pārveidot
     
     public void exitButtonClick(ActionEvent event) throws IOException {
  	   JFrame frame = new JFrame("Exit"); //izveido jaunu logu ar nosaukumu "Exit"(Java Swing komponents)
@@ -85,12 +101,11 @@ public class ResultController {
  	   {
  		   System.exit(0);
  	   }
-    
-    	
-   
-	
-	
 	}
+    */
+    
+    
+    
 }
 
 
