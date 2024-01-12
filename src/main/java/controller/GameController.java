@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -64,8 +66,14 @@ public class GameController {
 
 	@FXML
 	private Slider volumeSlider;
-	int counterForPlayer1 = 3600000;
-	int counterForPlayer2 = 3600000;
+	int elapsedTime= 0;
+	int seconds = 0;
+	int minutes =0;
+	int hours = 0;
+	boolean started = false;
+	String secondsToString = String.format("%02d",seconds);
+	String minutesToString = String.format("%02d",minutes);
+	String hoursToString = String.format("%02d",hours);
 
 	@FXML
 	public void initialize() {
@@ -94,12 +102,14 @@ public class GameController {
 		 * TODO
 		 */
 
-		// parveidot uz pulkstena laiku
-		//Timer timer = new Timer();
+		elapsedTime = elapsedTime+1000;
+		hours = (elapsedTime/3600000);
+		minutes = (elapsedTime/60000) % 60;
+		seconds = (elapsedTime/1000) % 60;
+		//timer.scheduleAtFixedRate();
 
-
-		timerWhiteLabel.setText(String.valueOf(counterForPlayer1 / 600));
-		timerBlackLabel.setText(String.valueOf(counterForPlayer2 / 600));
+		timerWhiteLabel.setText(String.valueOf(hoursToString+":"+minutesToString+":"+secondsToString));
+		timerBlackLabel.setText(String.valueOf(hoursToString+":"+minutesToString+":"+secondsToString));
 
 		whitePiecesOut.setBorder(border);
 		blackPiecesOut.setBorder(border);
@@ -128,8 +138,7 @@ public class GameController {
 			Alert drawAlert = new Alert(Alert.AlertType.NONE);
 			drawAlert.setTitle("Draw");
 			drawAlert.setHeaderText("DRAW");
-			// drawAlert.setGraphic(new
-			// ImageView(this.getClass().getResource("Draw.png").toString()));
+			// drawAlert.setGraphic(new ImageView(this.getClass().getResource("Draw.png").toString()));
 			drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 			drawAlert.showAndWait();
 
