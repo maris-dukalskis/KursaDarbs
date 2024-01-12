@@ -9,12 +9,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ResultController">
    <children>
       <Accordion fx:id="stage" layoutX="93.0" layoutY="93.0" />
       <ImageView fx:id="background" fitHeight="771.0" fitWidth="1272.0" layoutX="-180.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../Downloads/resultSceneImage.jpg" />
+            <Image url="@/images/resultSceneImage.jpg" />
          </image>
       </ImageView>
       <Rectangle fx:id="winnerSquare" arcHeight="5.0" arcWidth="5.0" fill="#697d643c" height="396.0" layoutX="505.0" layoutY="255.0" stroke="BLACK" strokeType="INSIDE" width="209.0" />

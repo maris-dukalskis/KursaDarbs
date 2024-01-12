@@ -2,6 +2,8 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -62,6 +64,8 @@ public class GameController {
 
 	@FXML
 	private Slider volumeSlider;
+	int counterForPlayer1 = 3600000;
+	int counterForPlayer2 = 3600000;
 
 	@FXML
 	public void initialize() {
@@ -89,9 +93,11 @@ public class GameController {
 		/*
 		 * TODO
 		 */
-		int counterForPlayer1 = 3600000;
-		int counterForPlayer2 = 3600000;
+
 		// parveidot uz pulkstena laiku
+		//Timer timer = new Timer();
+
+
 		timerWhiteLabel.setText(String.valueOf(counterForPlayer1 / 600));
 		timerBlackLabel.setText(String.valueOf(counterForPlayer2 / 600));
 
