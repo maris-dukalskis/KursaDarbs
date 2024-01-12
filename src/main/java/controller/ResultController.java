@@ -47,18 +47,6 @@ public class ResultController {
     private Label labelLoserName;
 
     @FXML
-    private Label ltextPoints;
-
-    @FXML
-    private Label ltextPoints2;
-
-    @FXML
-    private Label winnerPoints;
-
-    @FXML
-    private Label loserPoints;
-
-    @FXML
     private Label textTime;
 
     @FXML
