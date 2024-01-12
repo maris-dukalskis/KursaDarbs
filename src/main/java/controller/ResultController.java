@@ -6,7 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -16,6 +18,7 @@ import javafx.scene.Node;
 import model.Game;
 
 import java.io.IOException;
+import java.util.Optional;
 
 //import javax.swing.JFrame;
 //import javax.swing.JOptionPane;
@@ -68,31 +71,35 @@ public class ResultController {
      }
     
     @FXML
-	public void initialize() {
+	/*public void initialize() {
     	
     	Game game = PlayerController.getGame();
     	
     	Player player1 = game.getPlayer1();
 		Player player2 = game.getPlayer2();
 		
+		// TODO attiecīgi pēc uzvarētāja
+		
     	labelWinnerName.setText(player1.getName());
     	labelLoserName.setText(player2.getName());
     }
     
-    /* TODO pārveidot
-    
-    public void exitButtonClick(ActionEvent event) throws IOException {
- 	   JFrame frame = new JFrame("Exit"); //izveido jaunu logu ar nosaukumu "Exit"(Java Swing komponents)
- 	   if(JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Exit", 
- 			   JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)//showConfirmDialog jābūt vienādām ar YES_NO_OPTION
- 		   //YES_NO_OPTION vienmēr ir vienāds ar sevi
- 	   {
- 		   System.exit(0);
- 	   }
-	}
     */
     
-    
+    public void exitButtonClick(ActionEvent event) throws IOException {
+    	Alert alert = new Alert (Alert.AlertType.CONFIRMATION); //izveido jaunu Alert logu
+    	alert.setTitle("Exit");
+    	//alert.setHeaderText(null);
+    	alert.setContentText("Are you sure you want to exit?");
+    	
+    	alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+    	
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.YES) {
+    		System.exit(0);
+    	}
+    	
+    }
     
 }
 
