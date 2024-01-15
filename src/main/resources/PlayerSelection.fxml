@@ -30,9 +30,9 @@
                   </Button>
                   <TextField fx:id="player1_input_text" layoutX="156.0" layoutY="119.0" opacity="0.75" prefHeight="25.0" prefWidth="150.0" />
                   <TextField fx:id="player2_input_text" layoutX="835.0" layoutY="119.0" opacity="0.75" prefHeight="25.0" prefWidth="150.0" />
-                  <Label cache="true" layoutX="65.0" layoutY="121.0" prefHeight="17.0" prefWidth="58.0" text="Player 1:" textFill="#f5f5f5">
+                  <Label cache="true" layoutX="65.0" layoutY="121.0" prefHeight="22.0" prefWidth="71.0" text="Player 1:" textFill="#f5f5f5">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="Arial Black" size="14.0" />
                      </font>
                   </Label>
                   <Label cache="true" layoutX="726.0" layoutY="121.0" prefHeight="17.0" prefWidth="58.0" text="Player 2:" textFill="WHITE">
@@ -42,20 +42,20 @@
                   </Label>
                   <Label cache="true" layoutX="726.0" layoutY="163.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="Arial Black" size="14.0" />
                      </font>
                   </Label>
                   <ChoiceBox fx:id="player2StartColor" layoutX="835.0" layoutY="161.0" prefWidth="150.0" />
                   <Label cache="true" layoutX="65.0" layoutY="163.0" prefHeight="20.0" prefWidth="76.0" text="Color:" textFill="#f5f5f5">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="Arial Black" size="14.0" />
                      </font>
                   </Label>
                   <ChoiceBox fx:id="player1StartColor" layoutX="156.0" layoutY="161.0" prefWidth="150.0" />
                   <Slider fx:id="volumeSlider" layoutX="50.0" layoutY="700.0" max="1.0" min="0.0" value="1.0" />
-                  <Label layoutX="95.0" layoutY="665.0" prefHeight="27.0" prefWidth="51.0" text="Volume">
+                  <Label layoutX="95.0" layoutY="665.0" prefHeight="27.0" prefWidth="63.0" text="Volume">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Arial Black" size="14.0" />
                      </font>
                   </Label>
             </children>

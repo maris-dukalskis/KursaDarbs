@@ -15,12 +15,15 @@
             <Image url="@images/start_background.jpg" />
          </image>
       </ImageView>
-      <Button id="shiny" fx:id="startGame" layoutX="866.0" layoutY="545.0" mnemonicParsing="false" onAction="#startGameClicked" styleClass="root" stylesheets="@style.css" text="Start Game" />
-      <Button id="shiny" fx:id="tutorial" layoutX="877.0" layoutY="602.0" mnemonicParsing="false" onAction="#tutorialClicked" styleClass="root" stylesheets="@style.css" text="Tutorial" />
-      <Slider fx:id="volumeSlider" layoutX="50.0" layoutY="700.0" max="1.0" min="0.0" value="1.0" />
-      <Label layoutX="94.0" layoutY="659.0" prefHeight="28.0" prefWidth="52.0" text="Volume" textFill="#6e6f50">
+      <Button id="shiny" fx:id="startGame" layoutX="811.0" layoutY="520.0" mnemonicParsing="false" onAction="#startGameClicked" prefHeight="65.0" prefWidth="169.0" styleClass="root" stylesheets="@style.css" text="Start Game">
          <font>
-            <Font size="14.0" />
+            <Font name="Arial Black" size="13.0" />
+         </font></Button>
+      <Button id="shiny" fx:id="tutorial" layoutX="845.0" layoutY="611.0" mnemonicParsing="false" onAction="#tutorialClicked" prefHeight="41.0" prefWidth="102.0" styleClass="root" stylesheets="@style.css" text="Tutorial" />
+      <Slider fx:id="volumeSlider" layoutX="50.0" layoutY="700.0" max="1.0" min="0.0" value="1.0" />
+      <Label layoutX="83.0" layoutY="663.0" prefHeight="28.0" prefWidth="74.0" text="Volume" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="16.0" />
          </font>
       </Label>
    </children>
