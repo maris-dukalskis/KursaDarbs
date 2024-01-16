@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -35,6 +36,7 @@ public class PlayerController {
 
 	@FXML
 	public void initialize() {
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		player1StartColor.getItems().addAll("WHITE", "BLACK");
 		player2StartColor.getItems().addAll("WHITE", "BLACK");
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -45,6 +47,8 @@ public class PlayerController {
 
 	@FXML
 	private void startGame() throws IOException {
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
+
 		BackgroundMusicPlayer.stopBackgroundMusic();
 		BackgroundMusicPlayer.playBackgroundMusic("/audio/game_scene.wav");
 		String player1Name = player1_input_text.getText();
@@ -99,6 +103,12 @@ public class PlayerController {
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setTitle(player1Name + " vs " + player2Name);
+
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
+		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			double volume = newValue.doubleValue();
+			BackgroundMusicPlayer.setVolume(volume);
+		});
 
 	}
 }

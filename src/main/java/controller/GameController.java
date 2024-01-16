@@ -66,6 +66,7 @@ public class GameController {
 
 	@FXML
 	private Slider volumeSlider;
+	
 	int elapsedTime= 0;
 	int seconds = 0;
 	int minutes =0;
@@ -77,7 +78,7 @@ public class GameController {
 
 	@FXML
 	public void initialize() {
-
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		Game game = PlayerController.getGame();
 
 		game.getBoard().setGrid(mainGrid);

@@ -7,6 +7,7 @@ import java.net.URL;
 public class BackgroundMusicPlayer {
 
     private static Clip clip;
+    private static float volume = 0.8f;
 
     public static void playBackgroundMusic(String musicFile) {
         try {
@@ -29,10 +30,16 @@ public class BackgroundMusicPlayer {
     }
 
     public static void setVolume(double volume) {
+        BackgroundMusicPlayer.volume = (float) volume;
+
         if (clip != null) {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
+            float dB = (float) (Math.log(BackgroundMusicPlayer.volume) / Math.log(10.0) * 20.0);
             gainControl.setValue(dB);
         }
+    }
+
+    public static float getVolume() {
+        return volume;
     }
 }
