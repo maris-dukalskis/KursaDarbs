@@ -254,6 +254,12 @@ public class GameLogic {
 
 	public static void processClickedTile(Tile lastClicked) {
 		Game game = PlayerController.getGame();
+		
+		if(game.getWhitePlayer().getTimer() <= 0 || game.getBlackPlayer().getTimer() <= 0) {
+			System.out.println("Beigas");
+			GameController.generateGraphicalGrid(false);
+			return;
+		}
 		/*
 		 * vai tas ir pirmais uzspiestais tile(no kura kustās)
 		 */
@@ -295,8 +301,11 @@ public class GameLogic {
 		if (toPiece != null && !isCastle) {
 			addToKnockedOutGrid(toPiece);
 		}
+		game.getWhitePlayer().setDraw(false);
+		game.getBlackPlayer().setDraw(false);
 		fromPiece.setHasMoved(true);
 		game.setMove(fromPiece.getColor().opposite());
+		game.getCurrentMoveColorLabel().setText("Current move: " + game.getMove().name());
 		game.setFromTile(null);
 		GameController.generateGraphicalGrid(false);
 
@@ -314,9 +323,13 @@ public class GameLogic {
 		switch (state) {
 		case CHECK_MATE:
 			System.out.println("CHECK MATE");
+			GameController.generateGraphicalGrid(false);
 			break;
 		case CHECK:
 			System.out.println("CHECK");
+			break;
+		case DRAW:
+			System.out.println("DRAW");
 			break;
 		case NORMAL:
 			System.out.println("Normal");
@@ -336,6 +349,9 @@ public class GameLogic {
 		}
 		if (isKingInCheck) {
 			return GameState.CHECK;
+		}
+		if (moveList.isEmpty()) {
+			return GameState.DRAW;
 		}
 		return GameState.NORMAL;
 	}

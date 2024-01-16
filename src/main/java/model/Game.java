@@ -1,18 +1,21 @@
 package model;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 public class Game {
 
-	private Player player1;
-	private Player player2;
+	private Player whitePlayer;
+	private Player blackPlayer;
+	private Tile fromTile;
+	private Color move; // which players move it is - White or Black
+	private GameState gameState;
+
 	private Board board;
 	private Board whitePiecesOutBoard;
 	private Board blackPiecesOutBoard;
 	private AnchorPane anchorPane;
-	private Tile fromTile;
-	private Color move; // which players move it is - White or Black
-	private GameState gameState;
+	private Label currentMoveColorLabel;
 
 	public Game(Board board, Board whitePiecesOutBoard, Board blackPiecesOutBoard, Color move) {
 		this.board = board;
@@ -29,20 +32,20 @@ public class Game {
 		this.fromTile = fromTile;
 	}
 
-	public Player getPlayer1() {
-		return player1;
+	public Player getWhitePlayer() {
+		return whitePlayer;
 	}
 
-	public void setPlayer1(Player player1) {
-		this.player1 = player1;
+	public void setWhitePlayer(Player whitePlayer) {
+		this.whitePlayer = whitePlayer;
 	}
 
-	public Player getPlayer2() {
-		return player2;
+	public Player getBlackPlayer() {
+		return blackPlayer;
 	}
 
-	public void setPlayer2(Player player2) {
-		this.player2 = player2;
+	public void setBlackPlayer(Player blackPlayer) {
+		this.blackPlayer = blackPlayer;
 	}
 
 	public Board getBoard() {
@@ -91,6 +94,21 @@ public class Game {
 
 	public void setAnchorPane(AnchorPane anchorPane) {
 		this.anchorPane = anchorPane;
+	}
+
+	public Label getCurrentMoveColorLabel() {
+		return currentMoveColorLabel;
+	}
+
+	public void setCurrentMoveColorLabel(Label currentMoveColorLabel) {
+		this.currentMoveColorLabel = currentMoveColorLabel;
+	}
+
+	public Player getPlayerByColor(Color color) {
+		if (color == Color.WHITE) {
+			return this.whitePlayer;
+		}
+		return this.blackPlayer;
 	}
 
 }

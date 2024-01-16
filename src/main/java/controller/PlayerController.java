@@ -90,8 +90,8 @@ public class PlayerController {
 		Game game = new Game(mainBoard, whitePiecesOutBoard, blackPiecesOutBoard, Color.WHITE);
 
 		gameInstance = game;
-		game.setPlayer1(player1);
-		game.setPlayer2(player2);
+		game.setWhitePlayer(player1);
+		game.setBlackPlayer(player2);
 
 		Scene myScene = FXMLLoader.load(getClass().getResource("/GameScene.fxml"));
 		primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();

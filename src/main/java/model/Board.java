@@ -132,14 +132,4 @@ public class Board {
 		return this.board;
 	}
 
-	public Board clone(int row, int column) {
-		Board board = new Board(row, column);
-		for (int i = 0; i <= row - 1; i++) {
-			for (int j = 0; j <= column - 1; j++) {
-				board.getBoard()[i][j] = this.board[i][j].clone();
-			}
-		}
-		return board;
-	}
-
 }

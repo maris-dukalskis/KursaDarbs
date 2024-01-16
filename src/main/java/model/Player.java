@@ -8,6 +8,8 @@ public class Player {
 	private byte moveCount = 0;
 	private long timer = 3600000;
 	private Label timerLabel;
+	private boolean resigned = false;
+	private boolean draw = false;
 
 	public Player(String inputName) {
 		setName(inputName);
@@ -30,7 +32,9 @@ public class Player {
 	}
 
 	public void decreaseTimerTime() {
-		this.timer -= 1000;
+		if (this.timer >= 1000) {
+			this.timer -= 1000;
+		}
 	}
 
 	public Label getTimerLabel() {
@@ -43,6 +47,28 @@ public class Player {
 
 	public long getTimer() {
 		return timer;
+	}
+
+	public boolean isResigned() {
+		return resigned;
+	}
+
+	public void setResigned(boolean resign) {
+		this.resigned = resign;
+	}
+
+	public boolean isDraw() {
+		return draw;
+	}
+
+	public void setDraw(boolean draw) {
+		this.draw = draw;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [name=" + name + ", moveCount=" + moveCount + ", timer=" + timer + ", timerLabel=" + timerLabel
+				+ ", resigned=" + resigned + ", draw=" + draw + "]";
 	}
 
 }

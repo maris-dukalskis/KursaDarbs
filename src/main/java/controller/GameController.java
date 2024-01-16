@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -38,31 +39,25 @@ public class GameController {
 	private GridPane mainGrid;
 
 	@FXML
-	private VBox vboxWhite;
+	private VBox whiteVBox, blackVBox;
 
 	@FXML
-	private VBox vboxBlack;
+	private Label whitePlayerNameLabel, blackPlayerNameLabel;
 
 	@FXML
-	private Label whitePlayerLabel;
+	private Label whitePlayerTimerLabel, blackPlayerTimerLabel;
 
 	@FXML
-	private Label blackPlayerLabel;
-
-	@FXML
-	private Label timerWhiteLabel;
-
-	@FXML
-	private Label timerBlackLabel;
-
-	@FXML
-	private GridPane whitePiecesOut;
-
-	@FXML
-	private GridPane blackPiecesOut;
+	private GridPane whitePiecesOutGridPane, blackPiecesOutGridPane;
 
 	@FXML
 	private Slider volumeSlider;
+
+	@FXML
+	private Label currentMoveColorLabel;
+
+	@FXML
+	private Button blackDrawButton, blackResignButton, whiteDrawButton, whiteResignButton;
 
 	@FXML
 	public void initialize() {
@@ -70,37 +65,54 @@ public class GameController {
 		Game game = PlayerController.getGame();
 
 		game.getBoard().setGrid(mainGrid);
-		game.getWhitePiecesOutBoard().setGrid(whitePiecesOut);
-		game.getBlackPiecesOutBoard().setGrid(blackPiecesOut);
+		game.getWhitePiecesOutBoard().setGrid(whitePiecesOutGridPane);
+		game.getBlackPiecesOutBoard().setGrid(blackPiecesOutGridPane);
 		game.setAnchorPane(anchorPane);
-		Player player1 = game.getPlayer1();
-		Player player2 = game.getPlayer2();
-		player1.setTimerLabel(timerWhiteLabel);
-		player2.setTimerLabel(timerBlackLabel);
+		game.setCurrentMoveColorLabel(currentMoveColorLabel);
+		Player whitePlayer = game.getWhitePlayer();
+		Player blackPlayer = game.getBlackPlayer();
+		whitePlayer.setTimerLabel(whitePlayerTimerLabel);
+		blackPlayer.setTimerLabel(blackPlayerTimerLabel);
 
 		generateGraphicalGrid(true);
 
 		Border border = new Border(
 				new BorderStroke(javafx.scene.paint.Color.BLACK, BorderStrokeStyle.SOLID, null, null));
 
-		vboxWhite.setBorder(border);
-		vboxBlack.setBorder(border);
+		whiteVBox.setBorder(border);
+		blackVBox.setBorder(border);
 
-		whitePlayerLabel.setText(player1.getName());
-		blackPlayerLabel.setText(player2.getName());
+		whitePlayerNameLabel.setText(whitePlayer.getName());
+		blackPlayerNameLabel.setText(blackPlayer.getName());
 
 		long timer = 3600000;
 
-		timerWhiteLabel.setText(formatTimer(timer));
-		timerBlackLabel.setText(formatTimer(timer));
+		whitePlayerTimerLabel.setText(formatTimer(timer));
+		blackPlayerTimerLabel.setText(formatTimer(timer));
 
-		whitePiecesOut.setBorder(border);
-		blackPiecesOut.setBorder(border);
+		whitePiecesOutGridPane.setBorder(border);
+		blackPiecesOutGridPane.setBorder(border);
+
+		currentMoveColorLabel.setText("Current move: " + game.getMove().name());
 		// skaņas regulēšana
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			double volume = newValue.doubleValue();
 			BackgroundMusicPlayer.setVolume(volume);
 		});
+
+		blackDrawButton.setOnMouseClicked(event -> {
+			drawButtonLogic(game.getMove(), Color.BLACK);
+		});
+		whiteDrawButton.setOnMouseClicked(event -> {
+			drawButtonLogic(game.getMove(), Color.WHITE);
+		});
+		blackResignButton.setOnMouseClicked(event -> {
+			resignButtonLogic(game.getMove(), Color.BLACK);
+		});
+		whiteResignButton.setOnMouseClicked(event -> {
+			resignButtonLogic(game.getMove(), Color.WHITE);
+		});
+
 	}
 
 	public static void exitApplication() {
@@ -159,13 +171,13 @@ public class GameController {
 	}
 
 	public static void timerForPlayerWhite(Game game) {
-
+		// JA PAKUSTĀS BAIGI ĀTRI TAD TIMERIS VAR NEIZSLĒGTIES KAD NOMAINĀS MOVE
 		Thread player1Thread = new Thread(() -> {
 			while (game.getMove() == Color.WHITE) {
 				try {
 					Thread.sleep(1000);
-					game.getPlayer1().decreaseTimerTime();
-					updateTimer(game.getPlayer1().getTimerLabel(), formatTimer(game.getPlayer1().getTimer()));
+					game.getWhitePlayer().decreaseTimerTime();
+					updateTimer(game.getWhitePlayer().getTimerLabel(), formatTimer(game.getWhitePlayer().getTimer()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -175,12 +187,13 @@ public class GameController {
 	}
 
 	public static void timerForPlayerBlack(Game game) {
+		// JA PAKUSTĀS BAIGI ĀTRI TAD TIMERIS VAR NEIZSLĒGTIES KAD NOMAINĀS MOVE
 		Thread player2Thread = new Thread(() -> {
 			while (game.getMove() == Color.BLACK) {
 				try {
 					Thread.sleep(1000);
-					game.getPlayer2().decreaseTimerTime();
-					updateTimer(game.getPlayer2().getTimerLabel(), formatTimer(game.getPlayer2().getTimer()));
+					game.getBlackPlayer().decreaseTimerTime();
+					updateTimer(game.getBlackPlayer().getTimerLabel(), formatTimer(game.getBlackPlayer().getTimer()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -319,5 +332,25 @@ public class GameController {
 
 			grid.add(imageView, 0, i);
 		}
+	}
+
+	public void resignButtonLogic(Color move, Color buttonPressed) {
+		if (move != buttonPressed) {
+			return;
+		}
+		// pāriet uz gala scene
+	}
+
+	public void drawButtonLogic(Color move, Color buttonPressed) {
+		if (move != buttonPressed) {
+			return;
+		}
+		Game game = PlayerController.getGame();
+		if (!game.getPlayerByColor(move.opposite()).isDraw()) {
+			game.getPlayerByColor(move).setDraw(true);
+			return;
+		}
+		game.setGameState(GameState.DRAW);
+		// pāriet uz gala scene
 	}
 }
