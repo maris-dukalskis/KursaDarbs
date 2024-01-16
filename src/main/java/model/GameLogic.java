@@ -324,9 +324,8 @@ public class GameLogic {
 		}
 		game.setGameState(state);
 		GameController.popUps(state);
-		// TODO
-//		GameController.timerForPlayer1();
-//		GameController.timerForPlayer2();
+		GameController.timerForPlayerWhite(game);
+		GameController.timerForPlayerBlack(game);
 	}
 
 	public static GameState getGameState(Color color) {

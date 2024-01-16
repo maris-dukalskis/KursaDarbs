@@ -79,8 +79,8 @@ public class PlayerController {
 			}
 		}
 
-		Player player1 = new Player(player1Name, player1Color);
-		Player player2 = new Player(player2Name, player2Color);
+		Player player1 = new Player(player1Name);
+		Player player2 = new Player(player2Name);
 
 		Board mainBoard = new Board(8, 8);
 		mainBoard.placeInitialPieces();
@@ -99,6 +99,9 @@ public class PlayerController {
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setTitle(player1Name + " vs " + player2Name);
+		primaryStage.setOnCloseRequest(event -> {
+			GameController.exitApplication();
+		});
 
 	}
 }

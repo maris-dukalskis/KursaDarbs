@@ -1,12 +1,9 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
-import java.util.Timer;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -66,14 +63,6 @@ public class GameController {
 
 	@FXML
 	private Slider volumeSlider;
-	int elapsedTime= 0;
-	int seconds = 0;
-	int minutes =0;
-	int hours = 0;
-	boolean started = false;
-	String secondsToString = String.format("%02d",seconds);
-	String minutesToString = String.format("%02d",minutes);
-	String hoursToString = String.format("%02d",hours);
 
 	@FXML
 	public void initialize() {
@@ -86,6 +75,8 @@ public class GameController {
 		game.setAnchorPane(anchorPane);
 		Player player1 = game.getPlayer1();
 		Player player2 = game.getPlayer2();
+		player1.setTimerLabel(timerWhiteLabel);
+		player2.setTimerLabel(timerBlackLabel);
 
 		generateGraphicalGrid(true);
 
@@ -98,18 +89,10 @@ public class GameController {
 		whitePlayerLabel.setText(player1.getName());
 		blackPlayerLabel.setText(player2.getName());
 
-		/*
-		 * TODO
-		 */
+		long timer = 3600000;
 
-		elapsedTime = elapsedTime+1000;
-		hours = (elapsedTime/3600000);
-		minutes = (elapsedTime/60000) % 60;
-		seconds = (elapsedTime/1000) % 60;
-		//timer.scheduleAtFixedRate();
-
-		timerWhiteLabel.setText(String.valueOf(hoursToString+":"+minutesToString+":"+secondsToString));
-		timerBlackLabel.setText(String.valueOf(hoursToString+":"+minutesToString+":"+secondsToString));
+		timerWhiteLabel.setText(formatTimer(timer));
+		timerBlackLabel.setText(formatTimer(timer));
 
 		whitePiecesOut.setBorder(border);
 		blackPiecesOut.setBorder(border);
@@ -118,6 +101,24 @@ public class GameController {
 			double volume = newValue.doubleValue();
 			BackgroundMusicPlayer.setVolume(volume);
 		});
+	}
+
+	public static void exitApplication() {
+		Game game = PlayerController.getGame();
+		game.setMove(null);
+	}
+
+	public static String formatTimer(long timer) {
+		long hours = timer / 1000 / 60 / 60;
+		if (hours >= 1) {
+			return hours + ":00:00";
+		}
+		long minutes = timer / 1000 / 60 % 60;
+		long seconds = timer / 1000 % 60;
+		if (minutes >= 1) {
+			return "00:" + minutes + ":" + seconds;
+		}
+		return "00:00:" + seconds;
 	}
 
 	public static void popUps(GameState gameState) {
@@ -138,7 +139,8 @@ public class GameController {
 			Alert drawAlert = new Alert(Alert.AlertType.NONE);
 			drawAlert.setTitle("Draw");
 			drawAlert.setHeaderText("DRAW");
-			// drawAlert.setGraphic(new ImageView(this.getClass().getResource("Draw.png").toString()));
+			// drawAlert.setGraphic(new
+			// ImageView(this.getClass().getResource("Draw.png").toString()));
 			drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 			drawAlert.showAndWait();
 
@@ -146,12 +148,45 @@ public class GameController {
 
 	}
 
-	public static void timerForPlayer1() {
-		// TODO
+	public static void updateTimer(Label label, String timer) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				label.setText(timer);
+			}
+		});
+
 	}
 
-	public static void timerForPlayer2() {
-		// TODO
+	public static void timerForPlayerWhite(Game game) {
+
+		Thread player1Thread = new Thread(() -> {
+			while (game.getMove() == Color.WHITE) {
+				try {
+					Thread.sleep(1000);
+					game.getPlayer1().decreaseTimerTime();
+					updateTimer(game.getPlayer1().getTimerLabel(), formatTimer(game.getPlayer1().getTimer()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		player1Thread.start();
+	}
+
+	public static void timerForPlayerBlack(Game game) {
+		Thread player2Thread = new Thread(() -> {
+			while (game.getMove() == Color.BLACK) {
+				try {
+					Thread.sleep(1000);
+					game.getPlayer2().decreaseTimerTime();
+					updateTimer(game.getPlayer2().getTimerLabel(), formatTimer(game.getPlayer2().getTimer()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		player2Thread.start();
 	}
 
 	public static void generateGraphicalGrid(boolean setClickEvent) {
