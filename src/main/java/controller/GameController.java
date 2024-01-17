@@ -76,7 +76,9 @@ public class GameController {
 		instance = this;
 
 		Game game = PlayerController.getGame();
-
+		
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
+		
 		game.getBoard().setGrid(mainGrid);
 		game.getWhitePiecesOutBoard().setGrid(whitePiecesOutGridPane);
 		game.getBlackPiecesOutBoard().setGrid(blackPiecesOutGridPane);

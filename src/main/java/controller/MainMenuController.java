@@ -18,6 +18,7 @@ public class MainMenuController {
 
 	@FXML
 	public void startGameClicked() throws IOException {
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		BackgroundMusicPlayer.stopBackgroundMusic();
 		BackgroundMusicPlayer.playBackgroundMusic("/audio/player_selection_scene.wav");
 		Scene myScene = FXMLLoader.load(getClass().getResource("/PlayerSelection.fxml"));
@@ -26,6 +27,8 @@ public class MainMenuController {
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("Player selection");
+
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 	}
 
 	@FXML
@@ -35,6 +38,8 @@ public class MainMenuController {
 
 	@FXML
 	public void initialize() {
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
+
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			double volume = newValue.doubleValue();
 			BackgroundMusicPlayer.setVolume(volume);

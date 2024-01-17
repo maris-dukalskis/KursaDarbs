@@ -35,6 +35,7 @@ public class PlayerController {
 
 	@FXML
 	public void initialize() {
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		player1StartColor.getItems().addAll("WHITE", "BLACK");
 		player2StartColor.getItems().addAll("WHITE", "BLACK");
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -45,6 +46,7 @@ public class PlayerController {
 
 	@FXML
 	private void startGame() throws IOException {
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 		BackgroundMusicPlayer.stopBackgroundMusic();
 		BackgroundMusicPlayer.playBackgroundMusic("/audio/game_scene.wav");
 		String player1Name = player1_input_text.getText();
@@ -107,6 +109,12 @@ public class PlayerController {
 		primaryStage.setTitle(player1Name + " vs " + player2Name);
 		primaryStage.setOnCloseRequest(event -> {
 			GameController.exitApplication();
+		});
+
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
+		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			double volume = newValue.doubleValue();
+			BackgroundMusicPlayer.setVolume(volume);
 		});
 
 	}
