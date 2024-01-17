@@ -15,7 +15,7 @@
    <children>
       <ImageView fitHeight="1060.0" fitWidth="1051.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../Downloads/TutorialSceneBackgroundImage.jpg" />
+            <Image url="@/images/TutorialSceneBackgroundImage.jpg" />
          </image>
       </ImageView>
       <ScrollPane fx:id="ScrollPlane" layoutX="21.0" layoutY="92.0" prefHeight="634.0" prefWidth="1009.0">
@@ -59,7 +59,7 @@
                            <children>
                               <ImageView fx:id="ImagePawn" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@chess_pieces/white_pawn_onWhite2.jpg" />
+                                    <Image url="@/images/white_pawn_onWhite.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -82,7 +82,7 @@
                            <children>
                               <ImageView fx:id="ImageBishop" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@chess_pieces/white_bishop_onWhite.jpg" />
+                                    <Image url="@/images/white_bishop_onWhite.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -105,7 +105,7 @@
                            <children>
                               <ImageView fx:id="ImageRook" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@chess_pieces/white_rook_onBlack.jpg" />
+                                    <Image url="@/images/white_rook_onBlack.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -128,7 +128,7 @@
                            <children>
                               <ImageView fx:id="ImageKnight" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@chess_pieces/white_knight_onBlack.jpg" />
+                                    <Image url="@/images/white_knight_onBlack.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -151,7 +151,7 @@
                            <children>
                               <ImageView fx:id="ImageQueen" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@chess_pieces/black_queen_onBlack.jpg" />
+                                    <Image url="@/images/black_queen_onBlack.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -174,7 +174,7 @@
                            <children>
                               <ImageView fx:id="ImageKing" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@chess_pieces/black_king_onWhite.jpg" />
+                                    <Image url="@/images/black_king_onWhite.jpg" />
                                  </image>
                               </ImageView>
                            </children>
