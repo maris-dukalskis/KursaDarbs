@@ -1,10 +1,15 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -18,6 +23,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.Board;
 import model.Color;
 import model.Game;
@@ -31,6 +37,12 @@ import model.Tile;
 import service.MainService;
 
 public class GameController {
+
+	private static GameController instance;
+
+	public static GameController getInstance() {
+		return instance;
+	}
 
 	@FXML
 	private AnchorPane anchorPane;
@@ -61,6 +73,7 @@ public class GameController {
 
 	@FXML
 	public void initialize() {
+		instance = this;
 
 		Game game = PlayerController.getGame();
 
@@ -133,7 +146,7 @@ public class GameController {
 		return "00:00:" + seconds;
 	}
 
-	public static void popUps(GameState gameState) {
+	public void popUps(GameState gameState) {
 		// izvedo popup ziņas programmā
 		if (gameState.equals(GameState.CHECK)) {
 			Alert checkAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -142,19 +155,33 @@ public class GameController {
 			checkAlert.showAndWait();
 		}
 		if (gameState.equals(GameState.CHECK_MATE)) {
-			Alert checkMateAlert = new Alert(Alert.AlertType.INFORMATION);
+			Alert checkMateAlert = new Alert(Alert.AlertType.NONE);
 			checkMateAlert.setTitle("Check mate");
 			checkMateAlert.setHeaderText("CHECK MATE");
-			checkMateAlert.showAndWait();
+			checkMateAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+			Optional<ButtonType> result = checkMateAlert.showAndWait();
+			if (result.get() == ButtonType.CLOSE) {
+				try {
+					moveToWinnerController();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
 		}
 		if (gameState.equals(GameState.DRAW)) {
 			Alert drawAlert = new Alert(Alert.AlertType.NONE);
 			drawAlert.setTitle("Draw");
 			drawAlert.setHeaderText("DRAW");
-			// drawAlert.setGraphic(new
-			// ImageView(this.getClass().getResource("Draw.png").toString()));
 			drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-			drawAlert.showAndWait();
+			Optional<ButtonType> result = drawAlert.showAndWait();
+			if (result.get() == ButtonType.CLOSE) {
+				try {
+					moveToDrawController();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 
 		}
 
@@ -171,11 +198,10 @@ public class GameController {
 	}
 
 	public static void timerForPlayerWhite(Game game) {
-		// JA PAKUSTĀS BAIGI ĀTRI TAD TIMERIS VAR NEIZSLĒGTIES KAD NOMAINĀS MOVE
 		Thread player1Thread = new Thread(() -> {
 			while (game.getMove() == Color.WHITE) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 					game.getWhitePlayer().decreaseTimerTime();
 					updateTimer(game.getWhitePlayer().getTimerLabel(), formatTimer(game.getWhitePlayer().getTimer()));
 				} catch (Exception e) {
@@ -187,11 +213,10 @@ public class GameController {
 	}
 
 	public static void timerForPlayerBlack(Game game) {
-		// JA PAKUSTĀS BAIGI ĀTRI TAD TIMERIS VAR NEIZSLĒGTIES KAD NOMAINĀS MOVE
 		Thread player2Thread = new Thread(() -> {
 			while (game.getMove() == Color.BLACK) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 					game.getBlackPlayer().decreaseTimerTime();
 					updateTimer(game.getBlackPlayer().getTimerLabel(), formatTimer(game.getBlackPlayer().getTimer()));
 				} catch (Exception e) {
@@ -338,19 +363,44 @@ public class GameController {
 		if (move != buttonPressed) {
 			return;
 		}
-		// pāriet uz gala scene
+		try {
+			moveToWinnerController();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void drawButtonLogic(Color move, Color buttonPressed) {
-		if (move != buttonPressed) {
-			return;
-		}
 		Game game = PlayerController.getGame();
-		if (!game.getPlayerByColor(move.opposite()).isDraw()) {
-			game.getPlayerByColor(move).setDraw(true);
+		if (!game.getPlayerByColor(buttonPressed.opposite()).isDraw()) {
+			game.getPlayerByColor(buttonPressed).setDraw(true);
 			return;
 		}
 		game.setGameState(GameState.DRAW);
-		// pāriet uz gala scene
+		try {
+			moveToDrawController();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void moveToWinnerController() throws IOException {
+		BackgroundMusicPlayer.stopBackgroundMusic();
+		Scene myScene = FXMLLoader.load(getClass().getResource("/WinnerScene.fxml"));
+		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
+		primaryStage.setScene(myScene);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("Game Over");
+	}
+
+	public void moveToDrawController() throws IOException {
+		BackgroundMusicPlayer.stopBackgroundMusic();
+		Scene myScene = FXMLLoader.load(getClass().getResource("/DrawScene.fxml"));
+		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
+		primaryStage.setScene(myScene);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("Game Over");
 	}
 }

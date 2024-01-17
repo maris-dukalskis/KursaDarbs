@@ -254,8 +254,8 @@ public class GameLogic {
 
 	public static void processClickedTile(Tile lastClicked) {
 		Game game = PlayerController.getGame();
-		
-		if(game.getWhitePlayer().getTimer() <= 0 || game.getBlackPlayer().getTimer() <= 0) {
+
+		if (game.getWhitePlayer().getTimer() <= 0 || game.getBlackPlayer().getTimer() <= 0) {
 			System.out.println("Beigas");
 			GameController.generateGraphicalGrid(false);
 			return;
@@ -336,7 +336,7 @@ public class GameLogic {
 		default:
 		}
 		game.setGameState(state);
-		GameController.popUps(state);
+		GameController.getInstance().popUps(state);
 		GameController.timerForPlayerWhite(game);
 		GameController.timerForPlayerBlack(game);
 	}
