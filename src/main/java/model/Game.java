@@ -10,6 +10,7 @@ public class Game {
 	private Tile fromTile;
 	private Color move; // which players move it is - White or Black
 	private GameState gameState;
+	private Color winner;
 
 	private Board board;
 	private Board whitePiecesOutBoard;
@@ -109,6 +110,14 @@ public class Game {
 			return this.whitePlayer;
 		}
 		return this.blackPlayer;
+	}
+
+	public Color getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Color winner) {
+		this.winner = winner;
 	}
 
 }

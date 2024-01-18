@@ -21,7 +21,7 @@ public class WinnerController {
 
 	@FXML
 	Button playAgainButton, exitButton;
-	
+
 	@FXML
 	private Slider volumeSlider;
 
@@ -30,14 +30,14 @@ public class WinnerController {
 		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		Game game = PlayerController.getGame();
 
-		Player winner = game.getPlayerByColor(game.getMove().opposite());
-		Player loser = game.getPlayerByColor(game.getMove());
+		Player winner = game.getPlayerByColor(game.getWinner());
+		Player loser = game.getPlayerByColor(game.getWinner().opposite());
 
 		winnerLabel.setText(winner.getName());
 		loserLabel.setText(loser.getName());
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-		double volume = newValue.doubleValue();
-		BackgroundMusicPlayer.setVolume(volume);
+			double volume = newValue.doubleValue();
+			BackgroundMusicPlayer.setVolume(volume);
 		});
 	}
 

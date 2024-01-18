@@ -10,6 +10,7 @@ public enum Color {
 			return WHITE;
 		case WHITE:
 			return BLACK;
+			default:
 		}
 		return null;
 	}

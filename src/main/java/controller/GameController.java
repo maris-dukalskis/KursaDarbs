@@ -132,12 +132,16 @@ public class GameController {
 
 	public static void exitApplication() {
 		Game game = PlayerController.getGame();
+
+		// pie timera pārbauda vai ir kāda no krāsām, ja nav krāsa tad timeris apstājas
 		game.setMove(null);
 	}
 
 	public static String formatTimer(long timer) {
 		long hours = timer / 1000 / 60 / 60;
-		if (hours >= 1) {
+		// mums it kā vairāk par stundu nevajadzētu būt, tāpēc nevajag minūtes un
+		// sekundes
+		if (hours == 1) {
 			return hours + ":00:00";
 		}
 		long minutes = timer / 1000 / 60 % 60;
@@ -149,6 +153,7 @@ public class GameController {
 	}
 
 	public void popUps(GameState gameState) {
+		Game game = PlayerController.getGame();
 		// izvedo popup ziņas programmā
 		if (gameState.equals(GameState.CHECK)) {
 			Alert checkAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -157,10 +162,13 @@ public class GameController {
 			checkAlert.showAndWait();
 		}
 		if (gameState.equals(GameState.CHECK_MATE)) {
+			game.setWinner(game.getMove().opposite());
 			Alert checkMateAlert = new Alert(Alert.AlertType.NONE);
 			checkMateAlert.setTitle("Check mate");
 			checkMateAlert.setHeaderText("CHECK MATE");
 			checkMateAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+			// nezinu kā tas tieši strādā, bet strādā, tas laikam tas pats, kas click
+			// eventi, viņš gaida kad uzspiež kaut kur
 			Optional<ButtonType> result = checkMateAlert.showAndWait();
 			if (result.get() == ButtonType.CLOSE) {
 				try {
@@ -190,6 +198,8 @@ public class GameController {
 	}
 
 	public static void updateTimer(Label label, String timer) {
+		// ņemts no interneta, savieno tā, lai izpilda uz Main Thread,bez šī met error,
+		// ka nav īstajā Thread
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -203,8 +213,17 @@ public class GameController {
 		Thread player1Thread = new Thread(() -> {
 			while (game.getMove() == Color.WHITE) {
 				try {
+					// 100, jo ja uzliek uz 1000 tad iespējams 2x timeri uzlikt, ja abi spēlētāji
+					// uzspiež pārāk ātri
 					Thread.sleep(100);
 					game.getWhitePlayer().decreaseTimerTime();
+					// ja timeris ir beidzies
+					if (game.getWhitePlayer().getTimer() < 1000) {
+						GameController.getInstance().showOutOfTimeAlert();
+						game.setWinner(game.getMove().opposite());
+						game.setMove(null);
+					}
+
 					updateTimer(game.getWhitePlayer().getTimerLabel(), formatTimer(game.getWhitePlayer().getTimer()));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -220,6 +239,12 @@ public class GameController {
 				try {
 					Thread.sleep(100);
 					game.getBlackPlayer().decreaseTimerTime();
+					// ja timeris ir beidzies
+					if (game.getBlackPlayer().getTimer() < 1000) {
+						GameController.getInstance().showOutOfTimeAlert();
+						game.setWinner(game.getMove().opposite());
+						game.setMove(null);
+					}
 					updateTimer(game.getBlackPlayer().getTimerLabel(), formatTimer(game.getBlackPlayer().getTimer()));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -240,6 +265,8 @@ public class GameController {
 	}
 
 	public static void addKnockedOutPiece(Piece piece, GridPane grid, Board board) {
+		// outer ir kā mainīgā nosaukums for ciklam, tas, lai var ārējo ciklu beigt no
+		// iekšējā
 		outer: for (byte i = 0; i <= 2; i++) {
 			for (byte j = 0; j <= 4; j++) {
 				Tile tile = board.getTile((byte) i, (byte) j);
@@ -365,6 +392,7 @@ public class GameController {
 		if (move != buttonPressed) {
 			return;
 		}
+		PlayerController.getGame().setWinner(move);
 		try {
 			moveToWinnerController();
 		} catch (IOException e) {
@@ -413,17 +441,25 @@ public class GameController {
 	}
 
 	public void showOutOfTimeAlert() {
-		Alert alert = new Alert(Alert.AlertType.NONE);
-		alert.setTitle("Out of time");
-		alert.setHeaderText("Out of time");
-		alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.CLOSE) {
-			try {
-				moveToWinnerController();
-			} catch (IOException e) {
-				e.printStackTrace();
+		// tas pats kas ar timer update
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				GameController.generateGraphicalGrid(false);
+				Alert alert = new Alert(Alert.AlertType.NONE);
+				alert.setTitle("Out of time");
+				alert.setHeaderText("Out of time");
+				alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.CLOSE) {
+					try {
+						moveToWinnerController();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
-		}
+		});
+
 	}
 }

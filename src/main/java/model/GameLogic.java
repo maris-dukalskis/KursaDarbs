@@ -147,9 +147,6 @@ public class GameLogic {
 		if (differenceRow == x2 && differenceColumn == 0 && tileInFront.getPiece() == null) {
 			isAllowedToMove = true;
 		}
-		if (toRow == x5 && isAllowedToMove) {
-			// te jāliek pawn promotion, vēl nav idejas kā tas notiks
-		}
 		return isAllowedToMove;
 	}
 
@@ -243,6 +240,8 @@ public class GameLogic {
 	public static boolean isCastlingMoveValid(Tile kingTile, Tile rookTile, byte differenceColumn) {
 		Board board = PlayerController.getGame().getBoard();
 		int direction = getDirection(kingTile.getColumn(), rookTile.getColumn());
+		
+		// iet uz rook pusi un skatās vai nekas nav pa ceļam
 		for (int i = 1; i < differenceColumn; i++) {
 			byte checkColumn = (byte) (kingTile.getColumn() + i * direction);
 			if (board.getTile(kingTile.getRow(), checkColumn).getPiece() != null) {
@@ -254,12 +253,6 @@ public class GameLogic {
 
 	public static void processClickedTile(Tile lastClicked) {
 		Game game = PlayerController.getGame();
-
-		if (game.getWhitePlayer().getTimer() <= 0 || game.getBlackPlayer().getTimer() <= 0) {
-			GameController.getInstance().showOutOfTimeAlert();
-			GameController.generateGraphicalGrid(false);
-			return;
-		}
 		/*
 		 * vai tas ir pirmais uzspiestais tile(no kura kustās)
 		 */
@@ -280,6 +273,7 @@ public class GameLogic {
 		Piece fromPiece = fromTile.getPiece();
 		Piece toPiece = lastClicked.getPiece();
 		boolean canMove = false;
+		// isCastle vajag, lai nepievieno rook pie izsistajiem, ja uztaisa rokādi, parasti viņš paņem pēdējo spiesto tile
 		boolean isCastle = false;
 		for (Move move : moveList) {
 			if (!move.getFromTile().equals(fromTile)) {
@@ -292,7 +286,7 @@ public class GameLogic {
 				break;
 			}
 		}
-
+		// ja nav uzspiests uz tāda tile uz kuru var pakustēties
 		if (!canMove) {
 			game.setFromTile(null);
 			GameController.generateGraphicalGrid(true);
@@ -301,8 +295,12 @@ public class GameLogic {
 		if (toPiece != null && !isCastle) {
 			addToKnockedOutGrid(toPiece);
 		}
+		
+		// pēc katra nospiestā tile, lai pēkšņi neiedod draw ja viens spēlētājs ir nospiedis kaut kad sen atpakaļ
 		game.getWhitePlayer().setDraw(false);
 		game.getBlackPlayer().setDraw(false);
+		
+		// šis svarīgs tikai rokādei
 		fromPiece.setHasMoved(true);
 		game.setMove(fromPiece.getColor().opposite());
 		game.getCurrentMoveColorLabel().setText("Current move: " + game.getMove().name());
@@ -320,23 +318,10 @@ public class GameLogic {
 	public static void processPostMove(Game game) {
 		GameController.generateGraphicalGrid(true);
 		GameState state = getGameState(game.getMove());
-		switch (state) {
-		case CHECK_MATE:
-			System.out.println("CHECK MATE");
-			GameController.generateGraphicalGrid(false);
-			break;
-		case CHECK:
-			System.out.println("CHECK");
-			break;
-		case DRAW:
-			System.out.println("DRAW");
-			break;
-		case NORMAL:
-			System.out.println("Normal");
-		default:
-		}
 		game.setGameState(state);
 		GameController.getInstance().popUps(state);
+		
+		// var jau būt ka nav labi veidot katru reizi jaunu Thread, bet šādi bija visvieglāk izveidot
 		GameController.timerForPlayerWhite(game);
 		GameController.timerForPlayerBlack(game);
 	}
@@ -360,6 +345,7 @@ public class GameLogic {
 		Tile kingTile = PlayerController.getGame().getBoard().getTileByTypeAndColor(PieceType.KING, color);
 		List<Move> moveList = generateAllMovesForColor(kingTile.getPiece().getColor().opposite(), false);
 		for (Move move : moveList) {
+			// vai kustība aizies tieši virsū tile kur atrodas king
 			if (move.getToTile().getRow() == kingTile.getRow()
 					&& move.getToTile().getColumn() == kingTile.getColumn()) {
 				return true;
@@ -367,7 +353,7 @@ public class GameLogic {
 		}
 		return false;
 	}
-
+	// iet cauri visiem kauliņiem un skatās uz kuriem tile var aiziet
 	public static List<Move> generateAllMovesForColor(Color color, boolean selfCheck) {
 		List<Move> moveList = new ArrayList<>();
 		List<Tile> pieceList = new ArrayList<>();
