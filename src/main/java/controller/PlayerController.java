@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.Random;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -48,7 +47,6 @@ public class PlayerController {
 	@FXML
 	private void startGame() throws IOException {
 		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
-
 		BackgroundMusicPlayer.stopBackgroundMusic();
 		BackgroundMusicPlayer.playBackgroundMusic("/audio/game_scene.wav");
 		String player1Name = player1_input_text.getText();
@@ -70,22 +68,6 @@ public class PlayerController {
 		if (player2ColorText != null) {
 			player2Color = Color.valueOf(player2ColorText);
 		}
-
-		if (player1Color.equals(player2Color)) {
-			Random random = new Random();
-			int value = random.nextInt(2);
-			if (value == 0) {
-				player1Color = Color.WHITE;
-				player2Color = Color.BLACK;
-			} else {
-				player1Color = Color.BLACK;
-				player2Color = Color.WHITE;
-			}
-		}
-
-		Player player1 = new Player(player1Name, player1Color);
-		Player player2 = new Player(player2Name, player2Color);
-
 		Board mainBoard = new Board(8, 8);
 		mainBoard.placeInitialPieces();
 		Board whitePiecesOutBoard = new Board(3, 5);
@@ -93,9 +75,31 @@ public class PlayerController {
 
 		Game game = new Game(mainBoard, whitePiecesOutBoard, blackPiecesOutBoard, Color.WHITE);
 
+		Player player1 = new Player(player1Name);
+		Player player2 = new Player(player2Name);
+
+		if (player1Color.equals(player2Color)) {
+			Random random = new Random();
+			int value = random.nextInt(2);
+			System.out.println(value);
+			if (value == 0) {
+				game.setWhitePlayer(player1);
+				game.setBlackPlayer(player2);
+			} else {
+				game.setWhitePlayer(player2);
+				game.setBlackPlayer(player1);
+			}
+		} else {
+			if (player1Color == Color.WHITE) {
+				game.setWhitePlayer(player1);
+				game.setBlackPlayer(player2);
+			} else {
+				game.setWhitePlayer(player2);
+				game.setBlackPlayer(player1);
+			}
+		}
+
 		gameInstance = game;
-		game.setPlayer1(player1);
-		game.setPlayer2(player2);
 
 		Scene myScene = FXMLLoader.load(getClass().getResource("/GameScene.fxml"));
 		primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
@@ -103,6 +107,9 @@ public class PlayerController {
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setTitle(player1Name + " vs " + player2Name);
+		primaryStage.setOnCloseRequest(event -> {
+			GameController.exitApplication();
+		});
 
 		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {

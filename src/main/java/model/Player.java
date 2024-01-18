@@ -1,13 +1,16 @@
 package model;
 
-public class Player {
-	
-	private String name;
-	private Color color;
+import javafx.scene.control.Label;
 
-	public Player(String inputName, Color inputColor) {
+public class Player {
+
+	private String name;
+	private long timer = 3600000;
+	private Label timerLabel;
+	private boolean draw = false;
+
+	public Player(String inputName) {
 		setName(inputName);
-		setColor(inputColor);
 	}
 
 	public String getName() {
@@ -22,12 +25,30 @@ public class Player {
 		}
 	}
 
-	public Color getColor() {
-		return this.color;
+	public void decreaseTimerTime() {
+		if (this.timer >= 100) {
+			this.timer -= 100;
+		}
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
+	public Label getTimerLabel() {
+		return timerLabel;
+	}
+
+	public void setTimerLabel(Label timerLabel) {
+		this.timerLabel = timerLabel;
+	}
+
+	public long getTimer() {
+		return timer;
+	}
+
+	public boolean isDraw() {
+		return draw;
+	}
+
+	public void setDraw(boolean draw) {
+		this.draw = draw;
 	}
 
 }

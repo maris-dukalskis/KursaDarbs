@@ -1,14 +1,17 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
-import java.util.Timer;
+import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -20,6 +23,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.Board;
 import model.Color;
 import model.Game;
@@ -34,6 +38,12 @@ import service.MainService;
 
 public class GameController {
 
+	private static GameController instance;
+
+	public static GameController getInstance() {
+		return instance;
+	}
+
 	@FXML
 	private AnchorPane anchorPane;
 
@@ -41,87 +51,104 @@ public class GameController {
 	private GridPane mainGrid;
 
 	@FXML
-	private VBox vboxWhite;
+	private VBox whiteVBox, blackVBox;
 
 	@FXML
-	private VBox vboxBlack;
+	private Label whitePlayerNameLabel, blackPlayerNameLabel;
 
 	@FXML
-	private Label whitePlayerLabel;
+	private Label whitePlayerTimerLabel, blackPlayerTimerLabel;
 
 	@FXML
-	private Label blackPlayerLabel;
-
-	@FXML
-	private Label timerWhiteLabel;
-
-	@FXML
-	private Label timerBlackLabel;
-
-	@FXML
-	private GridPane whitePiecesOut;
-
-	@FXML
-	private GridPane blackPiecesOut;
+	private GridPane whitePiecesOutGridPane, blackPiecesOutGridPane;
 
 	@FXML
 	private Slider volumeSlider;
-	
-	int elapsedTime= 0;
-	int seconds = 0;
-	int minutes =0;
-	int hours = 0;
-	boolean started = false;
-	String secondsToString = String.format("%02d",seconds);
-	String minutesToString = String.format("%02d",minutes);
-	String hoursToString = String.format("%02d",hours);
+
+	@FXML
+	private Label currentMoveColorLabel;
+
+	@FXML
+	private Button blackDrawButton, blackResignButton, whiteDrawButton, whiteResignButton;
 
 	@FXML
 	public void initialize() {
-		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
+		instance = this;
+
 		Game game = PlayerController.getGame();
 
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
+
 		game.getBoard().setGrid(mainGrid);
-		game.getWhitePiecesOutBoard().setGrid(whitePiecesOut);
-		game.getBlackPiecesOutBoard().setGrid(blackPiecesOut);
+		game.getWhitePiecesOutBoard().setGrid(whitePiecesOutGridPane);
+		game.getBlackPiecesOutBoard().setGrid(blackPiecesOutGridPane);
 		game.setAnchorPane(anchorPane);
-		Player player1 = game.getPlayer1();
-		Player player2 = game.getPlayer2();
+		game.setCurrentMoveColorLabel(currentMoveColorLabel);
+		Player whitePlayer = game.getWhitePlayer();
+		Player blackPlayer = game.getBlackPlayer();
+		whitePlayer.setTimerLabel(whitePlayerTimerLabel);
+		blackPlayer.setTimerLabel(blackPlayerTimerLabel);
 
 		generateGraphicalGrid(true);
 
 		Border border = new Border(
 				new BorderStroke(javafx.scene.paint.Color.BLACK, BorderStrokeStyle.SOLID, null, null));
 
-		vboxWhite.setBorder(border);
-		vboxBlack.setBorder(border);
+		whiteVBox.setBorder(border);
+		blackVBox.setBorder(border);
 
-		whitePlayerLabel.setText(player1.getName());
-		blackPlayerLabel.setText(player2.getName());
+		whitePlayerNameLabel.setText(whitePlayer.getName());
+		blackPlayerNameLabel.setText(blackPlayer.getName());
 
-		/*
-		 * TODO
-		 */
+		long timer = 3600000;
 
-		elapsedTime = elapsedTime+1000;
-		hours = (elapsedTime/3600000);
-		minutes = (elapsedTime/60000) % 60;
-		seconds = (elapsedTime/1000) % 60;
-		//timer.scheduleAtFixedRate();
+		whitePlayerTimerLabel.setText(formatTimer(timer));
+		blackPlayerTimerLabel.setText(formatTimer(timer));
 
-		timerWhiteLabel.setText(String.valueOf(hoursToString+":"+minutesToString+":"+secondsToString));
-		timerBlackLabel.setText(String.valueOf(hoursToString+":"+minutesToString+":"+secondsToString));
+		whitePiecesOutGridPane.setBorder(border);
+		blackPiecesOutGridPane.setBorder(border);
 
-		whitePiecesOut.setBorder(border);
-		blackPiecesOut.setBorder(border);
+		currentMoveColorLabel.setText("Current move: " + game.getMove().name());
 		// skaņas regulēšana
 		volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			double volume = newValue.doubleValue();
 			BackgroundMusicPlayer.setVolume(volume);
 		});
+
+		blackDrawButton.setOnMouseClicked(event -> {
+			drawButtonLogic(game.getMove(), Color.BLACK);
+		});
+		whiteDrawButton.setOnMouseClicked(event -> {
+			drawButtonLogic(game.getMove(), Color.WHITE);
+		});
+		blackResignButton.setOnMouseClicked(event -> {
+			resignButtonLogic(game.getMove(), Color.BLACK);
+		});
+		whiteResignButton.setOnMouseClicked(event -> {
+			resignButtonLogic(game.getMove(), Color.WHITE);
+		});
+
 	}
 
-	public static void popUps(GameState gameState) {
+	public static void exitApplication() {
+		Game game = PlayerController.getGame();
+		game.setMove(null);
+	}
+
+	public static String formatTimer(long timer) {
+		long hours = timer / 1000 / 60 / 60;
+		if (hours >= 1) {
+			return hours + ":00:00";
+		}
+		long minutes = timer / 1000 / 60 % 60;
+		long seconds = timer / 1000 % 60;
+		if (minutes >= 1) {
+			return "00:" + minutes + ":" + seconds;
+		}
+		return "00:00:" + seconds;
+	}
+
+	public void popUps(GameState gameState) {
 		// izvedo popup ziņas programmā
 		if (gameState.equals(GameState.CHECK)) {
 			Alert checkAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -130,29 +157,76 @@ public class GameController {
 			checkAlert.showAndWait();
 		}
 		if (gameState.equals(GameState.CHECK_MATE)) {
-			Alert checkMateAlert = new Alert(Alert.AlertType.INFORMATION);
+			Alert checkMateAlert = new Alert(Alert.AlertType.NONE);
 			checkMateAlert.setTitle("Check mate");
 			checkMateAlert.setHeaderText("CHECK MATE");
-			checkMateAlert.showAndWait();
+			checkMateAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+			Optional<ButtonType> result = checkMateAlert.showAndWait();
+			if (result.get() == ButtonType.CLOSE) {
+				try {
+					moveToWinnerController();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
 		}
 		if (gameState.equals(GameState.DRAW)) {
 			Alert drawAlert = new Alert(Alert.AlertType.NONE);
 			drawAlert.setTitle("Draw");
 			drawAlert.setHeaderText("DRAW");
-			// drawAlert.setGraphic(new ImageView(this.getClass().getResource("Draw.png").toString()));
 			drawAlert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-			drawAlert.showAndWait();
+			Optional<ButtonType> result = drawAlert.showAndWait();
+			if (result.get() == ButtonType.CLOSE) {
+				try {
+					moveToDrawController();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 
 		}
 
 	}
 
-	public static void timerForPlayer1() {
-		// TODO
+	public static void updateTimer(Label label, String timer) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				label.setText(timer);
+			}
+		});
+
 	}
 
-	public static void timerForPlayer2() {
-		// TODO
+	public static void timerForPlayerWhite(Game game) {
+		Thread player1Thread = new Thread(() -> {
+			while (game.getMove() == Color.WHITE) {
+				try {
+					Thread.sleep(100);
+					game.getWhitePlayer().decreaseTimerTime();
+					updateTimer(game.getWhitePlayer().getTimerLabel(), formatTimer(game.getWhitePlayer().getTimer()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		player1Thread.start();
+	}
+
+	public static void timerForPlayerBlack(Game game) {
+		Thread player2Thread = new Thread(() -> {
+			while (game.getMove() == Color.BLACK) {
+				try {
+					Thread.sleep(100);
+					game.getBlackPlayer().decreaseTimerTime();
+					updateTimer(game.getBlackPlayer().getTimerLabel(), formatTimer(game.getBlackPlayer().getTimer()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		player2Thread.start();
 	}
 
 	public static void generateGraphicalGrid(boolean setClickEvent) {
@@ -285,5 +359,50 @@ public class GameController {
 
 			grid.add(imageView, 0, i);
 		}
+	}
+
+	public void resignButtonLogic(Color move, Color buttonPressed) {
+		if (move != buttonPressed) {
+			return;
+		}
+		try {
+			moveToWinnerController();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void drawButtonLogic(Color move, Color buttonPressed) {
+		Game game = PlayerController.getGame();
+		if (!game.getPlayerByColor(buttonPressed.opposite()).isDraw()) {
+			game.getPlayerByColor(buttonPressed).setDraw(true);
+			return;
+		}
+		game.setGameState(GameState.DRAW);
+		try {
+			moveToDrawController();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void moveToWinnerController() throws IOException {
+		BackgroundMusicPlayer.stopBackgroundMusic();
+		Scene myScene = FXMLLoader.load(getClass().getResource("/WinnerScene.fxml"));
+		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
+		primaryStage.setScene(myScene);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("Game Over");
+	}
+
+	public void moveToDrawController() throws IOException {
+		BackgroundMusicPlayer.stopBackgroundMusic();
+		Scene myScene = FXMLLoader.load(getClass().getResource("/DrawScene.fxml"));
+		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
+		primaryStage.setScene(myScene);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("Game Over");
 	}
 }
