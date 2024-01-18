@@ -411,4 +411,19 @@ public class GameController {
 		primaryStage.setTitle("Game Over");
 		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 	}
+
+	public void showOutOfTimeAlert() {
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setTitle("Out of time");
+		alert.setHeaderText("Out of time");
+		alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.CLOSE) {
+			try {
+				moveToWinnerController();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

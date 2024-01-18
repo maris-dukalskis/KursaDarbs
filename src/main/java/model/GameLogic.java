@@ -256,7 +256,7 @@ public class GameLogic {
 		Game game = PlayerController.getGame();
 
 		if (game.getWhitePlayer().getTimer() <= 0 || game.getBlackPlayer().getTimer() <= 0) {
-			System.out.println("Beigas");
+			GameController.getInstance().showOutOfTimeAlert();
 			GameController.generateGraphicalGrid(false);
 			return;
 		}
