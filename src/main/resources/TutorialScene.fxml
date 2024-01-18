@@ -2,306 +2,224 @@
 
 <?import javafx.scene.Scene?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<Scene xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TutorialSceneController">
-   <root>
-      <AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1050.0">
-         <children>
-            <ImageView fitHeight="1060.0" fitWidth="1051.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@/images/TutorialSceneBackgroundImage.jpg" />
-               </image>
-            </ImageView>
-            <ScrollPane fx:id="ScrollPlane" layoutX="21.0" layoutY="92.0" prefHeight="634.0" prefWidth="1009.0">
+<Scene xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TutorialSceneController" >
+    <AnchorPane prefHeight="750.0" prefWidth="1050.0" >
+      <children>
+         <ImageView fitHeight="753.0" fitWidth="1051.0" layoutX="-1.0" layoutY="-2.0">
+            <image>
+               <Image url="@images/gameSceneBackground.jpg" />
+            </image>
+         </ImageView>
+         <Text fill="#f8f5f5" layoutX="354.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chess tutorial" wrappingWidth="342.13671875">
+            <font>
+               <Font name="Arial Black" size="36.0" />
+            </font>
+         </Text>
+         <TabPane layoutX="38.0" layoutY="76.0" prefHeight="573.0" prefWidth="974.0" tabClosingPolicy="UNAVAILABLE">
+           <tabs>
+             <Tab text="Intro">
                <content>
-                  <VBox fx:id="VBoxTut" prefHeight="2987.0" prefWidth="1002.0">
-                     <children>
-                        <HBox fx:id="HBoxFirstText" prefHeight="80.0" prefWidth="1002.0">
-                           <children>
-                              <Text fx:id="FirstText" strokeType="OUTSIDE" strokeWidth="0.0" text="Chess simulation. Click on the piece to move, and the location to move it to. If the action is legal, it will be taken. The game is done once a King enters checkmate, or once there is a draw." wrappingWidth="1001.1612129211426">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <VBox prefHeight="200.0" prefWidth="100.0" />
-                              <HBox prefHeight="100.0" prefWidth="200.0" />
-                           </children>
-                        </HBox>
-                        <Label fx:id="LabelPieces" text="Pieces">
-                           <font>
-                              <Font size="37.0" />
-                           </font>
-                        </Label>
-                        <Text fx:id="TextPieces" strokeType="OUTSIDE" strokeWidth="0.0" text="There are six different pieces: Pawn, Bishop, Rook, Knight, Queen, King." wrappingWidth="623.14453125">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <VBox fx:id="VBoxPawn" prefHeight="251.0" prefWidth="1002.0">
-                           <children>
-                              <Label fx:id="LabelPawn" text="Pawn">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextPawn" strokeType="OUTSIDE" strokeWidth="0.0" text="The pawn may move one square forward, or two squares forward on its first action, given that it does not move over any other pieces. The pawn may capture by moving one square diagonally forward." wrappingWidth="997.7378540039062">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="CENTER" prefHeight="98.0" prefWidth="1002.0">
-                                 <children>
-                                    <ImageView fx:id="ImagePawn" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/images/white_pawn_onWhite.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="141.0" prefWidth="1002.0">
-                           <children>
-                              <Label fx:id="LabelBishop" text="Bishop">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextBishop" strokeType="OUTSIDE" strokeWidth="0.0" text="The bishop may move or capture in any amount of squares diagonally, given that it does not move over any other pieces." wrappingWidth="996.0035362243652">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fx:id="ImageBishop" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/images/white_bishop_onWhite.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="LabelRook" prefHeight="38.0" prefWidth="72.0" text="Rook">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextRook" strokeType="OUTSIDE" strokeWidth="0.0" text="The rook may move or capture in any amount of squares horizontally or vertically, given that it does not move over any other pieces." wrappingWidth="996.0032997131348">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fx:id="ImageRook" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/images/white_rook_onBlack.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="144.0" prefWidth="1002.0">
-                           <children>
-                              <Label fx:id="LabelKnight" text="Knight">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextKnight" strokeType="OUTSIDE" strokeWidth="0.0" text="The knight may move one square vertically and two squares horizontally, or vice-versa. The knight may move over other pieces." wrappingWidth="994.9367218017578">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fx:id="ImageKnight" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/images/white_knight_onBlack.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="LabelQueen" prefHeight="38.0" prefWidth="96.0" text="Queen">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextQueen" strokeType="OUTSIDE" strokeWidth="0.0" text="The queen may move or capture in any amount of squares horizontally or vertically or diagonally, given that it does not move over any other pieces." wrappingWidth="991.7366676330566">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fx:id="ImageQueen" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/images/black_queen_onBlack.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="LabelKing" text="King">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextKing" strokeType="OUTSIDE" strokeWidth="0.0" text="The king may move to any square which is adjacent to it, given that it does not move into check." wrappingWidth="965.0700721740723">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fx:id="ImageKing" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/images/black_king_onWhite.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="LabelSpecialMoves" prefHeight="54.0" prefWidth="263.0" text="Special Moves">
-                                 <font>
-                                    <Font size="37.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextSpecialMoves" strokeType="OUTSIDE" strokeWidth="0.0" text="Special moves are those that allow different types of movement or capture when compared to standard movements. There are only a few of these to learn, but they are extremely important to know!When learning how to play chess, most people focus on the basic movements of the pieces and what it means to give or receive a check or checkmate. These rules usually cover most games between beginners, but the time comes when you (or your opponents) have the possibility of playing a special move. Those moves are castling, promoting a pawn, and capturing en passant." wrappingWidth="998.1368522644043">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <ImageView fitHeight="18.0" fitWidth="521.0" pickOnBounds="true" preserveRatio="true" />
-                        <VBox prefHeight="174.0" prefWidth="1002.0">
-                           <children>
-                              <Label fx:id="LabelCastling" text="Castling">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextCastling" strokeType="OUTSIDE" strokeWidth="0.0" text="If the rook and king have not yet moved, and there are no pieces between them, the king may move two squares towards the rook, and the rook may move to the adjacent square in which the king moved from, given that the king was not in check, will not move into check, and the path between where the king moved from and is moving to does not have any squares which are in check." wrappingWidth="1000.0945014953613">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="1002.0">
-                           <children>
-                              <Label fx:id="LabelPawnPromotion" text="Pawn Promotion">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextPawnPromotion" strokeType="OUTSIDE" strokeWidth="0.0" text="Pawn promotion is probably the special move that most beginners know exists, although there's usually some confusion as to how it truly works. This rule allows a pawn to become any piece (other than a king or staying a pawn) when it gets to the other end of the board." wrappingWidth="996.0034141540527">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="LabelSpecialStates" text="Special states">
-                                 <font>
-                                    <Font size="37.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="14.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="LabelCkeck" prefHeight="38.0" prefWidth="92.0" text="Check">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextCheck" strokeType="OUTSIDE" strokeWidth="0.0" text="When a king is attacked, it is called check. Check can be viewed as saying &quot;Watch out! The king is attacked!&quot; Since a king can never be captured, the term &quot;check&quot; is used when a king is threatened. If a player is in check, they must get out of check!" wrappingWidth="991.7368431091309">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <Label fx:id="LabelCheckmate" text="Checkmate">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                        <Text fx:id="TextCheckmate" strokeType="OUTSIDE" strokeWidth="0.0" text="One of the most common ways to end a chess game is by checkmate. This happens when one of the players is threatening the other king and it cannot move to any other squares, cannot be protected by another piece and the checking piece cannot be captured." wrappingWidth="993.8700218200684">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <VBox prefHeight="131.0" prefWidth="1002.0">
-                           <children>
-                              <ImageView fitHeight="17.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <Label fx:id="LabelDraw" text="Draw">
-                                 <font>
-                                    <Font size="26.0" />
-                                 </font>
-                              </Label>
-                              <Text fx:id="TextDraw" strokeType="OUTSIDE" strokeWidth="0.0" text="A draw occurs in chess when neither player wins nor loses—the game ends in a tie. Either of the two players can ask for a draw." wrappingWidth="996.9649047851562">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <Label fx:id="LabelWhoMakesTheFirstMove" text="Who makes the first move?">
-                           <font>
-                              <Font size="37.0" />
-                           </font>
-                        </Label>
-                        <Text fx:id="TextFirstMove" strokeType="OUTSIDE" strokeWidth="0.0" text="The player with the white pieces always moves first. Therefore, players generally decide who will get to be white by chance or luck such as flipping a coin or having one player guess the color of the hidden pawn in the other player's hand. White then makes a move, followed by black, then white again, then black, and so on until the end of the game. Being able to move first is a tiny advantage that gives the white player an opportunity to attack right away." wrappingWidth="994.9367218017578">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <VBox alignment="TOP_CENTER" prefHeight="115.0" prefWidth="1002.0">
-                           <children>
-                              <Button fx:id="ButtonGotIt" mnemonicParsing="false" onAction="#GotItClick" prefHeight="59.0" prefWidth="159.0" text="Got it!">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
+                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   This is Chess simulation programm. Click on the piece to move, and the location to move it to. If the action is legal, it will be taken. The game is done once a King enters checkmate, or once there is a draw." wrappingWidth="959.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Special states:">
+                              <font>
+                                 <Font name="Arial Black" size="22.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="17.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Check">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="10.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   When a king is attacked, it is called check. Check can be viewed as saying &amp;quot;Watch out! The king is attacked!&amp;quot; Since a king can never be captured, the term &amp;quot;check&amp;quot; is used when a king is threatened. If a player is in check, they must get out of check!" wrappingWidth="953.84375">
+                              <font>
+                                 <Font name="Arial Black" size="16.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Checkamte">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="10.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   One of the most common ways to end a chess game is by checkmate. This happens when one of the players is threatening the other king and it cannot move to any other squares, cannot be protected by another piece and the checking piece cannot be captured." wrappingWidth="953.84375">
+                              <font>
+                                 <Font name="Arial Black" size="16.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="10.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Draw">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <Text fill="WHITE" layoutX="17.0" layoutY="447.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   A draw occurs in chess when neither player wins nor loses—the game ends in a tie. Either of the two players can ask for a draw." wrappingWidth="953.84375">
+                              <font>
+                                 <Font name="Arial Black" size="16.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </AnchorPane>
                </content>
-            </ScrollPane>
-            <Label fx:id="LabelChessTutorial" layoutX="309.0" layoutY="6.0" prefHeight="86.0" prefWidth="487.0" text="Chess Tutorial">
-               <font>
-                  <Font name="Arial Black" size="57.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </root>
+             </Tab>
+             <Tab text="Pawn">
+               <content>
+                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pawn" wrappingWidth="99.0">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <TextArea layoutX="13.0" layoutY="51.0" opacity="0.0" prefHeight="200.0" prefWidth="960.0" />
+                           <Text fill="WHITE" layoutX="41.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The pawn may move one square forward, or two squares forward on its first action, given that it does not move over any other pieces. The pawn may capture by moving one square diagonally forward." wrappingWidth="596.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <ImageView fitHeight="350.0" fitWidth="350.0" layoutX="312.0" layoutY="180.0">
+                              <image>
+                                 <Image url="@images/posiblePawnMove.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+               </content>
+             </Tab>
+               <Tab text="Bishop">
+                  <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bishop" wrappingWidth="99.0">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <TextArea layoutX="13.0" layoutY="51.0" opacity="0.0" prefHeight="200.0" prefWidth="960.0" />
+                           <Text fill="WHITE" layoutX="41.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The bishop may move or capture in any amount of squares diagonally, given that it does not move over any other pieces." wrappingWidth="596.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <ImageView fitHeight="350.0" fitWidth="350.0" layoutX="312.0" layoutY="180.0">
+                              <image>
+                                 <Image url="@images/possibleBishopMove.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </content>
+               </Tab>
+               <Tab text="Rook">
+                  <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rook" wrappingWidth="99.0">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <TextArea layoutX="13.0" layoutY="51.0" opacity="0.0" prefHeight="200.0" prefWidth="960.0" />
+                           <Text fill="WHITE" layoutX="41.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The rook may move or capture in any amount of squares horizontally or vertically, given that it does not move over any other pieces." wrappingWidth="596.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <ImageView fitHeight="350.0" fitWidth="350.0" layoutX="312.0" layoutY="180.0">
+                              <image>
+                                 <Image url="@images/posibleRookMove.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </content>
+               </Tab>
+               <Tab text="Knight">
+                  <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knight" wrappingWidth="99.0">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <TextArea layoutX="13.0" layoutY="51.0" opacity="0.0" prefHeight="200.0" prefWidth="960.0" />
+                           <Text fill="WHITE" layoutX="41.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The knight may move one square vertically and two squares horizontally, or vice-versa. The knight may move over other pieces." wrappingWidth="596.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <ImageView fitHeight="350.0" fitWidth="350.0" layoutX="312.0" layoutY="180.0">
+                              <image>
+                                 <Image url="@images/possibleKnightMove.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </content>
+               </Tab>
+               <Tab text="Queen">
+                  <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Queen" wrappingWidth="99.0">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <TextArea layoutX="13.0" layoutY="51.0" opacity="0.0" prefHeight="200.0" prefWidth="960.0" />
+                           <Text fill="WHITE" layoutX="41.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The queen may move or capture in any amount of squares horizontally or vertically or diagonally, given that it does not move over any other pieces." wrappingWidth="596.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <ImageView fitHeight="350.0" fitWidth="350.0" layoutX="312.0" layoutY="180.0">
+                              <image>
+                                 <Image url="@images/possibleQueenMove.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </content>
+               </Tab>
+               <Tab text="King">
+                  <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                           <Text fill="WHITE" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="King" wrappingWidth="99.0">
+                              <font>
+                                 <Font name="Arial Black" size="24.0" />
+                              </font>
+                           </Text>
+                           <TextArea layoutX="13.0" layoutY="51.0" opacity="0.0" prefHeight="200.0" prefWidth="960.0" />
+                           <Text fill="WHITE" layoutX="41.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The king may move to any square which is adjacent to it, given that it does not move into check." wrappingWidth="596.13671875">
+                              <font>
+                                 <Font name="Arial Black" size="18.0" />
+                              </font>
+                           </Text>
+                           <ImageView fitHeight="350.0" fitWidth="350.0" layoutX="312.0" layoutY="180.0">
+                              <image>
+                                 <Image url="@images/possibleKingMove.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </content>
+               </Tab>
+           </tabs>
+         </TabPane>
+         <Button fx:id="gotItButton" onAction="#GotItClick" layoutX="483.0" layoutY="675.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="84.0" text="Got it" />
+      </children></AnchorPane>
 </Scene>
