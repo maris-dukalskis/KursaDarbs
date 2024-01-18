@@ -47,7 +47,7 @@
                                  <Font name="Arial Black" size="18.0" />
                               </font>
                            </Text>
-                           <Text fill="WHITE" layoutX="10.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   When a king is attacked, it is called check. Check can be viewed as saying &amp;quot;Watch out! The king is attacked!&amp;quot; Since a king can never be captured, the term &amp;quot;check&amp;quot; is used when a king is threatened. If a player is in check, they must get out of check!" wrappingWidth="953.84375">
+                           <Text fill="WHITE" layoutX="10.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   When a king is attacked, it is called check. Check can be viewed as saying: ''Watch out! The king is attacked!''. Since a king can never be captured, the term ''check'' is used when a king is threatened. If a player is in check, they must get out of check!" wrappingWidth="953.84375">
                               <font>
                                  <Font name="Arial Black" size="16.0" />
                               </font>
