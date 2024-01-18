@@ -34,15 +34,16 @@ public class MainMenuController {
 
 	@FXML
 	public void tutorialClicked() throws IOException {
-//		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
-//		BackgroundMusicPlayer.stopBackgroundMusic();
-//		BackgroundMusicPlayer.playBackgroundMusic("/audio/player_selection_scene.wav");
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
+		BackgroundMusicPlayer.stopBackgroundMusic();
+		BackgroundMusicPlayer.playBackgroundMusic("/audio/tutorial_scene.wav");
 		Scene tutorialScene = FXMLLoader.load(getClass().getResource("/TutorialScene.fxml"));
 		secondaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
 		secondaryStage.setScene(tutorialScene);
 		secondaryStage.show();
 		secondaryStage.setResizable(false);
 		secondaryStage.setTitle("Tutorial");
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 	}
 
 	@FXML

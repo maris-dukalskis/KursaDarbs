@@ -387,22 +387,28 @@ public class GameController {
 	}
 
 	public void moveToWinnerController() throws IOException {
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		BackgroundMusicPlayer.stopBackgroundMusic();
+		BackgroundMusicPlayer.playBackgroundMusic("/audio/end_scene.wav");
 		Scene myScene = FXMLLoader.load(getClass().getResource("/WinnerScene.fxml"));
 		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("Game Over");
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 	}
 
 	public void moveToDrawController() throws IOException {
+		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		BackgroundMusicPlayer.stopBackgroundMusic();
+		BackgroundMusicPlayer.playBackgroundMusic("/audio/end_scene.wav");
 		Scene myScene = FXMLLoader.load(getClass().getResource("/DrawScene.fxml"));
 		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
 		primaryStage.setScene(myScene);
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("Game Over");
+		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
 	}
 }
