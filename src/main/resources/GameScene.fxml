@@ -58,47 +58,15 @@
                                  <Image url="@images/gameSceneBackground.jpg" />
                               </image>
                            </ImageView>
-                           <Label fx:id="whitePlayerNameLabel" layoutX="93.0" layoutY="61.0" prefHeight="25.0" prefWidth="130.0" text="Label">
+                           <Label fx:id="whitePlayerNameLabel" layoutX="93.0" layoutY="61.0" prefHeight="25.0" prefWidth="130.0" text="Label" textFill="WHITE">
                               <font>
                                  <Font name="Arial Black" size="18.0" />
                               </font>
-                              <textFill>
-                                 <LinearGradient startX="1.0">
-                                    <stops>
-                                       <Stop>
-                                          <color>
-                                             <Color />
-                                          </color>
-                                       </Stop>
-                                       <Stop offset="1.0">
-                                          <color>
-                                             <Color red="1.0" green="1.0" blue="1.0" />
-                                          </color>
-                                       </Stop>
-                                    </stops>
-                                 </LinearGradient>
-                              </textFill>
                            </Label>
-                           <Label fx:id="whitePlayerTimerLabel" layoutX="93.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="100.0" text="Label">
+                           <Label fx:id="whitePlayerTimerLabel" layoutX="93.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="100.0" text="Label" textFill="WHITE">
                               <font>
                                  <Font name="Arial Black" size="14.0" />
                               </font>
-                              <textFill>
-                                 <LinearGradient startX="1.0">
-                                    <stops>
-                                       <Stop>
-                                          <color>
-                                             <Color />
-                                          </color>
-                                       </Stop>
-                                       <Stop offset="1.0">
-                                          <color>
-                                             <Color red="1.0" green="1.0" blue="1.0" />
-                                          </color>
-                                       </Stop>
-                                    </stops>
-                                 </LinearGradient>
-                              </textFill>
                            </Label>
                         </children>
                      </AnchorPane>
@@ -132,47 +100,15 @@
                                  <Image url="@images/gameSceneBackground.jpg" />
                               </image>
                            </ImageView>
-                           <Label fx:id="blackPlayerTimerLabel" layoutX="93.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="100.0" text="Label">
+                           <Label fx:id="blackPlayerTimerLabel" layoutX="93.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="100.0" text="Label" textFill="WHITE">
                               <font>
                                  <Font name="Arial Black" size="14.0" />
                               </font>
-                              <textFill>
-                                 <LinearGradient endX="1.0" endY="1.0" startX="1.0">
-                                    <stops>
-                                       <Stop>
-                                          <color>
-                                             <Color />
-                                          </color>
-                                       </Stop>
-                                       <Stop offset="1.0">
-                                          <color>
-                                             <Color red="1.0" green="1.0" blue="1.0" />
-                                          </color>
-                                       </Stop>
-                                    </stops>
-                                 </LinearGradient>
-                              </textFill>
                            </Label>
-                           <Label fx:id="blackPlayerNameLabel" layoutX="93.0" layoutY="61.0" prefHeight="25.0" prefWidth="130.0" text="Label">
+                           <Label fx:id="blackPlayerNameLabel" layoutX="93.0" layoutY="61.0" prefHeight="25.0" prefWidth="130.0" text="Label" textFill="WHITE">
                               <font>
                                  <Font name="Arial Black" size="18.0" />
                               </font>
-                              <textFill>
-                                 <LinearGradient endX="1.0" endY="1.0" startX="1.0">
-                                    <stops>
-                                       <Stop>
-                                          <color>
-                                             <Color red="0.03947368264198303" green="0.02357456088066101" blue="0.02357456088066101" />
-                                          </color>
-                                       </Stop>
-                                       <Stop offset="1.0">
-                                          <color>
-                                             <Color red="1.0" green="1.0" blue="1.0" />
-                                          </color>
-                                       </Stop>
-                                    </stops>
-                                 </LinearGradient>
-                              </textFill>
                            </Label>
                         </children>
                      </AnchorPane>
