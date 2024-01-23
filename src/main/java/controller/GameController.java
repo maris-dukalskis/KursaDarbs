@@ -317,6 +317,11 @@ public class GameController {
 			});
 		}
 
+		// tas attīra grid no visiem iepriekšējiem imageview, pirms šī viņi vienkārši krāsās līdz dators vairs nevarēja pavilkt līdzi
+		if (tile.getView() != null && grid.getChildren().contains(tile.getView())) {
+			grid.getChildren().remove(tile.getView());
+		}
+		tile.setView(imageView);
 		// viņš sākumā ņem column pēctam row(mums board ir row un tad column)
 		grid.add(imageView, j, i);
 	}

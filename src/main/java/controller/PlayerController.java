@@ -81,7 +81,6 @@ public class PlayerController {
 		if (player1Color.equals(player2Color)) {
 			Random random = new Random();
 			int value = random.nextInt(2);
-			System.out.println(value);
 			if (value == 0) {
 				game.setWhitePlayer(player1);
 				game.setBlackPlayer(player2);

@@ -240,7 +240,7 @@ public class GameLogic {
 	public static boolean isCastlingMoveValid(Tile kingTile, Tile rookTile, byte differenceColumn) {
 		Board board = PlayerController.getGame().getBoard();
 		int direction = getDirection(kingTile.getColumn(), rookTile.getColumn());
-		
+
 		// iet uz rook pusi un skatās vai nekas nav pa ceļam
 		for (int i = 1; i < differenceColumn; i++) {
 			byte checkColumn = (byte) (kingTile.getColumn() + i * direction);
@@ -273,7 +273,8 @@ public class GameLogic {
 		Piece fromPiece = fromTile.getPiece();
 		Piece toPiece = lastClicked.getPiece();
 		boolean canMove = false;
-		// isCastle vajag, lai nepievieno rook pie izsistajiem, ja uztaisa rokādi, parasti viņš paņem pēdējo spiesto tile
+		// isCastle vajag, lai nepievieno rook pie izsistajiem, ja uztaisa rokādi,
+		// parasti viņš paņem pēdējo spiesto tile
 		boolean isCastle = false;
 		for (Move move : moveList) {
 			if (!move.getFromTile().equals(fromTile)) {
@@ -295,11 +296,12 @@ public class GameLogic {
 		if (toPiece != null && !isCastle) {
 			addToKnockedOutGrid(toPiece);
 		}
-		
-		// pēc katra nospiestā tile, lai pēkšņi neiedod draw ja viens spēlētājs ir nospiedis kaut kad sen atpakaļ
+
+		// pēc katra nospiestā tile, lai pēkšņi neiedod draw ja viens spēlētājs ir
+		// nospiedis kaut kad sen atpakaļ
 		game.getWhitePlayer().setDraw(false);
 		game.getBlackPlayer().setDraw(false);
-		
+
 		// šis svarīgs tikai rokādei
 		fromPiece.setHasMoved(true);
 		game.setMove(fromPiece.getColor().opposite());
@@ -320,8 +322,9 @@ public class GameLogic {
 		GameState state = getGameState(game.getMove());
 		game.setGameState(state);
 		GameController.getInstance().popUps(state);
-		
-		// var jau būt ka nav labi veidot katru reizi jaunu Thread, bet šādi bija visvieglāk izveidot
+
+		// var jau būt ka nav labi veidot katru reizi jaunu Thread, bet šādi bija
+		// visvieglāk izveidot
 		GameController.timerForPlayerWhite(game);
 		GameController.timerForPlayerBlack(game);
 	}
@@ -353,6 +356,7 @@ public class GameLogic {
 		}
 		return false;
 	}
+
 	// iet cauri visiem kauliņiem un skatās uz kuriem tile var aiziet
 	public static List<Move> generateAllMovesForColor(Color color, boolean selfCheck) {
 		List<Move> moveList = new ArrayList<>();

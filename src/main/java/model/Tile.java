@@ -1,10 +1,13 @@
 package model;
 
+import javafx.scene.image.ImageView;
+
 public class Tile {
 
 	private byte row; // horizontal
 	private byte column; // vertical
 	private Piece piece;
+	private ImageView view;
 
 	public Tile(byte inputRow, byte inputColumn, Piece inputPiece) {
 		setRow(inputRow);
@@ -38,6 +41,14 @@ public class Tile {
 		} else {
 			piece = null;
 		}
+	}
+
+	public ImageView getView() {
+		return view;
+	}
+
+	public void setView(ImageView view) {
+		this.view = view;
 	}
 
 	public Tile getCopy() {
