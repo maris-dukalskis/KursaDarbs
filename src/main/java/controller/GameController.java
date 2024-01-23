@@ -172,7 +172,7 @@ public class GameController {
 			Optional<ButtonType> result = checkMateAlert.showAndWait();
 			if (result.get() == ButtonType.CLOSE) {
 				try {
-					moveToWinnerController();
+					moveToEndController("/WinnerScene.fxml");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -187,7 +187,7 @@ public class GameController {
 			Optional<ButtonType> result = drawAlert.showAndWait();
 			if (result.get() == ButtonType.CLOSE) {
 				try {
-					moveToDrawController();
+					moveToEndController("/DrawScene.fxml");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -317,7 +317,8 @@ public class GameController {
 			});
 		}
 
-		// tas attīra grid no visiem iepriekšējiem imageview, pirms šī viņi vienkārši krāsās līdz dators vairs nevarēja pavilkt līdzi
+		// tas attīra grid no visiem iepriekšējiem imageview, pirms šī viņi vienkārši
+		// krāsās līdz dators vairs nevarēja pavilkt līdzi
 		if (tile.getView() != null && grid.getChildren().contains(tile.getView())) {
 			grid.getChildren().remove(tile.getView());
 		}
@@ -399,7 +400,7 @@ public class GameController {
 		}
 		PlayerController.getGame().setWinner(move);
 		try {
-			moveToWinnerController();
+			moveToEndController("/WinnerScene.fxml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -413,30 +414,17 @@ public class GameController {
 		}
 		game.setGameState(GameState.DRAW);
 		try {
-			moveToDrawController();
+			moveToEndController("/DrawScene.fxml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void moveToWinnerController() throws IOException {
+	public void moveToEndController(String fxml) throws IOException {
 		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
 		BackgroundMusicPlayer.stopBackgroundMusic();
 		BackgroundMusicPlayer.playBackgroundMusic("/audio/end_scene.wav");
-		Scene myScene = FXMLLoader.load(getClass().getResource("/WinnerScene.fxml"));
-		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
-		primaryStage.setScene(myScene);
-		primaryStage.show();
-		primaryStage.setResizable(false);
-		primaryStage.setTitle("Game Over");
-		BackgroundMusicPlayer.setVolume(volumeSlider.getValue());
-	}
-
-	public void moveToDrawController() throws IOException {
-		volumeSlider.setValue(BackgroundMusicPlayer.getVolume());
-		BackgroundMusicPlayer.stopBackgroundMusic();
-		BackgroundMusicPlayer.playBackgroundMusic("/audio/end_scene.wav");
-		Scene myScene = FXMLLoader.load(getClass().getResource("/DrawScene.fxml"));
+		Scene myScene = FXMLLoader.load(getClass().getResource(fxml));
 		Stage primaryStage = (Stage) ((Node) volumeSlider).getScene().getWindow();
 		primaryStage.setScene(myScene);
 		primaryStage.show();
@@ -458,7 +446,7 @@ public class GameController {
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.CLOSE) {
 					try {
-						moveToWinnerController();
+						moveToEndController("/WinnerScene.fxml");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
