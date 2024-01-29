@@ -76,22 +76,22 @@ public class Board {
 		board[0][4].setPiece(blackKing);
 	}
 
-	public static void printBoard(Board board, int row, int column) { // j- verticali(column), i-horizontali(row)
-		for (int i = 0; i <= row - 1; i++) {
-			for (int j = 0; j <= column - 1; j++) {
-				Tile tile = board.getBoard()[i][j];
-				Piece piece = tile.getPiece();
-				if (piece == null) {
-					System.out.print("      ");
-				} else {
-					System.out.print(piece.getColor().name().charAt(0) + "" + piece.getType().name().charAt(0) + "(" + i
-							+ j + ")");
-				}
-				System.out.print(" ");
-			}
-			System.out.println();
-		}
-	}
+//	public static void printBoard(Board board, int row, int column) { // j- verticali(column), i-horizontali(row)
+//		for (int i = 0; i <= row - 1; i++) {
+//			for (int j = 0; j <= column - 1; j++) {
+//				Tile tile = board.getBoard()[i][j];
+//				Piece piece = tile.getPiece();
+//				if (piece == null) {
+//					System.out.print("      ");
+//				} else {
+//					System.out.print(piece.getColor().name().charAt(0) + "" + piece.getType().name().charAt(0) + "(" + i
+//							+ j + ")");
+//				}
+//				System.out.print(" ");
+//			}
+//			System.out.println();
+//		}
+//	}
 
 	public Tile getTile(byte row, byte column) {
 		try {

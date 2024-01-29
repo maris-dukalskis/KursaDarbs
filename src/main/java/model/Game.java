@@ -11,7 +11,6 @@ public class Game {
 	private Color move; // which players move it is - White or Black
 	private GameState gameState;
 	private Color winner;
-
 	private Board board;
 	private Board whitePiecesOutBoard;
 	private Board blackPiecesOutBoard;

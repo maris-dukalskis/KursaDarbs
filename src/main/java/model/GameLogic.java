@@ -253,9 +253,7 @@ public class GameLogic {
 
 	public static void processClickedTile(Tile lastClicked) {
 		Game game = PlayerController.getGame();
-		/*
-		 * vai tas ir pirmais uzspiestais tile(no kura kustās)
-		 */
+		//vai tas ir pirmais uzspiestais tile(no kura kustās)
 		if (game.getFromTile() == null) {
 			if (lastClicked.getPiece() != null && lastClicked.getPiece().getColor() == game.getMove()) {
 				game.setFromTile(lastClicked);
