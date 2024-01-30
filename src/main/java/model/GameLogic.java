@@ -253,7 +253,7 @@ public class GameLogic {
 
 	public static void processClickedTile(Tile lastClicked) {
 		Game game = PlayerController.getGame();
-		//vai tas ir pirmais uzspiestais tile(no kura kustās)
+		// vai tas ir pirmais uzspiestais tile(no kura kustās)
 		if (game.getFromTile() == null) {
 			if (lastClicked.getPiece() != null && lastClicked.getPiece().getColor() == game.getMove()) {
 				game.setFromTile(lastClicked);
@@ -307,8 +307,7 @@ public class GameLogic {
 		game.setFromTile(null);
 		GameController.generateGraphicalGrid(false);
 
-		if ((lastClicked.getRow() == 0 || lastClicked.getRow() == 7)
-				&& lastClicked.getPiece().getType() == PieceType.PAWN) {
+		if ((lastClicked.getRow() == 0 || lastClicked.getRow() == 7) && fromPiece.getType() == PieceType.PAWN) {
 			GameController.displayPawnPromotion(fromPiece, lastClicked, game);
 			return;
 		}
